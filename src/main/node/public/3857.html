@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>GBIF EPSG:3857 Basemap</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+  <link rel="icon" href="//tile.gbif.org/3857/omt/0/0/0@1x.png?style=gbif-classic"/>
+  <style>
+    html, body, #map {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      background-color: ghostwhite;
+    }
+  </style>
+  <link rel="stylesheet" href="https://npmcdn.com/leaflet@1.0.3/dist/leaflet.css" />
+</head>
+<body>
+  <div id="map"></div>
+  <script src="https://npmcdn.com/leaflet@1.0.3/dist/leaflet.js"></script>
+  <script>
+    var pixel_ratio = window.devicePixelRatio || 1;
+
+    var max_zoom = 16;
+
+    var map = L.map('map').setView(new L.LatLng(0, 0), 1);
+
+    L.tileLayer('/3857/omt/{z}/{x}/{y}@'+pixel_ratio+'x.png?style=gbif-classic', {
+      tileSize: 512,
+      minZoom: 1,
+      maxZoom: max_zoom + 1,
+      zoomOffset: -1
+    }).addTo(map);
+  </script>
+</body>
+</html>
