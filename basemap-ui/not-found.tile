@@ -1,0 +1,17 @@
+layers {
+  name: "notfound"
+  features {
+    tags: 0
+    tags: 0
+    type: POINT
+    geometry: 9
+    geometry: 4096
+    geometry: 4096
+  }
+  keys: "name"
+  values {
+    string_value: "Tile Not Found"
+  }
+  extent: 4096
+  version: 1
+}
