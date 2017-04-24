@@ -12,7 +12,7 @@ var mapnik = require('mapnik'),
  * Compile the CartoCss into Mapnik stylesheets into a lookup dictionary
  */
 var namedStyles = {};
-namedStyles["osm-bright"] = compileStylesheetSync(['mapbox-studio-osm-bright.tm2/style.mss', 'mapbox-studio-osm-bright.tm2/road.mss', 'mapbox-studio-osm-bright.tm2/labels.mss']);
+namedStyles["osm-bright"] = compileStylesheetSync(['./node_modules/@mapbox/mapbox-studio-osm-bright/style.mss', './node_modules/@mapbox/mapbox-studio-osm-bright/road.mss', './node_modules/@mapbox/mapbox-studio-osm-bright/labels.mss']);
 namedStyles["gbif-classic"] = compileStylesheetSync(["./cartocss/gbif-classic.mss"]);
 namedStyles["gbif-dark"] = compileStylesheetSync(["./cartocss/gbif-dark.mss"]);
 namedStyles["gbif-middle"] = compileStylesheetSync(["./cartocss/gbif-middle.mss"]);
@@ -23,9 +23,9 @@ function compileStylesheetSync(filename) {
     data: {
       "vector_layers": [
 	      // This defines the order of the layers, so road labels appear over roads, for example.
-	      {"id": "landuse" },
-	      {"id": "landcover" },
 	      {"id": "water" },
+	      {"id": "landcover" },
+	      {"id": "landuse" },
 	      {"id": "waterway" },
 	      {"id": "park" },
 	      {"id": "contour" },
@@ -46,20 +46,16 @@ function compileStylesheetSync(filename) {
 }
 var defaultStyle = "classic.point";
 
-// Fonts
-// Register default fonts.
-//mapnik.register_fonts(path.dirname(require.resolve('mapbox-studio-pro-fonts')), { recurse: true });
-//apnik.register_fonts(path.dirname(require.resolve('mapbox-studio-default-fonts')), { recurse: true });
-mapnik.register_fonts('/usr/share/fonts/truetype/', { recurse: true });
-mapnik.register_fonts('/usr/share/fonts/opentype/', { recurse: true });
-mapnik.register_fonts('./mapbox-studio-default-fonts/open-sans', { recurse: true });
-//mapnik.register_default_fonts();
-//mapnik.register_system_fonts();
 mapnik.register_default_input_plugins();
 
-//mapnik.register_fonts((require.resolve('./mapbox-studio-default-fonts')), { recurse: true });
+// Fonts
+// Register default fonts.
+mapnik.register_fonts('./node_modules/mapbox-studio-default-fonts/', { recurse: true });
+//mapnik.register_fonts('/usr/share/fonts/truetype/', { recurse: true });
+mapnik.register_fonts('/home/mblissett/Workspace/klokantech-gl-fonts', { recurse: true });
+//mapnik.register_default_fonts();
+//mapnik.register_system_fonts();
 //console.log("Fonts", mapnik.fonts());
-//console.log("Fonts", mapnik.face_names());
 
 var processStartTime = new Date().toUTCString();
 console.log("HTTP requests will have Last-Modified set to", processStartTime);
