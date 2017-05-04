@@ -22,3 +22,12 @@ node server.js ../../../server.conf 3000
 ```
 
 `npm`, `nvm` and `npm` tool can be used instead, if preferred.
+
+## Flushing the cache server
+
+After deployment, you may wish to flush the cache in Varnish — perhaps for a single style, or all raster tiles.
+
+```
+curl -i -X BAN 'http://tile.gbif.org/' -H 'X-Ban-URL: gbif-classic'
+curl -i -X BAN 'http://tile.gbif.org/' -H 'X-Ban-URL: png'
+```

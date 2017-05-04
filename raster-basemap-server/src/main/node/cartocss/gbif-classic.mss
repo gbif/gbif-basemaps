@@ -110,14 +110,14 @@ Map {
 // ---------------------------------------------------------------------
 // Landuse areas
 
-//#landcover {
-//  [class='grass'] { polygon-fill: #d8e8c8; }
-//  ::overlay {
-//    // Landuse classes look better as a transparent overlay.
-//    opacity: 0.1;
-//    [class='wood'] { polygon-fill: #6a4; polygon-gamma: 0.5; }
-//  }
-//}
+#landcover {
+  //[class='ice'] { polygon-fill: #00565C; }
+  ::overlay {
+    // Landuse classes look better as a transparent overlay.
+    opacity: 0.8;
+    [class='ice'] { polygon-fill: #004347; polygon-gamma: 0.5; }
+  }
+}
 
 //#landuse {
   // Land-use and land-cover are not well-separated concepts in
