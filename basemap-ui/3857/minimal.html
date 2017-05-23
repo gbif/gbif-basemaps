@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="user-scalable=no">
+		<title>EPSG:3857 map preview — OpenLayers minimal</title>
+		<link rel="stylesheet" href="https://tile.gbif.org/ui/ol.css" type="text/css">
+		<script src="https://tile.gbif.org/ui/ol.js"></script>
+		<style>
+			html {
+				font-family: sans-serif;
+			}
+			body {
+				display: grid;
+				grid-template-rows: 3.5em 1fr;
+				height: 100vh;
+				margin: 0;
+				background: url(https://rs.gbif.org/style/logo.svg) #f8f8f8 0.25em 0.25em / auto 3em no-repeat;
+			}
+			h1 {
+				text-align: center;
+				margin: 0.5rem 0;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="info">
+			<h1>EPSG:3857 basic map preview</h1>
+		</div>
+		<div id="map" class="map"></div>
+		<script type="text/javascript">
+var raster_style = 'gbif-classic';
+var epsg_3857_raster = new ol.layer.Tile({
+	source: new ol.source.TileImage({
+		projection: 'EPSG:3857',
+		url: 'https://tile.gbif.org/3857/omt/{z}/{x}/{y}@1x.png?style='+raster_style,
+ 		tileGrid: ol.tilegrid.createXYZ({
+			maxZoom: 16,
+			tileSize: 512
+		}),
+	}),
+});
+
+var map = new ol.Map({
+	layers: [epsg_3857_raster],
+	target: 'map',
+	view: new ol.View({
+		center: [0, 0],
+		projection: 'EPSG:3857',
+		zoom: 2
+	}),
+});
+		</script>
+	</body>
+</html>

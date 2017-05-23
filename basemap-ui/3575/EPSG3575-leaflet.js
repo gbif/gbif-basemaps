@@ -25,7 +25,7 @@ var map = L.map('map', {
 // Restricting the view is probably necessary to avoid the problem properly.  Or fixing the problem properly.
 try {
 	//L.tileLayer('../512.png?{z} {x} {y}', {
-	L.tileLayer('/3575/omt/{z}/{x}/{y}@2x.png?style=gbif-classic', {
+	L.tileLayer('https://tile.gbif.org/3575/omt/{z}/{x}/{y}@2x.png?style=gbif-classic', {
 		tileSize: 512,
 		minZoom: 1,
 		maxZoom: 16

@@ -12,44 +12,35 @@
 			html {
 				font-family: sans-serif;
 			}
-			#side {
-				position: absolute;
-				top: 0;
-				right: 0;
-				width: 20%;
-				height: 100%;
-				background: powderblue;
+			body {
+				display: grid;
+				grid-template-columns: 1fr 20%;
+				height: 100vh;
+				margin: 0;
 			}
-			.wrapper {
-				position: absolute;
-				top: 0;
-				left: 0;
-				width: 80%;
-				height: 100%;
-				background: lavender;
+			h1 {
+				text-align: center;
+				margin: 0.5rem 0;
+				font-size: 1.2em;
+			}
+			#side {
+				background: powderblue;
+				padding: 0.25em;
+				order: 2;
 			}
 			.map {
-				width: 100%;
-				height: 100%;
+				height: 100vh;
+				background: lavender;
 			}
-			#progress {
-				position: absolute;
-				bottom: 0;
-				left: 0;
-				height: 5px;
-				background: rgba(0, 255, 0, 1.0);
-				width: 0;
-				transition: width 250ms;
-			}
-			#recentTiles {
-				font-size: 0.6em;
-				width: 100%;
-				overflow: scroll;
+			fieldset {
+				border: 1px solid black;
+				margin-top: 0.5em;
 			}
 		</style>
 	</head>
 	<body>
 		<div id="side">
+			<img src="https://rs.gbif.org/style/logo.svg" style="max-width: 100%" />
 			<h1>EPSG:3031 map preview</h1>
 			<fieldset id="NASA">
 				<legend>NASA Baselayer</legend>
@@ -86,21 +77,21 @@
 					<option value="osm-bright">osm-bright</option>
 				</select>
 			</fieldset>
-			<fieldset id="OccurrenceDensityRaster">
+			<fieldset id="OccurrenceDensity">
 				<legend>Occurrence Density</legend>
+				<label><input id="OccurrenceDensity_visible" type="checkbox"/>visibility</label><br/>
+				<label>opacity</label>
+				<input id="OccurrenceDensity_opacity" type="range" min="0" max="1" step="0.01"/>
+			</fieldset>
+			<fieldset id="OccurrenceDensityRaster">
+				<legend>Occurrence Density Raster</legend>
 				<label><input id="OccurrenceDensityRaster_visible" type="checkbox"/>visibility</label><br/>
 				<label>opacity</label>
 				<input id="OccurrenceDensityRaster_opacity" type="range" min="0" max="1" step="0.01"/>
 			</fieldset>
-			<fieldset>
-				<legend>Last 10 tiles</legend>
-				<pre id="recentTiles">X</pre>
-			</fieldset>
+			<p>For further details, see <a href="https://tile.gbif.org/ui/">GBIF Map Tiles</a>.</p>
 		</div>
-		<div class="wrapper">
-			<div id="map" class="map"></div>
-			<div id="progress"></div>
-		</div>
+		<div id="map" class="map"></div>
 		<script src="EPSG3031.js"></script>
 	</body>
 </html>

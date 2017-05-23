@@ -103,7 +103,7 @@
 			<li>
 				<h2><a href="4326/">EPSG:4326</a></h2>
 				<p>WGS84 Plate Careé</p>
-				<p class="libraries"><a href="4326/">OpenLayers</a> — <a href="4326/leaflet.html">Leaflet</a></p>
+				<p class="libraries"><a href="4326/">OpenLayers</a> — <a href="4326/leaflet.html">Leaflet</a> — <a href="4326/minimal.html">OL minimal</a></p>
 				<a href="4326/">
 					<div class="preview two-wide half-high">
 						<img src="/4326/omt/0/0/0@1x.png?style=gbif-classic"/><img src="/4326/omt/0/1/0@1x.png?style=gbif-classic"/>
@@ -113,7 +113,7 @@
 			<li>
 				<h2><a href="3857/">EPSG:3857</a></h2>
 				<p>Web Mercator</p>
-				<p class="libraries"><a href="3857/">OpenLayers</a> — <a href="3857/leaflet.html">Leaflet</a></p>
+				<p class="libraries"><a href="3857/">OpenLayers</a> — <a href="3857/leaflet.html">Leaflet</a> — <a href="3857/minimal.html">OL minimal</a></p>
 				<a href="3857/">
 					<div class="preview">
 						<img src="/3857/omt/0/0/0@1x.png?style=gbif-classic" srcset="/3857/omt/0/0/0@2x.png?style=gbif-classic 2x"/>
@@ -123,7 +123,7 @@
 			<li>
 				<h2><a href="3575/">EPSG:3575</a></h2>
 				<p>Arctic LAEA on 10°E</p>
-				<p class="libraries"><a href="3575/">OpenLayers</a> — <a href="3575/leaflet.html">Leaflet</a></p>
+				<p class="libraries"><a href="3575/">OpenLayers</a> — <a href="3575/leaflet.html">Leaflet</a> — <a href="3575/minimal.html">OL minimal</a></p>
 				<a href="3575/">
 					<div class="preview">
 						<img src="/3575/omt/0/0/0@2x.png?style=gbif-classic"/>
@@ -133,7 +133,7 @@
 			<li>
 				<h2><a href="3031/">EPSG:3031</a></h2>
 				<p>Antarctic Stereographic</p>
-				<p class="libraries"><a href="3031/">OpenLayers</a> — <a href="3031/leaflet.html">Leaflet</a></p>
+				<p class="libraries"><a href="3031/">OpenLayers</a> — <a href="3031/leaflet.html">Leaflet</a> — <a href="3031/minimal.html">OL minimal</a></p>
 				<a href="3031/">
 					<div class="preview">
 						<img src="/3031/omt/0/0/0@2x.png?style=gbif-classic"/>
@@ -143,14 +143,14 @@
 		</ul>
 
 		<h2>Information</h2>
-		<p>These tiles are hosted or generated for use on <a href="http://www.gbif.org/">GBIF.org</a>.  The Web Mercator tiles are taken directly from <a href="https://openmaptiles.org/">OpenMapTiles.org</a>, the other projections have been generated using the same process, but have fewer layers: at minimum, <tt>water</tt>, <tt>waterway</tt> and <tt>landcover</tt>.</p>
+		<p>GBIF hosts map tiles for use on <a href="http://www.gbif.org/">GBIF.org</a> and for users of our API.  We host vector tiles based on the <a href="https://openmaptiles.org/">OpenMapTiles.org</a> schema, and from these generate raster tiles in several styles.  The Web Mercator tiles are simply those from <a href="https://openmaptiles.org/">OpenMapTiles.org</a>, for details of the vector tile schema see <a href="https://openmaptiles.org/schema/">the OpenMapTiles schema</a>  The other projections have been generated to fit the same layer schema, but with fewer layers: at minimum, <tt>water</tt>, <tt>waterway</tt> and <tt>landcover</tt>.</p>
 
 		<p>The process used to generate the tiles in the three projections is <a href="https://github.com/gbif/openmaptiles">on GitHub</a>.</p>
 
 		<p>Web Mercator tiles are from 2016-11-28, and the other projections use data OpenStreetMap and Natural Earth data from 2017-02-27.</p>
 
 		<h2>Styles</h2>
-		<p>Five raster styles are available, they can be used with any of the projections.  Vector tiles can be styled in the browser.</p>
+		<p>Five raster styles are available, they can be used with any of the projections.  Vector tiles can be styled in the browser, for a general overview of vector tiles, see the <a href="https://openmaptiles.org/docs/">OpenMapTiles documentation</a>.</p>
 		<ul>
 			<li>
 				<h2>GBIF Classic</h2>
@@ -182,7 +182,7 @@
 			</li>
 			<li>
 				<h2>OSM Bright</h2>
-				<p><tt>osm-bright</tt> (buggy!)</p>
+				<p><tt>osm-bright</tt> (some bugs!)</p>
 				<div class="preview">
 					<img src="/3857/omt/7/67/37@1x.png?style=osm-bright" srcset="/3857/omt/7/67/37@2x.png?style=osm-bright 2x"/>
 				</div>
@@ -203,7 +203,7 @@
 			<dd>The zoom, column and row of the tile.  The origin is the top left, so top left tile always has x=0 and y=0.</dd>
 
 			<dt><tt>format</tt></dt>
-			<dd>Either <tt>.pbf</tt> for a vector tile, or <tt>@1x.png</tt>, <tt>@2x.png</tt>, <tt>@3x.png</tt>, <tt>@4x.png</tt> for PNG tiles at various pixel densities. Use higher pixel densities for high resolutions screens.</dd>
+			<dd>Either <tt>.pbf</tt> for a vector tile, or <tt>@1x.png</tt>, <tt>@2x.png</tt>, <tt>@3x.png</tt>, <tt>@4x.png</tt> for PNG tiles at various pixel densities. Use higher pixel densities for high resolution screens.</dd>
 
 			<dt><tt>params</tt></dt>
 			<dd><em>Only</em> for PNG tiles, specify a style, for example <tt>?style=gbif-classic</tt>.</dd>
@@ -211,7 +211,7 @@
 
 		<p>Tiles are available over either HTTPS or HTTP, but HTTPS is recommended to take advantage of HTTP/2.</p>
 
-		<p>Web Mercator tiles use the standard Google/OpenStreetMap tile schema; at zoom zero one tile covers the Earth between -180° to +180°, and -85.06° to 85.06°.  The default tile size for PNG tiles is 512×512px.</p>
+		<p>Web Mercator tiles use the standard Google/OpenStreetMap tile schema; at zoom zero a single tile covers the Earth between -180° to +180°, and -85.06° to 85.06°.  The default tile size for PNG tiles is 512×512px.</p>
 
 		<p>There is no universal standard for the other projections, so you may need to use these parameters:</p>
 

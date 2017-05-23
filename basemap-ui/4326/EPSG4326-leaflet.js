@@ -20,6 +20,6 @@ var map = L.map('map', {
 	crs: crs
 }).setView([0, 0], 1);
 
-L.tileLayer('/4326/omt/{z}/{x}/{y}@2x.png?style=gbif-classic', {
+L.tileLayer('https://tile.gbif.org/4326/omt/{z}/{x}/{y}@2x.png?style=gbif-classic', {
 	tileSize: tile_size
 }).addTo(map);
