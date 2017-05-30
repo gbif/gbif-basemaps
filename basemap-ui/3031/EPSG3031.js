@@ -1,5 +1,7 @@
 proj4.defs("EPSG:3031", "+proj=stere +lat_0=-90 +lat_ts=-71 +lon_0=0 +k=1 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs");
 
+var pixel_ratio = parseInt(window.devicePixelRatio) || 1;
+
 var halfWidth = 12367396.2185; // To the Equator
 var extent = [-halfWidth, -halfWidth, halfWidth, halfWidth];
 ol.proj.get("EPSG:3031").setExtent(extent);
@@ -93,7 +95,7 @@ layers['EPSG:3031-R'] = new ol.layer.Tile({
 	source: new ol.source.TileImage({
 		projection: 'EPSG:3031',
 		tileGrid: tile_grid_16,
-		url: 'https://tile.gbif.org/3031/omt/{z}/{x}/{y}@1x.png?style='+raster_style,
+		url: 'https://tile.gbif.org/3031/omt/{z}/{x}/{y}@'+pixel_ratio+'x.png?style='+raster_style,
 		tilePixelRatio: 1,
 	}),
 	visible: true,
@@ -117,7 +119,7 @@ layers['OccurrenceDensityRaster:3031'] = new ol.layer.Tile({
 	source: new ol.source.TileImage({
 		projection: 'EPSG:3031',
 		tileGrid: tile_grid_16,
-		url: 'https://api.gbif.org/v2/map/occurrence/density/{z}/{x}/{y}@1x.png?srs=EPSG:3031',
+		url: 'https://api.gbif.org/v2/map/occurrence/density/{z}/{x}/{y}@'+pixel_ratio+'x.png?srs=EPSG:3031',
 		tilePixelRatio: 1,
 	}),
 	visible: false
@@ -182,6 +184,6 @@ styleSelect.onchange = (function(e) {
 
 var styleSelectR = document.getElementById('EPSG3031-R_style');
 styleSelectR.onchange = (function(e) {
-	layers['EPSG:3031-R'].getSource().setUrl('https://tile.gbif.org/3031/omt/{z}/{x}/{y}@4x.png?style='+styleSelectR.value);
+	layers['EPSG:3031-R'].getSource().setUrl('https://tile.gbif.org/3031/omt/{z}/{x}/{y}@'+pixel_ratio+'x.png?style='+styleSelectR.value);
 	layers['EPSG:3031-R'].getSource().refresh();
 });

@@ -1,5 +1,7 @@
 proj4.defs('EPSG:4326', "+proj=longlat +ellps=WGS84 +datum=WGS84 +units=degrees");
 
+var pixel_ratio = parseInt(window.devicePixelRatio) || 1;
+
 var extent = 180.0;
 var tile_size = 512;
 var max_zoom = 16;
@@ -69,7 +71,7 @@ var raster_style = 'gbif-middle';
 layers['EPSG:4326-R'] = new ol.layer.Tile({
 	source: new ol.source.TileImage({
 		projection: 'EPSG:4326',
-		url: 'https://tile.gbif.org/4326/omt/{z}/{x}/{y}@1x.png?style='+raster_style,
+		url: 'https://tile.gbif.org/4326/omt/{z}/{x}/{y}@'+pixel_ratio+'x.png?style='+raster_style,
 		tileGrid: tile_grid_16,
 		tilePixelRatio: 1,
 		wrapX: true
@@ -94,7 +96,7 @@ layers['OccurrenceDensityRaster:4326'] = new ol.layer.Tile({
 	extent: ol.proj.get('EPSG:4326').getExtent(),
 	source: new ol.source.TileImage({
 		projection: 'EPSG:4326',
-		url: 'https://api.gbif.org/v2/map/occurrence/density/{z}/{x}/{y}@1x.png?srs=EPSG:4326',
+		url: 'https://api.gbif.org/v2/map/occurrence/density/{z}/{x}/{y}@'+pixel_ratio+'x.png?srs=EPSG:4326',
 		tileGrid: tile_grid_16,
 		tilePixelRatio: 1,
 	}),
@@ -158,6 +160,6 @@ styleSelect.onchange = (function(e) {
 
 var styleSelectR = document.getElementById('EPSG4326-R_style');
 styleSelectR.onchange = (function(e) {
-	layers['EPSG:4326-R'].getSource().setUrl('https://tile.gbif.org/4326/omt/{z}/{x}/{y}@1x.png?style='+styleSelectR.value);
+	layers['EPSG:4326-R'].getSource().setUrl('https://tile.gbif.org/4326/omt/{z}/{x}/{y}@'+pixel_ratio+'x.png?style='+styleSelectR.value);
 	layers['EPSG:4326-R'].getSource().refresh();
 });

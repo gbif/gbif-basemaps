@@ -1,5 +1,7 @@
 proj4.defs("EPSG:3575", "+proj=laea +lat_0=90 +lon_0=10 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_defs");
 
+var pixel_ratio = parseInt(window.devicePixelRatio) || 1;
+
 var halfWidth = Math.sqrt(2) * 6371007.2;
 var extent = [-halfWidth, -halfWidth, halfWidth, halfWidth];
 ol.proj.get("EPSG:3575").setExtent(extent);
@@ -81,7 +83,7 @@ layers['EPSG:3575-R'] = new ol.layer.Tile({
 	source: new ol.source.TileImage({
 		projection: 'EPSG:3575',
 		tileGrid: tile_grid_14,
-		url: 'https://tile.gbif.org/3575/omt/{z}/{x}/{y}@2x.png?style='+raster_style,
+		url: 'https://tile.gbif.org/3575/omt/{z}/{x}/{y}@'+pixel_ratio+'x.png?style='+raster_style,
 		tilePixelRatio: 1,
 	}),
 	visible: true,
@@ -106,7 +108,7 @@ layers['OccurrenceDensityRaster:3575'] = new ol.layer.Tile({
 		projection: 'EPSG:3575',
 		tileGrid: tile_grid_16,
 		tilePixelRatio: 1,
-		url: 'https://api.gbif.org/v2/map/occurrence/density/{z}/{x}/{y}@1x.png?srs=EPSG:3575',
+		url: 'https://api.gbif.org/v2/map/occurrence/density/{z}/{x}/{y}@'+pixel_ratio+'x.png?srs=EPSG:3575',
 	}),
 	visible: false,
 });
@@ -169,7 +171,7 @@ styleSelect.onchange = (function(e) {
 
 var styleSelectR = document.getElementById('EPSG3575-R_style');
 styleSelectR.onchange = (function(e) {
-	layers['EPSG:3575-R'].getSource().setUrl('https://tile.gbif.org/3575/omt/{z}/{x}/{y}@2x.png?style='+styleSelectR.value);
+	layers['EPSG:3575-R'].getSource().setUrl('https://tile.gbif.org/3575/omt/{z}/{x}/{y}@'+pixel_ratio+'x.png?style='+styleSelectR.value);
 	layers['EPSG:3575-R'].getSource().refresh();
 });
 

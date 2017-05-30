@@ -1,3 +1,5 @@
+var pixel_ratio = parseInt(window.devicePixelRatio) || 1;
+
 var tile_size = 512;
 
 var tile_grid_14 = ol.tilegrid.createXYZ({
@@ -51,7 +53,7 @@ layers['EPSG:3857-R'] = new ol.layer.Tile({
 		projection: 'EPSG:3857',
 		tileGrid: tile_grid_16,
 		tilePixelRatio: 1,
-		url: 'https://tile.gbif.org/3857/omt/{z}/{x}/{y}@1x.png?style='+raster_style,
+		url: 'https://tile.gbif.org/3857/omt/{z}/{x}/{y}@'+pixel_ratio+'x.png?style='+raster_style,
 		wrapX: true
 	}),
 	visible: true,
@@ -76,7 +78,7 @@ layers['OccurrenceDensityRaster:3857'] = new ol.layer.Tile({
 		projection: 'EPSG:3857',
 		tileGrid: tile_grid_16,
 		tilePixelRatio: 1,
-		url: 'https://api.gbif.org/v2/map/occurrence/density/{z}/{x}/{y}@1x.png?srs=EPSG:3857'
+		url: 'https://api.gbif.org/v2/map/occurrence/density/{z}/{x}/{y}@'+pixel_ratio+'x.png?srs=EPSG:3857'
 	}),
 	visible: false
 });
@@ -137,6 +139,6 @@ styleSelect.onchange = (function(e) {
 
 var styleSelectR = document.getElementById('EPSG3857-R_style');
 styleSelectR.onchange = (function(e) {
-	layers['EPSG:3857-R'].getSource().setUrl('https://tile.gbif.org/3857/omt/{z}/{x}/{y}@4x.png?style='+styleSelectR.value);
+	layers['EPSG:3857-R'].getSource().setUrl('https://tile.gbif.org/3857/omt/{z}/{x}/{y}@'+pixel_ratio+'x.png?style='+styleSelectR.value);
 	layers['EPSG:3857-R'].getSource().refresh();
 });
