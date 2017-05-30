@@ -1,4 +1,4 @@
-var pixel_ratio = window.devicePixelRatio || 1;
+var pixel_ratio = parseInt(window.devicePixelRatio) || 1;
 
 var max_zoom = 16;
 var tile_size = 512;
@@ -25,11 +25,17 @@ var map = L.map('map', {
 // Restricting the view is probably necessary to avoid the problem properly.  Or fixing the problem properly.
 try {
 	//L.tileLayer('../512.png?{z} {x} {y}', {
-	L.tileLayer('https://tile.gbif.org/3575/omt/{z}/{x}/{y}@2x.png?style=gbif-classic', {
-		tileSize: 512,
+	L.tileLayer('https://tile.gbif.org/3575/omt/{z}/{x}/{y}@{r}x.png?style=gbif-classic'.replace('{r}', pixel_ratio), {
+		tileSize: tile_size,
 		minZoom: 1,
 		maxZoom: 16
 	}).addTo(map);
+
+  L.tileLayer('https://api.gbif.org/v2/map/occurrence/density/{z}/{x}/{y}@{r}x.png?style=classic.point&srs=EPSG%3A3575'.replace('{r}', pixel_ratio), {
+	  tileSize: tile_size,
+    minZoom: 1,
+    maxZoom: 16
+  }).addTo(map);
 }
 catch (err) {
 	console.error(err);
