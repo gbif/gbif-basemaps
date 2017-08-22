@@ -26,4 +26,11 @@
     <module>raster-basemap-server</module>
   </modules>
 
+  <repositories>
+    <repository>
+      <id>gbif-all</id>
+      <url>http://repository.gbif.org/content/groups/gbif</url>
+    </repository>
+  </repositories>
+
 </project>
