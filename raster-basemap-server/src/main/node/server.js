@@ -51,11 +51,10 @@ mapnik.register_default_input_plugins();
 // Fonts
 // Register default fonts.
 mapnik.register_fonts('./node_modules/mapbox-studio-default-fonts/', { recurse: true });
-//mapnik.register_fonts('/usr/share/fonts/truetype/', { recurse: true });
-mapnik.register_fonts('/home/mblissett/Workspace/klokantech-gl-fonts', { recurse: true });
+mapnik.register_fonts('/usr/local/gbif/klokantech-gl-fonts/', { recurse: true });
 //mapnik.register_default_fonts();
 //mapnik.register_system_fonts();
-//console.log("Fonts", mapnik.fonts());
+console.log("Fonts", mapnik.fonts());
 
 var processStartTime = new Date().toUTCString();
 console.log("HTTP requests will have Last-Modified set to", processStartTime);

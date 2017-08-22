@@ -22,13 +22,14 @@
 
 // All fontsets should have a good fallback that covers as many glyphs
 // as possible.
-@fallback: 'Arial Unicode MS Regular';
-@sans: 'Open Sans Regular', @fallback;
-@sans_md: 'Open Sans Semibold', @fallback;
-@sans_bd: 'Open Sans Bold', 'Arial Unicode MS Bold', @fallback;
-@sans_it: 'Open Sans Italic', @fallback;
-@sans_lt_italic: 'Open Sans Light Italic', @fallback;
-@sans_lt: 'Open Sans Light', @fallback;
+@fallback: 'KlokanTech Noto Sans Regular';
+@fallback_cjk: 'KlokanTech Noto Sans CJK Regular';
+@sans: 'Open Sans Regular', @fallback, @fallback_cjk;
+@sans_md: 'Open Sans Semibold', @fallback, @fallback_cjk;
+@sans_bd: 'Open Sans Bold', 'KlokanTech Noto Sans Bold', 'KlokanTech Noto Sans CJK Bold', @fallback;
+@sans_it: 'Open Sans Italic', @fallback, @fallback_cjk;
+@sans_lt_italic: 'Open Sans Light Italic', @fallback, @fallback_cjk;
+@sans_lt: 'Open Sans Light', @fallback, @fallback_cjk;
 
 @place_halo:        #fff;
 @country_text:      @land * 0.2;
@@ -107,7 +108,7 @@
 #place::citydots[class='city'][zoom>=4][zoom<=7] {
   // explicitly defining all the `ldir` values wer'e going
   // to use shaves a bit off the final project.xml size
-    shield-file: url("shield/dot.svg");
+    shield-file: url("cartocss/osm-bright/shield/dot.svg");
     shield-unlock-image: true;
     shield-name: @name;
     shield-size: 12;
@@ -191,7 +192,7 @@
     // Not all POIs have a Maki icon assigned, so we limit this section
     // to those that do. See also <https://www.mapbox.com/maki/>
     marker-fill:#666;
-    marker-file:url('icon/[class]-12.svg');
+    marker-file:url('cartocss/osm-bright/icon/[class]-12.svg');
   }
   ::label {
     text-name: '[name]';
@@ -220,7 +221,7 @@
   shield-name: "[ref].replace('·', '\n')";
   shield-size: 9;
   shield-line-spacing: -4;
-  shield-file: url('shield/default-[ref_length].svg');
+  shield-file: url('cartocss/osm-bright/shield/default-[ref_length].svg');
   shield-face-name: @sans;
   shield-fill: #333;
   [zoom>=14] {
