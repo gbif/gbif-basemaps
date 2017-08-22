@@ -216,11 +216,11 @@
 
 #transportation_name::shield-pt[class='motorway'][zoom>=7][zoom<=10][ref_length<=6],
 #transportation_name::shield-pt[class='motorway'][zoom>=9][zoom<=10][ref_length<=6],
-#transportation_name::shield-ln[zoom>=11][reflen<=6] {
+#transportation_name::shield-ln[zoom>=11][ref_length<=6] {
   shield-name: "[ref].replace('·', '\n')";
   shield-size: 9;
   shield-line-spacing: -4;
-  shield-file: url('shield/default-[reflen].svg');
+  shield-file: url('shield/default-[ref_length].svg');
   shield-face-name: @sans;
   shield-fill: #333;
   [zoom>=14] {
@@ -233,7 +233,7 @@
   shield-placement: point;
   shield-avoid-edges: false;
 }
-#transportation_name::shield-ln[zoom>=11][reflen<=6] {
+#transportation_name::shield-ln[zoom>=11][ref_length<=6] {
   shield-placement: line;
   shield-spacing: 400;
   shield-min-distance: 100;
