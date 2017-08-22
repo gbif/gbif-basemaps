@@ -44,8 +44,13 @@
 // labeled areas.
 #place[class='country'][zoom>=2][zoom<=10] {
   text-name: @name;
+  [name_en='Abkhazia'] { text-name: "''" }
   [name_en='Falkland Islands'] { text-name: "'Falkland Islands (Malvinas)'" }
+  [name_en='Nagorno-Karabakh Republic'] { text-name: "''" }
+  [name_en='South Ossetia'] { text-name: "''" }
   [name_en='Taiwan'] { text-name: "'Chinese Taipei'" }
+  [name_en='Transnistria'] { text-name: "''" }
+  [name_en='Turkish Republic Of Northern Cyprus'] { text-name: "''" }
   text-face-name: @sans_bd;
   [zoom=2] { text-face-name: @sans; }
   text-placement: point;
@@ -123,8 +128,13 @@
 
 #place[zoom>=8] {
   text-name: @name;
+  [name_en='Abkhazia'] { text-name: "''" }
   [name_en='Falkland Islands'] { text-name: "'Falkland Islands (Malvinas)'" }
+  [name_en='Nagorno-Karabakh Republic'] { text-name: "''" }
+  [name_en='South Ossetia'] { text-name: "''" }
   [name_en='Taiwan'] { text-name: "'Chinese Taipei'" }
+  [name_en='Transnistria'] { text-name: "''" }
+  [name_en='Turkish Republic Of Northern Cyprus'] { text-name: "''" }
   text-face-name: @sans;
   text-wrap-width: 120;
   text-wrap-before: true;
