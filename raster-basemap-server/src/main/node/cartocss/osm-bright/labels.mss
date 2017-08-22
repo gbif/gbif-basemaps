@@ -43,6 +43,8 @@
 // labeled areas.
 #place[class='country'][zoom>=2][zoom<=10] {
   text-name: @name;
+  [name_en='Falkland Islands'] { text-name: "'Falkland Islands (Malvinas)'" }
+  [name_en='Taiwan'] { text-name: "'Chinese Taipei'" }
   text-face-name: @sans_bd;
   [zoom=2] { text-face-name: @sans; }
   text-placement: point;
@@ -120,6 +122,8 @@
 
 #place[zoom>=8] {
   text-name: @name;
+  [name_en='Falkland Islands'] { text-name: "'Falkland Islands (Malvinas)'" }
+  [name_en='Taiwan'] { text-name: "'Chinese Taipei'" }
   text-face-name: @sans;
   text-wrap-width: 120;
   text-wrap-before: true;
