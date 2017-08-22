@@ -12,7 +12,7 @@ var mapnik = require('mapnik'),
  * Compile the CartoCss into Mapnik stylesheets into a lookup dictionary
  */
 var namedStyles = {};
-namedStyles["osm-bright"] = compileStylesheetSync(['./node_modules/@mapbox/mapbox-studio-osm-bright/style.mss', './node_modules/@mapbox/mapbox-studio-osm-bright/road.mss', './node_modules/@mapbox/mapbox-studio-osm-bright/labels.mss']);
+namedStyles["osm-bright"] = compileStylesheetSync(['./cartocss/osm-bright/style.mss', './cartocss/osm-bright/road.mss', './cartocss/osm-bright/labels.mss']);
 namedStyles["gbif-classic"] = compileStylesheetSync(["./cartocss/gbif-classic.mss"]);
 namedStyles["gbif-dark"] = compileStylesheetSync(["./cartocss/gbif-dark.mss"]);
 namedStyles["gbif-middle"] = compileStylesheetSync(["./cartocss/gbif-middle.mss"]);
