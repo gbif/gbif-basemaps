@@ -2,35 +2,62 @@
 <html>
 <head>
   <title>GBIF EPSG:3857 Basemap</title>
-  <meta charset="utf-8" />
+  <meta charset="utf-8"/>
   <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-  <link rel="icon" href="//tile.gbif.org/3857/omt/0/0/0@1x.png?style=gbif-classic"/>
+  <link rel="icon" href="/3857/omt/0/0/0@1x.png?style=gbif-dark"/>
+  <link rel="stylesheet" href="https://tile.gbif.org/ui/ol.css" type="text/css">
+  <script src="https://tile.gbif.org/ui/ol.js"></script>
   <style>
     html, body, #map {
       height: 100%;
       padding: 0;
       margin: 0;
-      background-color: ghostwhite;
+      background-color: black;
     }
   </style>
-  <link rel="stylesheet" href="https://npmcdn.com/leaflet@1.0.3/dist/leaflet.css" />
 </head>
 <body>
-  <div id="map"></div>
-  <script src="https://npmcdn.com/leaflet@1.0.3/dist/leaflet.js"></script>
-  <script>
-    var pixel_ratio = window.devicePixelRatio || 1;
+<div id="map"></div>
+<script>
+  var pixel_ratio = parseInt(window.devicePixelRatio) || 1;
 
-    var max_zoom = 16;
+  var tile_grid_16 = ol.tilegrid.createXYZ({
+    minZoom: 0,
+    maxZoom: 16,
+    tileSize: 512,
+  });
 
-    var map = L.map('map').setView(new L.LatLng(0, 0), 1);
+  var layers = [];
 
-    L.tileLayer('/3857/omt/{z}/{x}/{y}@'+pixel_ratio+'x.png?style=osm-bright', {
-      tileSize: 512,
-      minZoom: 1,
-      maxZoom: max_zoom + 1,
-      zoomOffset: -1
-    }).addTo(map);
-  </script>
+  var base_raster_style = 'gbif-dark';
+  layers.push(new ol.layer.Tile({
+    source: new ol.source.TileImage({
+      projection: 'EPSG:3857',
+      tileGrid: tile_grid_16,
+      tilePixelRatio: pixel_ratio,
+      url: '/3857/omt/{z}/{x}/{y}@'+pixel_ratio+'x.png?style='+base_raster_style,
+      wrapX: true
+    })
+  }));
+
+  layers.push(new ol.layer.Tile({
+    source: new ol.source.TileImage({
+      projection: 'EPSG:3857',
+      tileGrid: tile_grid_16,
+      tilePixelRatio: pixel_ratio,
+      url: 'https://api.gbif.org/v2/map/occurrence/density/{z}/{x}/{y}@'+pixel_ratio+'x.png?srs=EPSG:3857&style=blueHeat.point&publishingOrg=1cd669d0-80ea-11de-a9d0-f1765f95f18b',
+      wrapX: true
+    })
+  }));
+
+  var map = new ol.Map({
+    layers: layers,
+    target: 'map',
+    view: new ol.View({
+      center: [0, 0],
+      zoom: 1
+    }),
+  });
+</script>
 </body>
 </html>

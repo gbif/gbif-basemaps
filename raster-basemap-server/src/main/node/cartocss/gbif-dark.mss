@@ -1,8 +1,8 @@
 // ---------------------------------------------------------------------
 // Common Colors
 
-@land: #444444;
-@water: #1c1c1c;
+@land: #030303;
+@water: #252525;
 
 @state_text:        #765;
 @state_halo:        @place_halo;
@@ -85,7 +85,7 @@ Map {
 #waterway {
   line-color: @water; // * 0.9;
   line-cap: round;
-  line-width: 0.5;
+  line-width: 1.2;
   [class='river'] {
     [zoom>=12] { line-width: 1; }
     [zoom>=14] { line-width: 2; }
@@ -94,9 +94,9 @@ Map {
   [class='stream'],
   [class='stream_intermittent'],
   [class='canal'] {
-    [zoom>=14] { line-width: 1; }
-    [zoom>=16] { line-width: 2; }
-    [zoom>=18] { line-width: 3; }
+    [zoom>=14] { line-width: 1.8; }
+    [zoom>=16] { line-width: 2.8; }
+    [zoom>=18] { line-width: 3.8; }
   }
   [class='stream_intermittent'] { line-dasharray: 6,2,2,2; }
 }
@@ -104,14 +104,14 @@ Map {
 // ---------------------------------------------------------------------
 // Landuse areas
 
-//#landcover {
-//  [class='grass'] { polygon-fill: #d8e8c8; }
-//  ::overlay {
-//    // Landuse classes look better as a transparent overlay.
-//    opacity: 0.1;
-//    [class='wood'] { polygon-fill: #6a4; polygon-gamma: 0.5; }
-//  }
-//}
+#landcover {
+  [class='grass'] { polygon-fill: #0f0f0f; }
+  ::overlay {
+    // Landuse classes look better as a transparent overlay.
+    opacity: 0.1;
+    [class='wood'] { polygon-fill: #141414; polygon-gamma: 0.5; }
+  }
+}
 
 //#landuse {
   // Land-use and land-cover are not well-separated concepts in

@@ -66,8 +66,11 @@ console.log("HTTP requests will have Last-Modified set to", processStartTime);
  * Should this become more complex, then express or similar should be consider.
  */
 var assetsHTML = [
+  '/3031.html',
+  '/3575.html',
   '/3857.html',
-  '/4326.html'
+  '/4326.html',
+  '/demo.html'
 ]
 
 function parseUrl(parsedRequest) {
