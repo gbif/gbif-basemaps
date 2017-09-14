@@ -5,3 +5,4 @@ raster-basemap-server/src/main/node/node_modules/
 .idea/
 **/dependency-reduced-pom.xml
 target
+basemap-ui/build/

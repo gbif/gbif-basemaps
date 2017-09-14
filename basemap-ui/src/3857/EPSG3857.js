@@ -52,7 +52,7 @@ layers['EPSG:3857-R'] = new ol.layer.Tile({
 	source: new ol.source.TileImage({
 		projection: 'EPSG:3857',
 		tileGrid: tile_grid_16,
-		tilePixelRatio: 1,
+		tilePixelRatio: pixel_ratio,
 		url: 'https://tile.gbif.org/3857/omt/{z}/{x}/{y}@'+pixel_ratio+'x.png?style='+raster_style,
 		wrapX: true
 	}),
@@ -77,7 +77,7 @@ layers['OccurrenceDensityRaster:3857'] = new ol.layer.Tile({
 	source: new ol.source.TileImage({
 		projection: 'EPSG:3857',
 		tileGrid: tile_grid_16,
-		tilePixelRatio: 1,
+		tilePixelRatio: pixel_ratio,
 		url: 'https://api.gbif.org/v2/map/occurrence/density/{z}/{x}/{y}@'+pixel_ratio+'x.png?srs=EPSG:3857'
 	}),
 	visible: false

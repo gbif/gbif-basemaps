@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8"/>
 		<meta name="viewport" content="user-scalable=no">
-		<title>EPSG:4326 map preview — OpenLayers minimal</title>
+		<title>EPSG:3031 map preview — OpenLayers minimal</title>
 		<link rel="stylesheet" href="https://tile.gbif.org/ui/ol.css" type="text/css">
 		<script src="https://tile.gbif.org/ui/ol.js"></script>
 		<script src="https://tile.gbif.org/ui/proj4.js"></script>
@@ -26,19 +26,26 @@
 	</head>
 	<body>
 		<div id="info">
-			<h1>EPSG:4326 basic map preview</h1>
+			<h1>EPSG:3031 basic map preview</h1>
 		</div>
 		<div id="map" class="map"></div>
 		<script type="text/javascript">
-proj4.defs('EPSG:4326', "+proj=longlat +ellps=WGS84 +datum=WGS84 +units=degrees");
+proj4.defs("EPSG:3031", "+proj=stere +lat_0=-90 +lat_ts=-71 +lon_0=0 +k=1 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs");
 
-var extent = 180.0;
+var halfWidth = 12367396.2185;
+var extent = [-halfWidth, -halfWidth, halfWidth, halfWidth];
+ol.proj.get("EPSG:3031").setExtent(extent);
+
+// The resolution is the size of 1 pixel in map units
 var tile_size = 512;
 var max_zoom = 16;
-var resolutions = Array(max_zoom+1).fill().map((_, i) => ( extent / tile_size / Math.pow(2, i) ));
+var resolutions = Array.from(new Array(max_zoom), (x,i) => (halfWidth/(tile_size*Math.pow(2,i-1))));
+
+var pixel_ratio = parseInt(window.devicePixelRatio) || 1;
 
 var tile_grid = new ol.tilegrid.TileGrid({
-	extent: ol.proj.get('EPSG:4326').getExtent(),
+	extent: ol.proj.get('EPSG:3031').getExtent(),
+	origin: [-halfWidth,halfWidth],
 	minZoom: 0,
 	maxZoom: max_zoom,
 	resolutions: resolutions,
@@ -46,20 +53,21 @@ var tile_grid = new ol.tilegrid.TileGrid({
 });
 
 var raster_style = 'gbif-classic';
-var epsg_4326_raster = new ol.layer.Tile({
+var epsg_3031_raster = new ol.layer.Tile({
 	source: new ol.source.TileImage({
-		projection: 'EPSG:4326',
-		url: 'https://tile.gbif.org/4326/omt/{z}/{x}/{y}@1x.png?style='+raster_style,
+		projection: 'EPSG:3031',
+		url: 'https://tile.gbif.org/3031/omt/{z}/{x}/{y}@'+pixel_ratio+'x.png?style='+raster_style,
+		tilePixelRatio: pixel_ratio,
 		tileGrid: tile_grid
 	}),
 });
 
 var map = new ol.Map({
-	layers: [epsg_4326_raster],
+	layers: [epsg_3031_raster],
 	target: 'map',
 	view: new ol.View({
 		center: [0, 0],
-		projection: 'EPSG:4326',
+		projection: 'EPSG:3031',
 		zoom: 2
 	}),
 });

@@ -4,7 +4,7 @@
 		<meta charset="utf-8"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>Map previews</title>
-		<link rel="icon" href="https://tile.gbif.org/3575/omt/0/0/0@1x.png?style=gbif-middle"/>
+		<link rel="icon" href="/3575/omt/0/0/0@1x.png?style=gbif-middle"/>
 		<style type="text/css">
 			html {
 				/* http://www.heropatterns.com/ */
@@ -106,7 +106,7 @@
 				<p>WGS84 Plate Careé</p>
 				<a href="4326/">
 					<div class="two-wide half-high">
-						<img src="https://tile.gbif.org/4326/omt/0/0/0@1x.png?style=gbif-classic"/><img src="https://tile.gbif.org/4326/omt/0/1/0@1x.png?style=gbif-classic"/>
+						<img src="/4326/omt/0/0/0@1x.png?style=gbif-classic"/><img src="/4326/omt/0/1/0@1x.png?style=gbif-classic"/>
 					</div>
 				</a>
 				<p class="libraries">Demo: <a href="4326/">OpenLayers</a> — <a href="4326/leaflet.html">Leaflet</a></p>
@@ -116,7 +116,7 @@
 				<p>Web Mercator</p>
 				<a href="3857/">
 					<div>
-						<img src="https://tile.gbif.org/3857/omt/0/0/0@1x.png?style=gbif-classic" srcset="/3857/omt/0/0/0@2x.png?style=gbif-classic 2x"/>
+						<img src="/3857/omt/0/0/0@1x.png?style=gbif-classic" srcset="/3857/omt/0/0/0@2x.png?style=gbif-classic 2x"/>
 					</div>
 				</a>
 				<p class="libraries">Demo: <a href="3857/">OpenLayers</a> — <a href="3857/leaflet.html">Leaflet</a></p>
@@ -126,7 +126,7 @@
 				<p>Arctic LAEA on 10°E</p>
 				<a href="3575/">
 					<div>
-						<img src="https://tile.gbif.org/3575/omt/0/0/0@2x.png?style=gbif-classic"/>
+						<img src="/3575/omt/0/0/0@2x.png?style=gbif-classic"/>
 					</div>
 				</a>
 				<p class="libraries">Demo: <a href="3575/">OpenLayers</a> — <a href="3575/leaflet.html">Leaflet</a></p>
@@ -136,7 +136,7 @@
 				<p>Antarctic Stereographic</p>
 				<a href="3031/">
 					<div>
-						<img src="https://tile.gbif.org/3031/omt/0/0/0@2x.png?style=gbif-classic"/>
+						<img src="/3031/omt/0/0/0@2x.png?style=gbif-classic"/>
 					</div>
 				</a>
 				<p class="libraries">Demo: <a href="3031/">OpenLayers</a> — <a href="3031/leaflet.html">Leaflet</a></p>
@@ -148,9 +148,7 @@
 
 		<p>The Web Mercator tiles are simply those from <a href="https://openmaptiles.org/">OpenMapTiles.org</a>, see <a href="https://openmaptiles.org/schema/">the OpenMapTiles schema</a> for details.  The other projections have been generated to fit the same layer schema, but with fewer layers — see below.</p>
 
-		<p>The process used to generate the tiles in the three other projections is <a href="https://github.com/gbif/openmaptiles">on GitHub</a>.</p>
-
-		<p>Web Mercator tiles are from 2016-11-28.  The other projections use data OpenStreetMap and Natural Earth data from 2017-02-27.  We do not plan to make frequent updates to the tiles, since the geological features of most interest to us do not often change.</p>
+		<p>Web Mercator tiles are from 2017-07-03.  The other projections use data OpenStreetMap and Natural Earth data from 2017-02-27.  We do not plan to make frequent updates to the tiles, since the geological features of most interest to us do not often change.  (However, processing to add additional layers to the vector tiles is in progress.)</p>
 
 		<h2>Vector Tiles</h2>
 		<p>The schema for the vector tile layers follows <a href="https://openmaptiles.org/schema/">the OpenMapTiles schema</a>, but with fewer layers included for the non-Mercator projections.  In addition, the Arctic LAEA projection includes a <code>graticule</code> layer, containing a polygon for the Northern Hemisphere and lines for 60°N and the Arctic Circle.</p>
@@ -181,7 +179,7 @@
 				<th><code>poi</code></th>
 			</tr>
 			<tr>
-				<td>EPSG:3857<br/><img src="https://tile.gbif.org/3857/omt/0/0/0@1x.png?style=gbif-classic"/></td>
+				<td>EPSG:3857<br/><img src="/3857/omt/0/0/0@1x.png?style=gbif-classic"/></td>
 				<td></td>
 				<td>✓</td>
 				<td>✓</td>
@@ -200,7 +198,7 @@
 				<td>✓</td>
 			</tr>
 			<tr>
-				<td>EPSG:4326<br/><img src="https://tile.gbif.org/4326/omt/0/0/0@1x.png?style=gbif-classic" style="width: 64px"/><img src="https://tile.gbif.org/4326/omt/0/1/0@1x.png?style=gbif-classic" style="width: 64px"/></td>
+				<td>EPSG:4326<br/><img src="/4326/omt/0/0/0@1x.png?style=gbif-classic" style="width: 64px"/><img src="/4326/omt/0/1/0@1x.png?style=gbif-classic" style="width: 64px"/></td>
 				<td></td>
 				<td>✓</td>
 				<td>✓</td>
@@ -219,7 +217,7 @@
 				<td>zooms 0-11</td>
 			</tr>
 			<tr>
-				<td>EPSG:3575<br/><img src="https://tile.gbif.org/3575/omt/0/0/0@1x.png?style=gbif-classic"/></td>
+				<td>EPSG:3575<br/><img src="/3575/omt/0/0/0@1x.png?style=gbif-classic"/></td>
 				<td>✓</td>
 				<td>✓</td>
 				<td>✓</td>
@@ -238,7 +236,7 @@
 				<td></td>
 			</tr>
 			<tr>
-				<td>EPSG:3031<br/><img src="https://tile.gbif.org/3031/omt/0/0/0@1x.png?style=gbif-classic"/></td>
+				<td>EPSG:3031<br/><img src="/3031/omt/0/0/0@1x.png?style=gbif-classic"/></td>
 				<td></td>
 				<td>✓</td>
 				<td>✓</td>
@@ -265,35 +263,35 @@
 				<h2>GBIF Classic</h2>
 				<p><tt>gbif-classic</tt></p>
 				<div>
-					<img src="https://tile.gbif.org/3857/omt/7/67/37@1x.png?style=gbif-classic" srcset="/3857/omt/7/67/37@2x.png?style=gbif-classic 2x"/>
+					<img src="/3857/omt/7/67/37@1x.png?style=gbif-classic" srcset="/3857/omt/7/67/37@2x.png?style=gbif-classic 2x"/>
 				</div>
 			</li>
 			<li>
 				<h2>GBIF Light</h2>
 				<p><tt>gbif-light</tt></p>
 				<div>
-					<img src="https://tile.gbif.org/3857/omt/7/67/37@1x.png?style=gbif-light" srcset="/3857/omt/7/67/37@2x.png?style=gbif-light 2x"/>
+					<img src="/3857/omt/7/67/37@1x.png?style=gbif-light" srcset="/3857/omt/7/67/37@2x.png?style=gbif-light 2x"/>
 				</div>
 			</li>
 			<li>
 				<h2>GBIF Middle</h2>
 				<p><tt>gbif-middle</tt></p>
 				<div>
-					<img src="https://tile.gbif.org/3857/omt/7/67/37@1x.png?style=gbif-middle" srcset="/3857/omt/7/67/37@2x.png?style=gbif-middle 2x"/>
+					<img src="/3857/omt/7/67/37@1x.png?style=gbif-middle" srcset="/3857/omt/7/67/37@2x.png?style=gbif-middle 2x"/>
 				</div>
 			</li>
 			<li>
 				<h2>GBIF Dark</h2>
 				<p><tt>gbif-dark</tt></p>
 				<div>
-					<img src="https://tile.gbif.org/3857/omt/7/67/37@1x.png?style=gbif-dark" srcset="/3857/omt/7/67/37@2x.png?style=gbif-dark 2x"/>
+					<img src="/3857/omt/7/67/37@1x.png?style=gbif-dark" srcset="/3857/omt/7/67/37@2x.png?style=gbif-dark 2x"/>
 				</div>
 			</li>
 			<li>
 				<h2>OSM Bright</h2>
 				<p><tt>osm-bright</tt> (some bugs!)</p>
 				<div>
-					<img src="https://tile.gbif.org/3857/omt/7/67/37@1x.png?style=osm-bright" srcset="/3857/omt/7/67/37@2x.png?style=osm-bright 2x"/>
+					<img src="/3857/omt/7/67/37@1x.png?style=osm-bright" srcset="/3857/omt/7/67/37@2x.png?style=osm-bright 2x"/>
 				</div>
 			</li>
 		</ul>
@@ -311,10 +309,10 @@
 			<dd>The tileset, currently only <tt>omt</tt>.</dd>
 
 			<dt><tt>z</tt>, <tt>x</tt>, <tt>y</tt></dt>
-			<dd>The zoom, column and row of the tile.  The origin is the top left, so top left tile always has x=0 and y=0.</dd>
+			<dd>The zoom, column and row of the tile.  The origin is the top left, so the top left tile always has x=0 and y=0.</dd>
 
 			<dt><tt>format</tt></dt>
-			<dd>Either <tt>.pbf</tt> for a vector tile, or <tt>@1x.png</tt>, <tt>@2x.png</tt>, <tt>@3x.png</tt>, <tt>@4x.png</tt> for PNG tiles at various pixel densities. Use higher pixel densities for high resolution screens.</dd>
+			<dd>Either <tt>.pbf</tt> for a vector tile, or <tt>@1x.png</tt>, <tt>@2x.png</tt>, <tt>@3x.png</tt>, <tt>@4x.png</tt> for PNG tiles at various pixel densities. Use higher pixel densities for high resolution screens, otherwise the tiles will appear fuzzy.</dd>
 
 			<dt><tt>params</tt></dt>
 			<dd><em>Only</em> for PNG tiles, specify a style, for example <tt>?style=gbif-classic</tt>.</dd>
@@ -335,24 +333,24 @@
 			<tr>
 				<td>EPSG:4326<br/>(WGS84)</td>
 				<td>–180°, 90°, 180°, –90°</td>
-				<td><img src="https://tile.gbif.org/4326/omt/0/0/0@1x.png?style=gbif-classic"/> <img src="https://tile.gbif.org/4326/omt/0/1/0@1x.png?style=gbif-classic"/></td>
+				<td><img src="/4326/omt/0/0/0@1x.png?style=gbif-classic"/> <img src="/4326/omt/0/1/0@1x.png?style=gbif-classic"/></td>
 			</tr>
 			<tr>
-				<td>EPSG:3575<br/>(Arctic LAEA, 10°E, northern hemisphere)</td>
-				<td>–6371007.2 √2, 6371007.2 √2, 6371007.2 √2, –6371007.2 √2</td>
-				<td><img src="https://tile.gbif.org/3575/omt/0/0/0@1x.png?style=gbif-classic"/></td>
+				<td>EPSG:3575<br/>(Arctic LAEA on 10°E)</td>
+				<td>The northern hemisphere:<br/>–6371007.2 √2, 6371007.2 √2, 6371007.2 √2, –6371007.2 √2</td>
+				<td><img src="/3575/omt/0/0/0@1x.png?style=gbif-classic"/></td>
 			</tr>
 			<tr>
-				<td>EPSG:3031<br/>(Antarctic stereographic, southern hemisphere)</td>
-				<td>–12367396.2185, 12367396.2185, 12367396.2185, –12367396.2185</td>
-				<td><img src="https://tile.gbif.org/3031/omt/0/0/0@1x.png?style=gbif-classic"/></td>
+				<td>EPSG:3031<br/>(Antarctic stereographic)</td>
+				<td>The southern hemisphere:<br/>–12367396.2185, 12367396.2185, 12367396.2185, –12367396.2185</td>
+				<td><img src="/3031/omt/0/0/0@1x.png?style=gbif-classic"/></td>
 			</tr>
 		</table>
 
 		<h2>Examples</h2>
-		<p>The <em>OpenLayers demo</em> links shows the GBIF base vector layer and GBIF base raster layers, plus a non-GBIF base layer, and two <a href="http://www.gbif.org/developer/maps">GBIF occurrence density layers</a> — one raster and one vector.</p>
-
 		<p>The <em>OpenLayers minimal</em> pages show only a GBIF raster base layer.  Start here if you are new to OpenLayers.</p>
+
+		<p>The <em>OpenLayers demo</em> links show the GBIF base vector layer and GBIF base raster layers, plus a non-GBIF base layer, and two <a href="https://www.gbif.org/developer/maps">GBIF occurrence density layers</a> — one raster and one vector.</p>
 
 		<p>The <em>Leaflet</em> map uses the <a href="http://leafletjs.com/">Leaflet</a> library.  Support for non-Mercator projections uses a plugin and is buggy, but for simple Web Mercator maps performance may be better than OpenLayers.</p>
 
@@ -395,11 +393,13 @@
 
 		<div style="text-align: center; margin: 1em auto;">
 			<img
-				 style="background-image: url(https://tile.gbif.org/4326/omt/0/0/0@1x.png?style=gbif-dark);"
+				 style="background-image: url(/4326/omt/0/0/0@1x.png?style=gbif-dark); background-image: -webkit-image-set(url(/4326/omt/0/0/0@1x.png?style=gbif-dark) 1x, url(/4326/omt/0/0/0@2x.png?style=gbif-dark) 2x);"
 			   src="https://api.gbif.org/v2/map/occurrence/density/0/0/0@1x.png?style=purpleYellow.point&srs=EPSG:4326"
+			   srcset="https://api.gbif.org/v2/map/occurrence/density/0/0/0@2x.png?style=purpleYellow.point&srs=EPSG:4326 2x"
 				 /><img
-						  style="background-image: url(https://tile.gbif.org/4326/omt/0/1/0@1x.png?style=gbif-dark);"
+						  style="background-image: url(/4326/omt/0/1/0@1x.png?style=gbif-dark); background-image: -webkit-image-set(url(/4326/omt/0/1/0@1x.png?style=gbif-dark) 1x, url(/4326/omt/0/1/0@2x.png?style=gbif-dark) 2x);"
 						  src="https://api.gbif.org/v2/map/occurrence/density/0/1/0@1x.png?style=purpleYellow.point&srs=EPSG:4326"
+						  srcset="https://api.gbif.org/v2/map/occurrence/density/0/1/0@2x.png?style=purpleYellow.point&srs=EPSG:4326 2x"
 						  />
 		</div>
 
@@ -407,17 +407,17 @@
 
 		<h2>Feedback and issues</h2>
 
-		<p>Please log issues in <a href="https://github.com/gbif/openmaptiles">the GitHub project</a>, or use the <a href="https://lists.gbif.org/mailman/listinfo/api-users">GBIF API Users mailing list</a>.</p>
+		<p>The process used by GBIF to generate the tiles in the three other projections is <a href="https://github.com/gbif/openmaptiles">on GitHub</a>.  Please log issues there, or use the <a href="https://lists.gbif.org/mailman/listinfo/api-users">GBIF API Users mailing list</a>.</p>
 
-		<!--h2>Credits</h2>
+		<h2>Credits and copyright</h2>
 
+    <p>Thanks to:</p>
 		<ul>
-			<li>OpenStreetMap</li>
-			<li>OpenMapTiles</li>
-			<li>OpenLayers</li>
-			<li>Leaflet</li>
-			<li>GBIF contributors (for the density layers)</li>
-		</ul-->
+			<li><strong>OpenStreetMap</strong> for the map data,</li>
+			<li><strong>OpenMapTiles</strong> for the cartography and processing to produce vector tiles,</li>
+			<li><strong>OpenLayers</strong> for good support of non-Mercator projections.</li>
+		</ul>
 
+    <p>Base map tiles (including those shown on this page) are &copy; OpenMapTiles &copy; OpenStreetMap contributors.</p>
 	</body>
 </html>

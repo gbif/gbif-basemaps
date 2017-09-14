@@ -9,7 +9,7 @@ String.prototype.hashCode = function() {
 function layerColour(name, transparency) {
 	switch(name) {
 	case 'aeroway':
-		return "rgba(234,234,234,0,"+transparency+")";
+		return "rgba(234,64,128,"+transparency+")";
 	case 'boundary':
 		return "rgba(192,192,192,"+transparency+")";
 	case 'building':
@@ -26,6 +26,8 @@ function layerColour(name, transparency) {
 		return "rgba(0,255,0,"+transparency+")";
 	case 'landuse':
 		return "rgba(128,255,0,"+transparency+")";
+	case 'mountain_peak':
+		return "rgba(64,64,64,"+transparency+")";
 	case 'park':
 		return "rgba(0,255,128,"+transparency+")";
 	case 'place':
@@ -66,8 +68,9 @@ function createStyle() {
 	var polygon = new ol.style.Style({fill: fill});
 	var strokedPolygon = new ol.style.Style({fill: fill, stroke: stroke});
 	var line = new ol.style.Style({stroke: stroke});
+
 	var text = new ol.style.Style({text: new ol.style.Text({
-		text: '', fill: fill, stroke: stroke, font: '16px "Open Sans", "Arial Unicode MS"'
+		text: '', fill: fill, font: '13px "Open Sans", "Arial Unicode MS"'
 	})});
 
 	var styles = [];
@@ -78,11 +81,22 @@ function createStyle() {
 		var layer = feature.get('layer');
 		if (type == 'Point') {
 			text.getText().setText(feature.get('name'));
-			fill.setColor(layerColour(layer, '0.5'));
-			stroke.setColor(layerColour(layer, '0.8'));
-			stroke.setWidth(1);
+			fill.setColor(layerColour(layer, '1.0'));
 
-			styles[length++] = text;
+			if (layer == 'mountain_peak') {
+				if (feature.get('rank') == 1) {
+					text.getText().setText('▲ ' + feature.get('name') + ' (' + feature.get('ele') + 'm)');
+					text.getText().setFont('12px sans-serif');
+					styles[length++] = text;
+				} else {
+					text.getText().setText('▲');
+					text.getText().setFont('8px sans-serif');
+					styles[length++] = text;
+				}
+			} else {
+				text.getText().setFont('13px sans-serif');
+				styles[length++] = text;
+			}
 		}
 		else if (type == 'LineString' || type == 'MultiLineString') {
 			fill.setColor(layerColour(layer, '0.5'));
@@ -103,14 +117,14 @@ function createStyle() {
 
 var densityColours = ["#46A037", "#34B33F", "#2EC65E", "#25D987", "#1BECBC", "#0FFFFF"];
 var pointStyles = Array(6).fill().map((_, i) => (
-  new ol.style.Style({
-    image: new ol.style.Circle({
-      fill: new ol.style.Fill({color: densityColours[i]}),
-      radius: 1
-    }),
-    fill: new ol.style.Fill({color: densityColours[i]}),
-    stroke: new ol.style.Stroke({color: '#444444'})
-  })
+	new ol.style.Style({
+		image: new ol.style.Circle({
+			fill: new ol.style.Fill({color: densityColours[i]}),
+			radius: 1
+		}),
+		fill: new ol.style.Fill({color: densityColours[i]}),
+		stroke: new ol.style.Stroke({color: '#444444'})
+	})
 ));
 
 function createDensityStyle() {

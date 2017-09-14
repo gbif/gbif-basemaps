@@ -84,7 +84,7 @@ layers['EPSG:3575-R'] = new ol.layer.Tile({
 		projection: 'EPSG:3575',
 		tileGrid: tile_grid_14,
 		url: 'https://tile.gbif.org/3575/omt/{z}/{x}/{y}@'+pixel_ratio+'x.png?style='+raster_style,
-		tilePixelRatio: 1,
+		tilePixelRatio: pixel_ratio,
 	}),
 	visible: true,
 });
@@ -107,7 +107,7 @@ layers['OccurrenceDensityRaster:3575'] = new ol.layer.Tile({
 	source: new ol.source.TileImage({
 		projection: 'EPSG:3575',
 		tileGrid: tile_grid_16,
-		tilePixelRatio: 1,
+		tilePixelRatio: pixel_ratio,
 		url: 'https://api.gbif.org/v2/map/occurrence/density/{z}/{x}/{y}@'+pixel_ratio+'x.png?srs=EPSG:3575',
 	}),
 	visible: false,

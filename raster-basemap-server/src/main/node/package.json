@@ -6,7 +6,7 @@
   "dependencies": {
     "async": "^2.0.0-rc.5",
     "carto": "^0.16.2",
-    "mapnik": "^3.5.13",
+    "mapnik": "^3.6.2",
     "mapbox-studio-default-fonts": "git://github.com/mapbox/mapbox-studio-default-fonts#master",
     "node-yaml": "^2.0.1",
     "pbf": "^1.3.5",

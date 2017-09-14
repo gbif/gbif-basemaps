@@ -67,13 +67,17 @@ layers['EPSG:4326'] = new ol.layer.VectorTile({
 	visible: false,
 });
 
-var raster_style = 'gbif-middle';
+var raster_style = 'gbif-classic';
+if (window.location.hash) {
+  console.log(window.location.hash);
+  raster_style = window.location.hash.replace('#', '');
+}
 layers['EPSG:4326-R'] = new ol.layer.Tile({
 	source: new ol.source.TileImage({
 		projection: 'EPSG:4326',
 		url: 'https://tile.gbif.org/4326/omt/{z}/{x}/{y}@'+pixel_ratio+'x.png?style='+raster_style,
 		tileGrid: tile_grid_16,
-		tilePixelRatio: 1,
+		tilePixelRatio: pixel_ratio,
 		wrapX: true
 	}),
 	visible: true,
@@ -98,7 +102,7 @@ layers['OccurrenceDensityRaster:4326'] = new ol.layer.Tile({
 		projection: 'EPSG:4326',
 		url: 'https://api.gbif.org/v2/map/occurrence/density/{z}/{x}/{y}@'+pixel_ratio+'x.png?srs=EPSG:4326',
 		tileGrid: tile_grid_16,
-		tilePixelRatio: 1,
+		tilePixelRatio: pixel_ratio,
 	}),
 	visible: false
 });
@@ -163,3 +167,4 @@ styleSelectR.onchange = (function(e) {
 	layers['EPSG:4326-R'].getSource().setUrl('https://tile.gbif.org/4326/omt/{z}/{x}/{y}@'+pixel_ratio+'x.png?style='+styleSelectR.value);
 	layers['EPSG:4326-R'].getSource().refresh();
 });
+styleSelectR.value = raster_style;

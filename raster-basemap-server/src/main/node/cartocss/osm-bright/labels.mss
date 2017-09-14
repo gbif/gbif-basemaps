@@ -8,13 +8,7 @@
 // ---------------------------------------------------------------------
 // Languages
 
-// There are 5 language options in the MapBox Streets vector tiles:
-// - Local/default: '[name]'
-// - English: '[name_en]'
-// - French: '[name_fr]'
-// - Spanish: '[name_es]'
-// - German: '[name_de]'
-@name: '[name_en]';
+// This is imported first, from labels-XX.mss
 
 
 // ---------------------------------------------------------------------
@@ -44,11 +38,12 @@
 // labeled areas.
 #place[class='country'][zoom>=2][zoom<=10] {
   text-name: @name;
+  [@name=~'^$'] { text-name: @name_fallback }
   [name_en='Abkhazia'] { text-name: "''" }
-  [name_en='Falkland Islands'] { text-name: "'Falkland Islands (Malvinas)'" }
+  [name_en='Falkland Islands'] { text-name: @name_falklands_malvinas }
   [name_en='Nagorno-Karabakh Republic'] { text-name: "''" }
   [name_en='South Ossetia'] { text-name: "''" }
-  [name_en='Taiwan'] { text-name: "'Chinese Taipei'" }
+  [name_en='Taiwan'] { text-name: @name_chinese_taipei }
   [name_en='Transnistria'] { text-name: "''" }
   [name_en='Turkish Republic Of Northern Cyprus'] { text-name: "''" }
   text-face-name: @sans_bd;
@@ -116,6 +111,7 @@
     shield-file: url("cartocss/osm-bright/shield/dot.svg");
     shield-unlock-image: true;
     shield-name: @name;
+    [@name=~'^$'] { shield-name: @name_fallback }
     shield-size: 12;
     [zoom=7] { shield-size: 14; }
     shield-face-name: @sans;
@@ -128,11 +124,12 @@
 
 #place[zoom>=8] {
   text-name: @name;
+  [@name=~'^$'] { text-name: @name_fallback }
   [name_en='Abkhazia'] { text-name: "''" }
-  [name_en='Falkland Islands'] { text-name: "'Falkland Islands (Malvinas)'" }
+  [name_en='Falkland Islands'] { text-name: @name_falklands_malvinas }
   [name_en='Nagorno-Karabakh Republic'] { text-name: "''" }
   [name_en='South Ossetia'] { text-name: "''" }
-  [name_en='Taiwan'] { text-name: "'Chinese Taipei'" }
+  [name_en='Taiwan'] { text-name: @name_chinese_taipei }
   [name_en='Transnistria'] { text-name: "''" }
   [name_en='Turkish Republic Of Northern Cyprus'] { text-name: "''" }
   text-face-name: @sans;
@@ -205,7 +202,8 @@
     marker-file:url('cartocss/osm-bright/icon/[class]-12.svg');
   }
   ::label {
-    text-name: '[name]';
+    text-name: @name;
+    [@name=~'^$'] { text-name: @name_fallback }
     text-face-name: @sans_md;
     text-size: 12;
     text-fill: #666;
@@ -242,7 +240,7 @@
 #transportation_name::shield-pt[class='motorway'][zoom>=7][zoom<=10][ref_length<=6],
 #transportation_name::shield-pt[class='motorway'][zoom>=9][zoom<=10][ref_length<=6] {
   shield-placement: point;
-  shield-avoid-edges: false;
+  shield-avoid-edges: true;
 }
 #transportation_name::shield-ln[zoom>=11][ref_length<=6] {
   shield-placement: line;
@@ -252,7 +250,8 @@
 }
 
 #transportation_name {
-  text-name: '[name]';
+  text-name: @name;
+  [@name=~'^$'] { text-name: @name_fallback }
   text-placement: line;  // text follows line path
   text-face-name: @sans;
   text-fill: #765;
@@ -274,6 +273,7 @@
   [zoom>=16][area>10000],
   [zoom>=17] {
     text-name: @name;
+    [@name=~'^$'] { text-name: @name_fallback }
     text-face-name: @sans_it;
     text-fill: darken(@water, 15);
     text-size: 12;
