@@ -92,6 +92,10 @@
 			table img {
 				width: 128px;
 			}
+
+			td.no {
+				background: rgba(50%, 50%, 50%, 0.5);
+			}
 		</style>
 	</head>
 	<body>
@@ -148,7 +152,13 @@
 
 		<p>The Web Mercator tiles are simply those from <a href="https://openmaptiles.org/">OpenMapTiles.org</a>, see <a href="https://openmaptiles.org/schema/">the OpenMapTiles schema</a> for details.  The other projections have been generated to fit the same layer schema, but with fewer layers — see below.</p>
 
-		<p>Web Mercator tiles are from 2017-07-03.  The other projections use data OpenStreetMap and Natural Earth data from 2017-02-27.  We do not plan to make frequent updates to the tiles, since the geological features of most interest to us do not often change.  (However, processing to add additional layers to the vector tiles is in progress.)</p>
+		<p>Web Mercator tiles are from 2017-07-03.</p>
+
+		<p>The other projections use OpenStreetMap and Natural Earth data.  We do not plan to make frequent updates to the tiles, since the geological features of most interest to us do not often change.  (However, processing to add additional layers to the vector tiles is in progress.)</p>
+
+		<p>WGS84 tiles are from OpenStreetMap as of 2017-08-28, and Natural Earth version 2.0.0.</p>
+
+		<p>Polar tiles are from OpenStreetMap as of 2017-02-27, and Natural Earth version 2.0.0.  (They will soon be processed to add extra layers.)</p>
 
 		<h2>Vector Tiles</h2>
 		<p>The schema for the vector tile layers follows <a href="https://openmaptiles.org/schema/">the OpenMapTiles schema</a>, but with fewer layers included for the non-Mercator projections.  In addition, the Arctic LAEA projection includes a <code>graticule</code> layer, containing a polygon for the Northern Hemisphere and lines for 60°N and the Arctic Circle.</p>
@@ -180,7 +190,7 @@
 			</tr>
 			<tr>
 				<td>EPSG:3857<br/><img src="/3857/omt/0/0/0@1x.png?style=gbif-classic"/></td>
-				<td></td>
+				<td class="no"></td>
 				<td>✓</td>
 				<td>✓</td>
 				<td>✓</td>
@@ -199,22 +209,22 @@
 			</tr>
 			<tr>
 				<td>EPSG:4326<br/><img src="/4326/omt/0/0/0@1x.png?style=gbif-classic" style="width: 64px"/><img src="/4326/omt/0/1/0@1x.png?style=gbif-classic" style="width: 64px"/></td>
-				<td></td>
+				<td class="no"></td>
 				<td>✓</td>
 				<td>✓</td>
 				<td>✓</td>
-				<td>zooms 0-11</td>
-				<td>zooms 0-11</td>
-				<td>zooms 0-11</td>
-				<td>zooms 0-11</td>
-				<td>zooms 0-11</td>
-				<td>zooms 0-11</td>
-				<td>zooms 0-11</td>
-				<td>zooms 0-11</td>
-				<td>zooms 0-11</td>
-				<td>zooms 0-11</td>
-				<td>zooms 0-11</td>
-				<td>zooms 0-11</td>
+				<td>✓</td>
+				<td>✓</td>
+				<td>✓</td>
+				<td>✓</td>
+				<td>✓</td>
+				<td>✓</td>
+				<td class="no"></td>
+				<td>✓</td>
+				<td>✓</td>
+				<td>✓</td>
+				<td class="no"></td>
+				<td>✓</td>
 			</tr>
 			<tr>
 				<td>EPSG:3575<br/><img src="/3575/omt/0/0/0@1x.png?style=gbif-classic"/></td>
@@ -222,37 +232,37 @@
 				<td>✓</td>
 				<td>✓</td>
 				<td>✓</td>
-				<td></td>
-				<td></td>
-				<td></td>
+				<td class="no"></td>
+				<td class="no"></td>
+				<td class="no"></td>
 				<td>✓</td>
-				<td></td>
-				<td></td>
-				<td></td>
+				<td class="no"></td>
+				<td class="no"></td>
+				<td class="no"></td>
 				<td>✓</td>
-				<td></td>
+				<td class="no"></td>
 				<td>✓</td>
-				<td></td>
-				<td></td>
+				<td class="no"></td>
+				<td class="no"></td>
 			</tr>
 			<tr>
 				<td>EPSG:3031<br/><img src="/3031/omt/0/0/0@1x.png?style=gbif-classic"/></td>
-				<td></td>
+				<td class="no"></td>
 				<td>✓</td>
 				<td>✓</td>
 				<td>✓</td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
+				<td class="no"></td>
+				<td class="no"></td>
+				<td class="no"></td>
+				<td class="no"></td>
+				<td class="no"></td>
+				<td class="no"></td>
+				<td class="no"></td>
+				<td class="no"></td>
+				<td class="no"></td>
+				<td class="no"></td>
+				<td class="no"></td>
+				<td class="no"></td>
 			</tr>
 		</table>
 
@@ -296,10 +306,23 @@
 			</li>
 		</ul>
 
-		<p>Our rasterization tool (using <a href="https://github.com/mapnik/node-mapnik">node-mapnik</a>) is not perfect; labels are sometimes clipped incorrectly.  This is not an issue for the four GBIF styles, since labels aren't shown.</p>
+		<p>
+			The "OSM Bright" style is available with labels in several languages, the default is for labels to be in the local language(s) of the country.  Use the style names
+			<tt>osm-bright-ar</tt>,
+			<tt>osm-bright-da</tt>,
+			<tt>osm-bright-de</tt>,
+			<tt>osm-bright-en</tt>,
+			<tt>osm-bright-es</tt>,
+			<tt>osm-bright-fr</tt>,
+			<tt>osm-bright-ja</tt>,
+			<tt>osm-bright-pt</tt>,
+			<tt>osm-bright-ru</tt> and
+			<tt>osm-bright-zh</tt>
+			to have the labels translated, where possible.
+		</p>
 
 		<h2>Usage</h2>
-		<p>URLs take this format: </strong><tt>https://tile.gbif.org/{srs}/{tileset}/{z}/{x}/{y}{format}{params}</tt></strong></p>
+		<p>URLs take this format: <strong><tt>https://tile.gbif.org/{srs}/{tileset}/{z}/{x}/{y}{format}{params}</tt></strong></p>
 
 		<dl>
 			<dt><tt>srs</tt></dt>
@@ -309,7 +332,7 @@
 			<dd>The tileset, currently only <tt>omt</tt>.</dd>
 
 			<dt><tt>z</tt>, <tt>x</tt>, <tt>y</tt></dt>
-			<dd>The zoom, column and row of the tile.  The origin is the top left, so the top left tile always has x=0 and y=0.</dd>
+			<dd>The zoom, column and row of the tile.  The origin is the top left, so the top left tile always has <tt>x=0</tt> and <tt>y=0</tt>.</dd>
 
 			<dt><tt>format</tt></dt>
 			<dd>Either <tt>.pbf</tt> for a vector tile, or <tt>@1x.png</tt>, <tt>@2x.png</tt>, <tt>@3x.png</tt>, <tt>@4x.png</tt> for PNG tiles at various pixel densities. Use higher pixel densities for high resolution screens, otherwise the tiles will appear fuzzy.</dd>
@@ -411,13 +434,13 @@
 
 		<h2>Credits and copyright</h2>
 
-    <p>Thanks to:</p>
+		<p>Thanks to:</p>
 		<ul>
 			<li><strong>OpenStreetMap</strong> for the map data,</li>
 			<li><strong>OpenMapTiles</strong> for the cartography and processing to produce vector tiles,</li>
 			<li><strong>OpenLayers</strong> for good support of non-Mercator projections.</li>
 		</ul>
 
-    <p>Base map tiles (including those shown on this page) are &copy; OpenMapTiles &copy; OpenStreetMap contributors.</p>
+		<p>Base map tiles (including those shown on this page) are &copy; OpenMapTiles &copy; OpenStreetMap contributors, and use Natural Earth data.</p>
 	</body>
 </html>
