@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GBIF Base Map Tile Previews (raster)</title>
+  <link rel="icon" href="/3857/omt/0/0/0@1x.png?style=gbif-classic"/>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+<header>
+  <img src="//rs.gbif.org/style/logo.svg" alt="Global Biodiversity Information Facility" style="width: 100%; max-height: 4em; margin: 0 auto 0.5em;"/>
+</header>
+
+<h1>Base Map Tiles (raster)</h1>
+<ul class="preview">
+  <li>
+    <h2><a href="4326.html">4326</a></h2>
+    <p>INBO</p>
+    <a href="4326.html">
+      <div class="preview two-wide">
+        <img
+          style="background-image: url(/4326/omt/1/1/0@1x.png?style=gbif-dark);"
+          src="https://api.gbif.org/v2/map/occurrence/density/1/1/0@1x.png?style=blueHeat.point&srs=EPSG:4326&publishingOrg=1cd669d0-80ea-11de-a9d0-f1765f95f18b"
+        /><img
+        style="background-image: url(/4326/omt/1/2/0@1x.png?style=gbif-dark);"
+        src="https://api.gbif.org/v2/map/occurrence/density/1/2/0@1x.png?style=blueHeat.point&srs=EPSG:4326&publishingOrg=1cd669d0-80ea-11de-a9d0-f1765f95f18b"
+      />
+      </div>
+    </a>
+    <p class="libraries"><a href="4326-tiles.html">Debug tiles</a></p>
+  </li>
+  <li>
+    <h2><a href="3857.html">3857</a></h2>
+    <p>INBO</p>
+    <a href="3857.html">
+      <div class="preview">
+        <img
+                style="background-image: url(/3857/omt/0/0/0@1x.png?style=gbif-dark);"
+                src="https://api.gbif.org/v2/map/occurrence/density/0/0/0@1x.png?srs=EPSG:3857&style=blueHeat.point&publishingOrg=1cd669d0-80ea-11de-a9d0-f1765f95f18b"
+        />
+      </div>
+    </a>
+    <p class="libraries"><a href="3857-tiles.html">Debug tiles</a></p>
+  </li>
+  <li>
+    <h2><a href="3575.html">3575</a></h2>
+    <p>INBO</p>
+    <a href="3575.html">
+      <div class="preview">
+        <img
+                style="background-image: url(/3575/omt/0/0/0@1x.png?style=gbif-dark);"
+                src="https://api.gbif.org/v2/map/occurrence/density/0/0/0@1x.png?srs=EPSG:3575&style=blueHeat.point&publishingOrg=1cd669d0-80ea-11de-a9d0-f1765f95f18b"
+        />
+      </div>
+    </a>
+    <p class="libraries"><a href="3575-tiles.html">Debug tiles</a></p>
+  </li>
+  <li>
+    <h2><a href="3031.html">3031</a></h2>
+    <p><i>Aptenodytes patagonicus</i></p>
+    <a href="3031.html">
+      <div class="preview">
+        <img
+                style="background-image: url(/3031/omt/0/0/0@1x.png?style=gbif-dark);"
+                src="https://api.gbif.org/v2/map/occurrence/density/0/0/0@1x.png?srs=EPSG:3031&style=blueHeat.point&taxonKey=2481660"
+        />
+      </div>
+    </a>
+    <p class="libraries"><a href="3031-tiles.html">Debug tiles</a></p>
+  </li>
+</ul>
+
+<p>This is a debugging view for GBIF developers.  See <a href="https://tile.gbif.org/">tile.gbif.org</a> for documentation and further information.</p>
+
+</body>
+</html>

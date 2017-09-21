@@ -26,20 +26,20 @@
 
   var extent = 180.0;
   var tile_size = 512;
-  var max_zoom = 16;
+  var max_zoom = 24;
   var resolutions = Array(max_zoom+1).fill().map((_, i) => ( extent / tile_size / Math.pow(2, i) ));
 
   var tile_grid_16 = new ol.tilegrid.TileGrid({
     extent: ol.proj.get('EPSG:4326').getExtent(),
     minZoom: 0,
-    maxZoom: 16,
+    maxZoom: max_zoom,
     resolutions: resolutions,
     tileSize: tile_size,
   });
 
   var layers = [];
 
-  var base_raster_style = 'gbif-dark';
+  var base_raster_style = 'osm-bright';
   layers.push(new ol.layer.Tile({
     source: new ol.source.TileImage({
       projection: 'EPSG:4326',

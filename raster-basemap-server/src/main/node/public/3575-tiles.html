@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GBIF Base Map Tile Previews (raster, 3575 detail)</title>
+  <link rel="icon" href="/3575/omt/0/0/0@1x.png?style=gbif-classic"/>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <h1>3575: Detail preview</h1>
+
+  <script type="text/javascript">
+    function changeDensity(d) {
+        [].forEach.call(document.images, function (v, i) {
+            document.images[i].src = document.images[i].src.replace(/@.x/, d);
+        });
+        document.getElementById('currentDensity').innerHTML = d.slice(1,2);
+    }
+    function changeStyle(s) {
+        [].forEach.call(document.images, function (v, i) {
+            document.images[i].src = document.images[i].src.replace(/[^=]+$/, s);
+        });
+        document.getElementById('currentStyle').innerHTML = s;
+    }
+  </script>
+
+  <p>
+    Change pixel density (i.e. tile size).  This screen has pixel density <script type="text/javascript">document.write(window.devicePixelRatio);</script>.
+    Current density is <span id="currentDensity">2</span>.
+    <button onclick="javascript:changeDensity('@Hx')">@Hx</button>
+    <button onclick="javascript:changeDensity('@1x')">@1x</button>
+    <button onclick="javascript:changeDensity('@2x')">@2x</button>
+    <button onclick="javascript:changeDensity('@3x')">@3x</button>
+    <button onclick="javascript:changeDensity('@4x')">@4x</button>
+  </p>
+
+  <p>
+    Change style.  Current style is <span id="currentStyle">osm-bright</span>.
+    <button onclick="javascript:changeStyle('osm-bright')">osm-bright</button>
+    <button onclick="javascript:changeStyle('osm-bright-ar')">osm-bright-ar</button>
+    <button onclick="javascript:changeStyle('osm-bright-zh')">osm-bright-zh</button>
+    <button onclick="javascript:changeStyle('osm-bright-en')">osm-bright-en</button>
+    <button onclick="javascript:changeStyle('osm-bright-fr')">osm-bright-fr</button>
+    <button onclick="javascript:changeStyle('osm-bright-ru')">osm-bright-ru</button>
+    <button onclick="javascript:changeStyle('osm-bright-es')">osm-bright-es</button>
+    <button onclick="javascript:changeStyle('osm-bright-ja')">osm-bright-ja</button>
+    <button onclick="javascript:changeStyle('osm-bright-de')">osm-bright-de</button>
+    <button onclick="javascript:changeStyle('osm-bright-da')">osm-bright-da</button>
+    <button onclick="javascript:changeStyle('osm-bright-pt')">osm-bright-pt</button>
+    <button onclick="javascript:changeStyle('gbif-classic')">gbif-classic</button>
+    <button onclick="javascript:changeStyle('gbif-dark')">gbif-dark</button>
+    <button onclick="javascript:changeStyle('gbif-middle')">gbif-middle</button>
+    <button onclick="javascript:changeStyle('gbif-light')">gbif-light</button>
+  </p>
+
+  <ul class="fullsize">
+    <li><p>Zoom 0</p><div class='fullsize'><img src='/3575/omt/0/0/0@2x.png?style=osm-bright'/></div></li>
+    <li><p>Zoom 1</p><div class='fullsize'><img src='/3575/omt/1/1/1@2x.png?style=osm-bright'/></div></li>
+    <li><p>Zoom 2</p><div class='fullsize'><img src='/3575/omt/2/2/2@2x.png?style=osm-bright'/></div></li>
+    <li><p>Zoom 3</p><div class='fullsize'><img src='/3575/omt/3/4/5@2x.png?style=osm-bright'/></div></li>
+    <li><p>Zoom 4</p><div class='fullsize'><img src='/3575/omt/4/8/10@2x.png?style=osm-bright'/></div></li>
+    <li><p>Zoom 5</p><div class='fullsize'><img src='/3575/omt/5/16/20@2x.png?style=osm-bright'/></div></li>
+    <li><p>Zoom 6</p><div class='fullsize'><img src='/3575/omt/6/33/40@2x.png?style=osm-bright'/></div></li>
+    <li><p>Zoom 7</p><div class='fullsize'><img src='/3575/omt/7/66/80@2x.png?style=osm-bright'/></div></li>
+    <li><p>Zoom 8</p><div class='fullsize'><img src='/3575/omt/8/133/160@2x.png?style=osm-bright'/></div></li>
+    <li><p>Zoom 9</p><div class='fullsize'><img src='/3575/omt/9/266/320@2x.png?style=osm-bright'/></div></li>
+    <li><p>Zoom 10</p><div class='fullsize'><img src='/3575/omt/10/533/641@2x.png?style=osm-bright'/></div></li>
+    <li><p>Zoom 11</p><div class='fullsize'><img src='/3575/omt/11/1066/1282@2x.png?style=osm-bright'/></div></li>
+    <li><p>Zoom 12</p><div class='fullsize'><img src='/3575/omt/12/2132/2564@2x.png?style=osm-bright'/></div></li>
+    <li><p>Zoom 13</p><div class='fullsize'><img src='/3575/omt/13/4264/5128@2x.png?style=osm-bright'/></div></li>
+    <li><p>Zoom 14</p><div class='fullsize'><img src='/3575/omt/14/8529/10257@2x.png?style=osm-bright'/></div></li>
+    <li><p>Zoom 15</p><div class='fullsize'><img src='/3575/omt/15/17058/20514@2x.png?style=osm-bright'/></div></li>
+    <li><p>Zoom 16</p><div class='fullsize'><img src='/3575/omt/16/34116/41029@2x.png?style=osm-bright'/></div></li>
+    <li><p>Zoom 17</p><div class='fullsize'><img src='/3575/omt/17/68232/82058@2x.png?style=osm-bright'/></div></li>
+    <li><p>Zoom 18</p><div class='fullsize'><img src='/3575/omt/18/136465/164116@2x.png?style=osm-bright'/></div></li>
+    <li><p>Zoom 19</p><div class='fullsize'><img src='/3575/omt/19/272930/328232@2x.png?style=osm-bright'/></div></li>
+    <li><p>Zoom 20</p><div class='fullsize'><img src='/3575/omt/20/545861/656465@2x.png?style=osm-bright'/></div></li>
+  </ul>
+</body>
+</html>

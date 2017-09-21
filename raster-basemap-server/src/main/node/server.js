@@ -80,7 +80,12 @@ var assetsHTML = [
   '/3575.html',
   '/3857.html',
   '/4326.html',
-  '/demo.html'
+  '/3031-tiles.html',
+  '/3575-tiles.html',
+  '/3857-tiles.html',
+  '/4326-tiles.html',
+  '/demo.html',
+  '/style.css'
 ]
 
 function parseUrl(parsedRequest) {
@@ -92,25 +97,23 @@ function parseUrl(parsedRequest) {
 	  var x = parseInt(dirs[dirs.length - 2]);
 	  var y = parseInt(dirs[dirs.length - 1]);
 
+    var highestVectorTile = 14;
+    if (parsedRequest.pathname.startsWith("/4326/omt")) {
+      highestVectorTile = 13;
+    }
+
 	  var xOut = x;
 	  var yOut = y;
 	  var zOut = z;
 	  var xOffset = 0;
 	  var yOffset = 0;
-	  if (z == 16) {
-	    zOut = 14;
-	    xOut = parseInt(x/4);
-	    yOut = parseInt(y/4);
-	    xOffset = x%4;
-	    yOffset = y%4;
-	    parsedRequest.pathname = parsedRequest.pathname.replace(z+'/'+x+'/'+y, zOut+'/'+xOut+'/'+yOut);
-	    console.log("High zoom", z, x, y, '->', zOut, xOut+'+'+xOffset, yOut+'+'+yOffset, parsedRequest.pathname);
-	  } else if (z == 15) {
-	    zOut = 14;
-	    xOut = parseInt(x/2);
-	    yOut = parseInt(y/2);
-	    xOffset = x%2;
-	    yOffset = y%2;
+	  if (z > highestVectorTile) {
+      zOut = highestVectorTile;
+      var ratio = Math.pow(2, z - highestVectorTile);
+	    xOut = parseInt(x/ratio);
+	    yOut = parseInt(y/ratio);
+	    xOffset = x%ratio;
+	    yOffset = y%ratio;
 	    parsedRequest.pathname = parsedRequest.pathname.replace(z+'/'+x+'/'+y, zOut+'/'+xOut+'/'+yOut);
 	    console.log("High zoom", z, x, y, '->', zOut, xOut+'+'+xOffset, yOut+'+'+yOffset, parsedRequest.pathname);
 	  }
@@ -157,11 +160,16 @@ function createServer(config) {
     console.log("Request: "+req.url);
 
     var parsedRequest = url.parse(req.url, true)
+    var path = parsedRequest.pathname;
 
     // handle registered assets
 	  console.log(parsedRequest.pathname);
     if (assetsHTML.indexOf(parsedRequest.pathname) != -1) {
-      res.writeHead(200, {'Content-Type': 'text/html'});
+      var type = 'text/html';
+      if (path.indexOf('.css') > 0) {
+        type = 'text/css';
+      }
+      res.writeHead(200, {'Content-Type': type});
       res.end(fs.readFileSync('./public' + parsedRequest.pathname));
     } else {
 
@@ -195,10 +203,19 @@ function createServer(config) {
 		        // Pretend it's tile 0, 0, since Mapnik validates the address according to the standard Google schema,
 		        // and we aren't using it for WGS84.
 		        var vt = new mapnik.VectorTile(parameters.zOut, 0, 0);
-		        vt.addDataSync(body);
+		    for (var i = 0; i < body.length; i++) {
+		        if (body[i] == 0x20) {
+			    if (body[i+1] == 0x78) {
+				if (body[i+2] == 0x02) {
+				    body[i+2] = 0x01;
+				}
+			    }
+			}
+		    }
+		    vt.addDataSync(body);
 
 		        var options = {"buffer_size": 128, "scale": parameters.density};
-		        if (parameters.z > 14) {
+		        if (parameters.z > 13) {
 		          options.z = parameters.z;
 		          options.x = parameters.xOffset;
 		          options.y = parameters.yOffset;

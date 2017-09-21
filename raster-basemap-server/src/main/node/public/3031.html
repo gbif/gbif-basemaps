@@ -28,21 +28,21 @@
   var extent = [-halfWidth, -halfWidth, halfWidth, halfWidth];
   ol.proj.get("EPSG:3031").setExtent(extent);
   var tile_size = 512;
-  var max_zoom = 16;
+  var max_zoom = 20;
   var resolutions = Array.from(new Array(max_zoom+1), (x,i) => (halfWidth/(tile_size*Math.pow(2,i-1))));
 
   var tile_grid_16 = new ol.tilegrid.TileGrid({
     extent: extent,
     origin: [-halfWidth, halfWidth],
     minZoom: 0,
-    maxZoom: 16,
+    maxZoom: max_zoom,
     resolutions: resolutions,
     tileSize: tile_size,
   });
 
   var layers = [];
 
-  var base_raster_style = 'gbif-dark';
+  var base_raster_style = 'osm-bright';
   layers.push(new ol.layer.Tile({
     source: new ol.source.TileImage({
       projection: 'EPSG:3031',

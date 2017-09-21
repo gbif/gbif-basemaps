@@ -23,13 +23,13 @@
 
   var tile_grid_16 = ol.tilegrid.createXYZ({
     minZoom: 0,
-    maxZoom: 16,
+    maxZoom: 20,
     tileSize: 512,
   });
 
   var layers = [];
 
-  var base_raster_style = 'gbif-dark';
+  var base_raster_style = 'osm-bright';
   layers.push(new ol.layer.Tile({
     source: new ol.source.TileImage({
       projection: 'EPSG:3857',
