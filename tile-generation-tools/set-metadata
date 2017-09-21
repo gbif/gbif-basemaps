@@ -1,0 +1,5 @@
+#!/bin/bash -e
+
+sqlite3 $1 < metadata.sql
+
+sqlite3 $1 'update metadata set value = readfile("metadata.json") where name = "json"'
