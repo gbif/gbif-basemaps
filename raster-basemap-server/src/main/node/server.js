@@ -32,22 +32,22 @@ function compileStylesheetSync(filename) {
   var tilejson = {
     data: {
       "vector_layers": [
-	      // This defines the order of the layers, so road labels appear over roads, for example.
-	      {"id": "water" },
-	      {"id": "landcover" },
-	      {"id": "landuse" },
-	      {"id": "waterway" },
-	      {"id": "park" },
-	      {"id": "contour" },
-	      {"id": "boundary" },
-	      {"id": "transportation" },
-	      {"id": "aeroway" },
-	      {"id": "building" },
-	      {"id": "water_name" },
-	      {"id": "place" },
-	      {"id": "poi" },
-	      {"id": "transportation_name" },
-	      {"id": "housenumber" }
+        // This defines the order of the layers, so road labels appear over roads, for example.
+        {"id": "water" },
+        {"id": "landcover" },
+        {"id": "landuse" },
+        {"id": "waterway" },
+        {"id": "park" },
+        {"id": "contour" },
+        {"id": "boundary" },
+        {"id": "transportation" },
+        {"id": "aeroway" },
+        {"id": "building" },
+        {"id": "water_name" },
+        {"id": "place" },
+        {"id": "poi" },
+        {"id": "transportation_name" },
+        {"id": "housenumber" }
       ]
     }
   };
@@ -91,52 +91,52 @@ var assetsHTML = [
 function parseUrl(parsedRequest) {
   if (parsedRequest.pathname.endsWith(".png")) {
 
-	  // extract the x,y,z from the URL which could be /4326/omt/{z}/{x}/{y}@{n}x.png
-	  var dirs = parsedRequest.pathname.substring(0, parsedRequest.pathname.length - 7).split("/");
-	  var z = parseInt(dirs[dirs.length - 3]);
-	  var x = parseInt(dirs[dirs.length - 2]);
-	  var y = parseInt(dirs[dirs.length - 1]);
+    // extract the x,y,z from the URL which could be /4326/omt/{z}/{x}/{y}@{n}x.png
+    var dirs = parsedRequest.pathname.substring(0, parsedRequest.pathname.length - 7).split("/");
+    var z = parseInt(dirs[dirs.length - 3]);
+    var x = parseInt(dirs[dirs.length - 2]);
+    var y = parseInt(dirs[dirs.length - 1]);
 
     var highestVectorTile = 14;
     if (parsedRequest.pathname.startsWith("/4326/omt")) {
       highestVectorTile = 13;
     }
 
-	  var xOut = x;
-	  var yOut = y;
-	  var zOut = z;
-	  var xOffset = 0;
-	  var yOffset = 0;
-	  if (z > highestVectorTile) {
+    var xOut = x;
+    var yOut = y;
+    var zOut = z;
+    var xOffset = 0;
+    var yOffset = 0;
+    if (z > highestVectorTile) {
       zOut = highestVectorTile;
       var ratio = Math.pow(2, z - highestVectorTile);
-	    xOut = parseInt(x/ratio);
-	    yOut = parseInt(y/ratio);
-	    xOffset = x%ratio;
-	    yOffset = y%ratio;
-	    parsedRequest.pathname = parsedRequest.pathname.replace(z+'/'+x+'/'+y, zOut+'/'+xOut+'/'+yOut);
-	    console.log("High zoom", z, x, y, '->', zOut, xOut+'+'+xOffset, yOut+'+'+yOffset, parsedRequest.pathname);
-	  }
+      xOut = parseInt(x/ratio);
+      yOut = parseInt(y/ratio);
+      xOffset = x%ratio;
+      yOffset = y%ratio;
+      parsedRequest.pathname = parsedRequest.pathname.replace(z+'/'+x+'/'+y, zOut+'/'+xOut+'/'+yOut);
+      console.log("High zoom", z, x, y, '->', zOut, xOut+'+'+xOffset, yOut+'+'+yOffset, parsedRequest.pathname);
+    }
 
-	  // find the compiled stylesheet from the given style parameter, defaulting if omitted or bogus
-	  var stylesheet = (parsedRequest.query.style in namedStyles)
-	      ? namedStyles[parsedRequest.query.style]
-	      : namedStyles[defaultStyle];
+    // find the compiled stylesheet from the given style parameter, defaulting if omitted or bogus
+    var stylesheet = (parsedRequest.query.style in namedStyles)
+        ? namedStyles[parsedRequest.query.style]
+        : namedStyles[defaultStyle];
 
-	  var density = parseInt(parsedRequest.pathname.substring(parsedRequest.pathname.length - 6, parsedRequest.pathname.length - 5));
+    var density = parseInt(parsedRequest.pathname.substring(parsedRequest.pathname.length - 6, parsedRequest.pathname.length - 5));
 
-	  if (!(isNaN(z) || isNaN(x) || isNaN(y) || isNaN(density))) {
-	    return {
-		    "z": z,
-		    "zOut": zOut,
-		    "x": x,
-		    "xOffset": xOffset,
-		    "y": y,
-		    "yOffset": yOffset,
-		    "density": density,
-		    "stylesheet": stylesheet
-	    }
-	  }
+    if (!(isNaN(z) || isNaN(x) || isNaN(y) || isNaN(density))) {
+      return {
+        "z": z,
+        "zOut": zOut,
+        "x": x,
+        "xOffset": xOffset,
+        "y": y,
+        "yOffset": yOffset,
+        "density": density,
+        "stylesheet": stylesheet
+      }
+    }
   }
   throw Error("URL structure is invalid, expected /SRS/tileset/{z}/{x}/{y}@{n}x.png");
 }
@@ -163,7 +163,7 @@ function createServer(config) {
     var path = parsedRequest.pathname;
 
     // handle registered assets
-	  console.log(parsedRequest.pathname);
+    console.log(parsedRequest.pathname);
     if (assetsHTML.indexOf(parsedRequest.pathname) != -1) {
       var type = 'text/html';
       if (path.indexOf('.css') > 0) {
@@ -173,97 +173,97 @@ function createServer(config) {
       res.end(fs.readFileSync('./public' + parsedRequest.pathname));
     } else {
 
-	    // Handle map tiles.
-	    try {
-	      var parameters = parseUrl(parsedRequest);
-	    } catch (e) {
-	      res.writeHead(400, { 'Content-Type': 'text/plain' });
-	      res.end(e.message);
-	      return;
-	    }
+      // Handle map tiles.
+      try {
+        var parameters = parseUrl(parsedRequest);
+      } catch (e) {
+        res.writeHead(400, { 'Content-Type': 'text/plain' });
+        res.end(e.message);
+        return;
+      }
 
-	    var vectorTileUrl = vectorRequest(parsedRequest);
+      var vectorTileUrl = vectorRequest(parsedRequest);
 
 
-	    // issue the request to the vector tile server and render the tile as a PNG using Mapnik
-	    console.time("getTile");
-	    console.log("Fetching vector tile", vectorTileUrl);
-	    request.get({url: vectorTileUrl, method: 'GET', encoding: null}, function (error, response, body) {
+      // issue the request to the vector tile server and render the tile as a PNG using Mapnik
+      console.time("getTile");
+      console.log("Fetching vector tile", vectorTileUrl);
+      request.get({url: vectorTileUrl, method: 'GET', encoding: null}, function (error, response, body) {
 
-	      console.log("Vector tile has HTTP status", response.statusCode, "and size", body.length);
+        console.log("Vector tile has HTTP status", response.statusCode, "and size", body.length);
 
         if (!error && response.statusCode == 200 && body.length > 0) {
           console.timeEnd("getTile");
 
           var size = 512 * parameters.density;
 
-	        try {
-		        var map = new mapnik.Map(size, size, mercator.proj4);
-		        map.fromStringSync(parameters.stylesheet);
-		        // Pretend it's tile 0, 0, since Mapnik validates the address according to the standard Google schema,
-		        // and we aren't using it for WGS84.
-		        var vt = new mapnik.VectorTile(parameters.zOut, 0, 0);
-		    for (var i = 0; i < body.length; i++) {
-		        if (body[i] == 0x20) {
-			    if (body[i+1] == 0x78) {
-				if (body[i+2] == 0x02) {
-				    body[i+2] = 0x01;
-				}
-			    }
-			}
-		    }
-		    vt.addDataSync(body);
+          try {
+            var map = new mapnik.Map(size, size, mercator.proj4);
+            map.fromStringSync(parameters.stylesheet);
+            // Pretend it's tile 0, 0, since Mapnik validates the address according to the standard Google schema,
+            // and we aren't using it for WGS84.
+            var vt = new mapnik.VectorTile(parameters.zOut, 0, 0);
+            for (var i = 0; i < body.length; i++) {
+              if (body[i] == 0x20) {
+                if (body[i+1] == 0x78) {
+                  if (body[i+2] == 0x02) {
+                    body[i+2] = 0x01;
+                  }
+                }
+              }
+            }
+            vt.addDataSync(body);
 
-		        var options = {"buffer_size": 128, "scale": parameters.density};
-		        if (parameters.z > 13) {
-		          options.z = parameters.z;
-		          options.x = parameters.xOffset;
-		          options.y = parameters.yOffset;
-		        }
+            var options = {"buffer_size": 128, "scale": parameters.density};
+            if (parameters.z > 13) {
+              options.z = parameters.z;
+              options.x = parameters.xOffset;
+              options.y = parameters.yOffset;
+            }
 
-		        // important to include a buffer, to catch the overlaps
-		        //console.time("render");
-		        vt.render(map, new mapnik.Image(size, size), options, function (err, image) {
-		          if (err) {
-			          res.end(err.message);
-		          } else {
-			          // if response.headers.last-modified is set, and is more recent than processStartTime, use that instead.
-			          res.writeHead(200, {
-			            'Content-Type': 'image/png',
-			            'Access-Control-Allow-Origin': '*',
-			            'Cache-Control': 'public, max-age=604800', // 1 week
-			            'Last-Modified': processStartTime
-			          });
-			          //console.timeEnd("render");
+            // important to include a buffer, to catch the overlaps
+            //console.time("render");
+            vt.render(map, new mapnik.Image(size, size), options, function (err, image) {
+              if (err) {
+                res.end(err.message);
+              } else {
+                // if response.headers.last-modified is set, and is more recent than processStartTime, use that instead.
+                res.writeHead(200, {
+                  'Content-Type': 'image/png',
+                  'Access-Control-Allow-Origin': '*',
+                  'Cache-Control': 'public, max-age=604800', // 1 week
+                  'Last-Modified': processStartTime
+                });
+                //console.timeEnd("render");
 
-			          image.encode('png', function (err, buffer) {
-			            if (err) {
-				            res.end(err.message);
-			            } else {
-				            res.end(buffer);
-			            }
-			          });
-		          }
-		        });
-	        } catch (e) {
-		        // something went wrong
-		        res.writeHead(500, {'Content-Type': 'image/png'}); // type only for ease of use with e.g. leaflet
-		        res.end(e.message);
-		        console.log(e);
-	        }
+                image.encode('png', function (err, buffer) {
+                  if (err) {
+                    res.end(err.message);
+                  } else {
+                    res.end(buffer);
+                  }
+                });
+              }
+            });
+          } catch (e) {
+            // something went wrong
+            res.writeHead(500, {'Content-Type': 'image/png'}); // type only for ease of use with e.g. leaflet
+            res.end(e.message);
+            console.log(e);
+          }
 
         } else if (!error && (
           response.statusCode == 404 ||   // not found
           response.statusCode == 204 ||   // no content
           (response.statusCode == 200 && body.length==0))  // accepted but no content
-		              ) {
+                  ) {
           // no tile
           res.writeHead((response.statusCode == 200) ? 204 : response.statusCode, // keep same status code
                         {
-			                    'Content-Type': 'image/png',
-			                    'Access-Control-Allow-Origin': '*',
-			                    'Cache-Control': 'public, max-age=604800', // 1 week
-			                    'Last-Modified': processStartTime
+                          'Content-Type': 'image/png',
+                          'Access-Control-Allow-Origin': '*',
+                          'Cache-Control': 'public, max-age=604800', // 1 week
+                          'Last-Modified': processStartTime
                         });
           res.end();
 
@@ -272,7 +272,7 @@ function createServer(config) {
           res.writeHead(503, {'Content-Type': 'image/png'}); // type only for ease of use with e.g. leaflet
           res.end();
         }
-	    })
+      })
     }
   });
 }
