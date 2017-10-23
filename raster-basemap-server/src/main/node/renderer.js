@@ -40,7 +40,6 @@ function renderTile(parameters, vectorTile, callback) {
     options.x = parameters.xOffset;
     options.y = parameters.yOffset;
   }
-  console.log(parameters, options);
 
   vt.render(map, new mapnik.Image(size, size), options, function (err, image) {
     //console.timeEnd("Render");
