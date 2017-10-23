@@ -1,279 +1,95 @@
-var mapnik = require('mapnik'),
-    mercator = require('./sphericalmercator'),
-    request = require('request'),
-    http = require('http'),
-    url = require('url'),
-    fs = require('fs'),
-    yaml = require('yaml-js'),
-    gbifServiceRegistry = require('./gbifServiceRegistry'),
-    parser = require('./cartoParser');
+"use strict";
 
-/**
- * Compile the CartoCss into Mapnik stylesheets into a lookup dictionary
- */
-var namedStyles = {};
-namedStyles["osm-bright"] = compileStylesheetSync(['./cartocss/osm-bright/style.mss', './cartocss/osm-bright/road.mss', './cartocss/osm-bright/labels-local.mss', './cartocss/osm-bright/labels.mss']);
-namedStyles["osm-bright-ar"] = compileStylesheetSync(['./cartocss/osm-bright/style.mss', './cartocss/osm-bright/road.mss', './cartocss/osm-bright/labels-ar.mss', './cartocss/osm-bright/labels.mss']);
-namedStyles["osm-bright-zh"] = compileStylesheetSync(['./cartocss/osm-bright/style.mss', './cartocss/osm-bright/road.mss', './cartocss/osm-bright/labels-zh.mss', './cartocss/osm-bright/labels.mss']);
-namedStyles["osm-bright-en"] = compileStylesheetSync(['./cartocss/osm-bright/style.mss', './cartocss/osm-bright/road.mss', './cartocss/osm-bright/labels-en.mss', './cartocss/osm-bright/labels.mss']);
-namedStyles["osm-bright-fr"] = compileStylesheetSync(['./cartocss/osm-bright/style.mss', './cartocss/osm-bright/road.mss', './cartocss/osm-bright/labels-fr.mss', './cartocss/osm-bright/labels.mss']);
-namedStyles["osm-bright-ru"] = compileStylesheetSync(['./cartocss/osm-bright/style.mss', './cartocss/osm-bright/road.mss', './cartocss/osm-bright/labels-ru.mss', './cartocss/osm-bright/labels.mss']);
-namedStyles["osm-bright-es"] = compileStylesheetSync(['./cartocss/osm-bright/style.mss', './cartocss/osm-bright/road.mss', './cartocss/osm-bright/labels-es.mss', './cartocss/osm-bright/labels.mss']);
-namedStyles["osm-bright-ja"] = compileStylesheetSync(['./cartocss/osm-bright/style.mss', './cartocss/osm-bright/road.mss', './cartocss/osm-bright/labels-ja.mss', './cartocss/osm-bright/labels.mss']);
-namedStyles["osm-bright-de"] = compileStylesheetSync(['./cartocss/osm-bright/style.mss', './cartocss/osm-bright/road.mss', './cartocss/osm-bright/labels-de.mss', './cartocss/osm-bright/labels.mss']);
-namedStyles["osm-bright-da"] = compileStylesheetSync(['./cartocss/osm-bright/style.mss', './cartocss/osm-bright/road.mss', './cartocss/osm-bright/labels-da.mss', './cartocss/osm-bright/labels.mss']);
-namedStyles["osm-bright-pt"] = compileStylesheetSync(['./cartocss/osm-bright/style.mss', './cartocss/osm-bright/road.mss', './cartocss/osm-bright/labels-pt.mss', './cartocss/osm-bright/labels.mss']);
-namedStyles["gbif-classic"] = compileStylesheetSync(["./cartocss/gbif-classic.mss"]);
-namedStyles["gbif-dark"] = compileStylesheetSync(["./cartocss/gbif-dark.mss"]);
-namedStyles["gbif-middle"] = compileStylesheetSync(["./cartocss/gbif-middle.mss"]);
-namedStyles["gbif-light"] = compileStylesheetSync(["./cartocss/gbif-light.mss"]);
-function compileStylesheetSync(filename) {
-  // snippet simulating a tilejson response from tilelive, required only to give the layers for the cartoParser
-  var tilejson = {
-    data: {
-      "vector_layers": [
-        // This defines the order of the layers, so road labels appear over roads, for example.
-        {"id": "water" },
-        {"id": "landcover" },
-        {"id": "landuse" },
-        {"id": "waterway" },
-        {"id": "park" },
-        {"id": "contour" },
-        {"id": "boundary" },
-        {"id": "transportation" },
-        {"id": "aeroway" },
-        {"id": "building" },
-        {"id": "water_name" },
-        {"id": "place" },
-        {"id": "poi" },
-        {"id": "transportation_name" },
-        {"id": "housenumber" }
-      ]
-    }
-  };
-  var cartocss = filename.map( (f) => fs.readFileSync(f, "utf8") );
-  return parser.parseToXML(cartocss, tilejson);
-}
-var defaultStyle = "classic.point";
+const async = require('async')
+  , fs = require('fs')
+  , http = require('http')
+  , request = require('request')
+  , stoppable = require('stoppable')
+  , config = require('./config')
+  , gbifServiceRegistry = require('./gbifServiceRegistry')
+  , renderer = require('./renderer')
+  , routes = require('./routes')
+  , styles = require('./styles');
 
-mapnik.register_default_input_plugins();
-
-// Fonts
-// Register default fonts.
-mapnik.register_fonts('./node_modules/mapbox-studio-default-fonts/', { recurse: true });
-mapnik.register_fonts('/usr/local/gbif/klokantech-gl-fonts/', { recurse: true });
-//mapnik.register_default_fonts();
-//mapnik.register_system_fonts();
-console.log("Fonts", mapnik.fonts());
+var server;
 
 var processStartTime = new Date().toUTCString();
 console.log("HTTP requests will have Last-Modified set to", processStartTime);
 
-/**
- * The server supports the ability to provide assets which need to be explicitly registered in order to be secure.
- * (e.g. trying to expose files using URL hack such as http://api.gbif.org/v1/map/../../../hosts)
- *
- * Should this become more complex, then express or similar should be consider.
- */
-var assetsHTML = [
-  '/3031.html',
-  '/3575.html',
-  '/3857.html',
-  '/4326.html',
-  '/3031-tiles.html',
-  '/3575-tiles.html',
-  '/3857-tiles.html',
-  '/4326-tiles.html',
-  '/demo.html',
-  '/style.css'
-]
-
-function parseUrl(parsedRequest) {
-  if (parsedRequest.pathname.endsWith(".png")) {
-
-    // extract the x,y,z from the URL which could be /4326/omt/{z}/{x}/{y}@{n}x.png
-    var dirs = parsedRequest.pathname.substring(0, parsedRequest.pathname.length - 7).split("/");
-    var z = parseInt(dirs[dirs.length - 3]);
-    var x = parseInt(dirs[dirs.length - 2]);
-    var y = parseInt(dirs[dirs.length - 1]);
-
-    var highestVectorTile = 14;
-    if (parsedRequest.pathname.startsWith("/4326/omt")) {
-      highestVectorTile = 13;
-    }
-
-    var xOut = x;
-    var yOut = y;
-    var zOut = z;
-    var xOffset = 0;
-    var yOffset = 0;
-    if (z > highestVectorTile) {
-      zOut = highestVectorTile;
-      var ratio = Math.pow(2, z - highestVectorTile);
-      xOut = parseInt(x/ratio);
-      yOut = parseInt(y/ratio);
-      xOffset = x%ratio;
-      yOffset = y%ratio;
-      parsedRequest.pathname = parsedRequest.pathname.replace(z+'/'+x+'/'+y, zOut+'/'+xOut+'/'+yOut);
-      console.log("High zoom", z, x, y, '->', zOut, xOut+'+'+xOffset, yOut+'+'+yOffset, parsedRequest.pathname);
-    }
-
-    // find the compiled stylesheet from the given style parameter, defaulting if omitted or bogus
-    var stylesheet = (parsedRequest.query.style in namedStyles)
-        ? namedStyles[parsedRequest.query.style]
-        : namedStyles[defaultStyle];
-
-    var density = parseInt(parsedRequest.pathname.substring(parsedRequest.pathname.length - 6, parsedRequest.pathname.length - 5));
-
-    if (!(isNaN(z) || isNaN(x) || isNaN(y) || isNaN(density))) {
-      return {
-        "z": z,
-        "zOut": zOut,
-        "x": x,
-        "xOffset": xOffset,
-        "y": y,
-        "yOffset": yOffset,
-        "density": density,
-        "stylesheet": stylesheet
-      }
-    }
-  }
-  throw Error("URL structure is invalid, expected /SRS/tileset/{z}/{x}/{y}@{n}x.png");
-}
-
-function vectorRequest(parsedRequest) {
-  // reformat the request to the type expected by the VectorTile Server
-  parsedRequest.search = undefined;
-  parsedRequest.query = undefined;
-  parsedRequest.pathname = parsedRequest.pathname.replace("@1x.png", ".pbf");
-  parsedRequest.pathname = parsedRequest.pathname.replace("@2x.png", ".pbf");
-  parsedRequest.pathname = parsedRequest.pathname.replace("@3x.png", ".pbf");
-  parsedRequest.pathname = parsedRequest.pathname.replace("@4x.png", ".pbf");
-  parsedRequest.hostname = config.tileServer.host;
-  parsedRequest.port = config.tileServer.port;
-  parsedRequest.protocol = "http:";
-  return url.format(parsedRequest);
-}
-
 function createServer(config) {
+  var timeout = config.tileServer.timeout;
+
   return http.createServer(function(req, res) {
-    console.log("Request: "+req.url);
+    console.log("Request:", req.url);
 
-    var parsedRequest = url.parse(req.url, true)
-    var path = parsedRequest.pathname;
-
-    // handle registered assets
-    console.log(parsedRequest.pathname);
-    if (assetsHTML.indexOf(parsedRequest.pathname) != -1) {
-      var type = 'text/html';
-      if (path.indexOf('.css') > 0) {
-        type = 'text/css';
-      }
-      res.writeHead(200, {'Content-Type': type});
-      res.end(fs.readFileSync('./public' + parsedRequest.pathname));
+    var x = routes(req, res);
+    if (x) {
+      var parameters = x.parameters;
+      var vectorTileUrl = x.vectorTileUrl;
+      var heatVectorTileUrls = x.heatVectorTileUrls;
     } else {
+      res.writeHead(400, {'Content-Type': 'image/png', 'Access-Control-Allow-Origin': '*', 'X-Error': 'Bad request?'});
+      res.end(fs.readFileSync('./public/err/400.png'));
+      return;
+    }
 
-      // Handle map tiles.
-      try {
-        var parameters = parseUrl(parsedRequest);
-      } catch (e) {
-        res.writeHead(400, { 'Content-Type': 'text/plain' });
-        res.end(e.message);
+    // issue the request to the vector tile server and render the tile as a PNG using Mapnik
+    console.time("Get "+vectorTileUrl);
+    request.get({url: vectorTileUrl, method: 'GET', encoding: null, gzip: true, timeout: timeout}, function (error, response, body) {
+      console.timeEnd("Get "+vectorTileUrl);
+
+      if (error) {
+        // something went wrong
+        console.log("Error retrieving vector tile", error);
+        res.writeHead(503, {'Content-Type': 'image/png', 'Access-Control-Allow-Origin': '*', 'X-Error': error.message});
+        res.end(fs.readFileSync('./public/err/503.png'));
         return;
       }
 
-      var vectorTileUrl = vectorRequest(parsedRequest);
+      console.log("Vector tile has HTTP status", response.statusCode, "and size", body.length);
 
+      if (response.statusCode == 200 && body.length > 0) {
+        writeHeaders(200, response.headers['etag'], res);
 
-      // issue the request to the vector tile server and render the tile as a PNG using Mapnik
-      console.time("getTile");
-      console.log("Fetching vector tile", vectorTileUrl);
-      request.get({url: vectorTileUrl, method: 'GET', encoding: null}, function (error, response, body) {
-
-        console.log("Vector tile has HTTP status", response.statusCode, "and size", body.length);
-
-        if (!error && response.statusCode == 200 && body.length > 0) {
-          console.timeEnd("getTile");
-
-          var size = 512 * parameters.density;
-
-          try {
-            var map = new mapnik.Map(size, size, mercator.proj4);
-            map.fromStringSync(parameters.stylesheet);
-            // Pretend it's tile 0, 0, since Mapnik validates the address according to the standard Google schema,
-            // and we aren't using it for WGS84.
-            var vt = new mapnik.VectorTile(parameters.zOut, 0, 0);
-            for (var i = 0; i < body.length; i++) {
-              if (body[i] == 0x20) {
-                if (body[i+1] == 0x78) {
-                  if (body[i+2] == 0x02) {
-                    body[i+2] = 0x01;
-                  }
-                }
-              }
-            }
-            vt.addDataSync(body);
-
-            var options = {"buffer_size": 128, "scale": parameters.density};
-            if (parameters.z > 13) {
-              options.z = parameters.z;
-              options.x = parameters.xOffset;
-              options.y = parameters.yOffset;
-            }
-
-            // important to include a buffer, to catch the overlaps
-            //console.time("render");
-            vt.render(map, new mapnik.Image(size, size), options, function (err, image) {
-              if (err) {
-                res.end(err.message);
-              } else {
-                // if response.headers.last-modified is set, and is more recent than processStartTime, use that instead.
-                res.writeHead(200, {
-                  'Content-Type': 'image/png',
-                  'Access-Control-Allow-Origin': '*',
-                  'Cache-Control': 'public, max-age=604800', // 1 week
-                  'Last-Modified': processStartTime
-                });
-                //console.timeEnd("render");
-
-                image.encode('png', function (err, buffer) {
-                  if (err) {
-                    res.end(err.message);
-                  } else {
-                    res.end(buffer);
-                  }
-                });
-              }
-            });
-          } catch (e) {
-            // something went wrong
-            res.writeHead(500, {'Content-Type': 'image/png'}); // type only for ease of use with e.g. leaflet
-            res.end(e.message);
-            console.log(e);
-          }
-
-        } else if (!error && (
-          response.statusCode == 404 ||   // not found
-          response.statusCode == 204 ||   // no content
-          (response.statusCode == 200 && body.length==0))  // accepted but no content
-                  ) {
-          // no tile
-          res.writeHead((response.statusCode == 200) ? 204 : response.statusCode, // keep same status code
-                        {
-                          'Content-Type': 'image/png',
-                          'Access-Control-Allow-Origin': '*',
-                          'Cache-Control': 'public, max-age=604800', // 1 week
-                          'Last-Modified': processStartTime
-                        });
-          res.end();
-
-        } else {
+        try {
+          renderer(parameters, body, res);
+        } catch (e) {
           // something went wrong
-          res.writeHead(503, {'Content-Type': 'image/png'}); // type only for ease of use with e.g. leaflet
-          res.end();
+          res.writeHead(500, {'Content-Type': 'image/png', 'Access-Control-Allow-Origin': '*', 'X-Error': e.message});
+          res.end(fs.readFileSync('./public/err/500.png'));
+          console.log(e);
         }
-      })
-    }
+
+      } else if (response.statusCode == 404 ||   // not found
+        response.statusCode == 204 ||   // no content
+        (response.statusCode == 200 && body.length == 0)) {  // accepted but no content
+        // no tile
+        writeHeaders((response.statusCode == 200) ? 204 : response.statusCode, // keep same status code, except empty 200s.
+          response.headers['etag'], res);
+        res.end();
+      } else {
+        res.writeHead(500, {'Content-Type': 'image/png', 'Access-Control-Allow-Origin': '*', 'X-Error': 'This happening would be quite strange, e.g. other 400 responses'});
+        res.end(fs.readFileSync('./public/err/500.png'));
+      }
+    })
+  });
+}
+
+function writeHeaders(status, etagIn, res) {
+  // Pass along an ETag if present, to aid caching.
+  // (NB reliant on Varnish to handle If-None-Match request, we always return 200 or 204.)
+  var etagOut;
+  if (etagIn) {
+    etagOut = etagIn;
+  } else {
+    etagOut = '"' + processStartTime + '"';
+  }
+
+  res.writeHead(status, {
+    'Content-Type': 'image/png',
+    'Access-Control-Allow-Origin': '*',
+    'Cache-Control': 'public, max-age=604800',
+    'ETag': etagOut,
   });
 }
 
@@ -282,19 +98,16 @@ function createServer(config) {
  */
 function exitHandler() {
   console.log("Completing requests");
-  // Until https://github.com/nodejs/node/issues/2642 is fixed, we can't wait for connections to end.
-  //server.close(function () {
-    process.exit(0);
-  //});
+  server.stop();
 }
 
 /**
  * The main entry point.
  * Extract the configuration and start the server.  This expects a config file in YAML format and a port
- * as the only arguments.  No sanitization is performed on the file existance or content.
+ * as the only arguments.  No sanitization is performed on the file existence or content.
  */
 try {
-  process.on('SIGHUP', () => {console.log("Ignoring SIGHUP")});
+  // process.on('SIGHUP', () => {console.log("Ignoring SIGHUP")});
 
   // Log if we crash.
   process.on('uncaughtException', function (exception) {
@@ -303,16 +116,13 @@ try {
   });
   process.on('unhandledRejection', (reason, p) => {
     console.log("Unhandled Rejection at: Promise ", p, " reason: ", reason);
-    exitHandler();
-  });
+  exitHandler();
+});
 
   // Set up server.
-  var configFile = process.argv[2];
   var port = parseInt(process.argv[3]);
-  console.log("Using config: " + configFile);
   console.log("Using port: " + port);
-  var config = yaml.load(fs.readFileSync(configFile, "utf8"));
-  server = createServer(config)
+  server = stoppable(createServer(config), 1000);
   server.listen(port);
 
   // Set up ZooKeeper.
