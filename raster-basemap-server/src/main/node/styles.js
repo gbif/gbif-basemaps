@@ -19,10 +19,17 @@ namedStyles["osm-bright-ja"] = compileStylesheetSync(['./cartocss/osm-bright/sty
 namedStyles["osm-bright-de"] = compileStylesheetSync(['./cartocss/osm-bright/style.mss', './cartocss/osm-bright/road.mss', './cartocss/osm-bright/labels-de.mss', './cartocss/osm-bright/labels.mss']);
 namedStyles["osm-bright-da"] = compileStylesheetSync(['./cartocss/osm-bright/style.mss', './cartocss/osm-bright/road.mss', './cartocss/osm-bright/labels-da.mss', './cartocss/osm-bright/labels.mss']);
 namedStyles["osm-bright-pt"] = compileStylesheetSync(['./cartocss/osm-bright/style.mss', './cartocss/osm-bright/road.mss', './cartocss/osm-bright/labels-pt.mss', './cartocss/osm-bright/labels.mss']);
-namedStyles["gbif-classic"] = compileStylesheetSync(["./cartocss/gbif-classic.mss"]);
-namedStyles["gbif-dark"] = compileStylesheetSync(["./cartocss/gbif-dark.mss"]);
+
+//classic, light and dark replaced with versions with more details
+//namedStyles["gbif-classic"] = compileStylesheetSync(["./cartocss/gbif-classic.mss"]);
+//namedStyles["gbif-dark"] = compileStylesheetSync(["./cartocss/gbif-dark.mss"]);
 namedStyles["gbif-middle"] = compileStylesheetSync(["./cartocss/gbif-middle.mss"]);
-namedStyles["gbif-light"] = compileStylesheetSync(["./cartocss/gbif-light.mss"]);
+//namedStyles["gbif-light"] = compileStylesheetSync(["./cartocss/gbif-light.mss"]);
+
+//ports of the flat verions, but with more details when zoomed in.
+namedStyles["gbif-light"] = compileStylesheetSync(["./cartocss/gbif-monocolor/variables_light.mss", "./cartocss/gbif-monocolor/style.mss", "./cartocss/gbif-monocolor/roads.mss", './cartocss/osm-bright/labels-local.mss', "./cartocss/gbif-monocolor/labels.mss"]);
+namedStyles["gbif-dark"] = compileStylesheetSync(["./cartocss/gbif-monocolor/variables_dark.mss", "./cartocss/gbif-monocolor/style.mss", "./cartocss/gbif-monocolor/roads.mss", './cartocss/osm-bright/labels-local.mss', "./cartocss/gbif-monocolor/labels.mss"]);
+namedStyles["gbif-classic"] = compileStylesheetSync(["./cartocss/gbif-monocolor/variables_magenta.mss", "./cartocss/gbif-monocolor/style.mss", "./cartocss/gbif-monocolor/roads.mss", './cartocss/osm-bright/labels-local.mss', "./cartocss/gbif-monocolor/labels.mss"]);
 
 var defaultStyle = "osm-bright";
 
