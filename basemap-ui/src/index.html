@@ -150,11 +150,14 @@
 		<h2>Information</h2>
 		<p>GBIF hosts map tiles in four projections, for use on <a href="http://www.gbif.org/">GBIF.org</a> and by users of our API.  We serve vector tiles based on the <a href="https://openmaptiles.org/">OpenMapTiles.org</a> schema, and from these generate raster tiles in several styles.  Both the vector and raster tiles are available for public use.</p>
 
+		<p>For information on occurrence map tiles, see the <a href="https://www.gbif.org/developer/maps">GBIF Maps API</a>.</p>
+
+		<h2>Data schema and sources</h2>
 		<p>The Web Mercator tiles are simply those from <a href="https://openmaptiles.org/">OpenMapTiles.org</a>, see <a href="https://openmaptiles.org/schema/">the OpenMapTiles schema</a> for details.  The other projections have been generated to fit the same layer schema, but with fewer layers — see below.</p>
 
 		<p>Web Mercator tiles are from 2017-07-03.</p>
 
-		<p>The other projections use OpenStreetMap and Natural Earth data.  We do not plan to make frequent updates to the tiles, since the geological features of most interest to us do not often change.  (However, processing to add additional layers to the vector tiles is in progress.)</p>
+		<p>The other projections use OpenStreetMap and Natural Earth data.  We do not plan to make frequent updates to the tiles, since the geological features of most interest to us do not often change.</p>
 
 		<p>WGS84 tiles are from OpenStreetMap as of 2017-08-28, and Natural Earth version 2.0.0.</p>
 
@@ -299,7 +302,7 @@
 			</li>
 			<li>
 				<h2>OSM Bright</h2>
-				<p><tt>osm-bright</tt> (some bugs!)</p>
+				<p><tt>osm-bright</tt></p>
 				<div>
 					<img src="/3857/omt/7/67/37@1x.png?style=osm-bright" srcset="/3857/omt/7/67/37@2x.png?style=osm-bright 2x"/>
 				</div>
@@ -370,8 +373,10 @@
 			</tr>
 		</table>
 
+		<p>If you are using OpenLayers or Leaflet, it will be best to look at the examples.</p>
+
 		<h2>Examples</h2>
-		<p>The <em>OpenLayers minimal</em> pages show only a GBIF raster base layer.  Start here if you are new to OpenLayers.</p>
+		<p>The <em>OpenLayers minimal</em> pages show only a GBIF raster base layer.  Start here if you are new to OpenLayers, and start with the Web Mercator projection if you are new to web maps in general.</p>
 
 		<p>The <em>OpenLayers demo</em> links show the GBIF base vector layer and GBIF base raster layers, plus a non-GBIF base layer, and two <a href="https://www.gbif.org/developer/maps">GBIF occurrence density layers</a> — one raster and one vector.</p>
 
@@ -436,7 +441,7 @@
 
 		<p>Thanks to:</p>
 		<ul>
-			<li><strong>OpenStreetMap</strong> for the map data,</li>
+			<li><strong>OpenStreetMap</strong> and <strong>Natural Earth</strong> for the map data,</li>
 			<li><strong>OpenMapTiles</strong> for the cartography and processing to produce vector tiles,</li>
 			<li><strong>OpenLayers</strong> for good support of non-Mercator projections.</li>
 		</ul>
