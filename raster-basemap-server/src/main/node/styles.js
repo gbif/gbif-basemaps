@@ -19,9 +19,7 @@ namedStyles["osm-bright-ja"] = compileStylesheetSync(['./cartocss/osm-bright/sty
 namedStyles["osm-bright-de"] = compileStylesheetSync(['./cartocss/osm-bright/style.mss', './cartocss/osm-bright/road.mss', './cartocss/osm-bright/labels-de.mss', './cartocss/osm-bright/labels.mss']);
 namedStyles["osm-bright-da"] = compileStylesheetSync(['./cartocss/osm-bright/style.mss', './cartocss/osm-bright/road.mss', './cartocss/osm-bright/labels-da.mss', './cartocss/osm-bright/labels.mss']);
 namedStyles["osm-bright-pt"] = compileStylesheetSync(['./cartocss/osm-bright/style.mss', './cartocss/osm-bright/road.mss', './cartocss/osm-bright/labels-pt.mss', './cartocss/osm-bright/labels.mss']);
-
-//classic, light and dark replaced with versions with more details
-//namedStyles["gbif-classic"] = compileStylesheetSync(["./cartocss/gbif-classic.mss"]);
+namedStyles["gbif-classic"] = compileStylesheetSync(["./cartocss/gbif-classic.mss"]);
 namedStyles["gbif-dark"] = compileStylesheetSync(["./cartocss/gbif-dark.mss"]);
 namedStyles["gbif-middle"] = compileStylesheetSync(["./cartocss/gbif-middle.mss"]);
 namedStyles["gbif-light"] = compileStylesheetSync(["./cartocss/gbif-light.mss"]);
@@ -40,7 +38,6 @@ mapnik.register_default_input_plugins();
 // Register default fonts.
 mapnik.register_fonts('./node_modules/mapbox-studio-default-fonts/', { recurse: true });
 mapnik.register_fonts('/usr/local/gbif/klokantech-gl-fonts/', { recurse: true });
-mapnik.register_fonts('./ttf/', { recurse: true });
 //mapnik.register_default_fonts();
 //mapnik.register_system_fonts();
 console.log("Fonts", mapnik.fonts());
