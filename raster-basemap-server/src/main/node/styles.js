@@ -22,14 +22,15 @@ namedStyles["osm-bright-pt"] = compileStylesheetSync(['./cartocss/osm-bright/sty
 
 //classic, light and dark replaced with versions with more details
 //namedStyles["gbif-classic"] = compileStylesheetSync(["./cartocss/gbif-classic.mss"]);
-//namedStyles["gbif-dark"] = compileStylesheetSync(["./cartocss/gbif-dark.mss"]);
+namedStyles["gbif-dark"] = compileStylesheetSync(["./cartocss/gbif-dark.mss"]);
 namedStyles["gbif-middle"] = compileStylesheetSync(["./cartocss/gbif-middle.mss"]);
-//namedStyles["gbif-light"] = compileStylesheetSync(["./cartocss/gbif-light.mss"]);
+namedStyles["gbif-light"] = compileStylesheetSync(["./cartocss/gbif-light.mss"]);
 
-//ports of the flat verions, but with more details when zoomed in.
-namedStyles["gbif-light"] = compileStylesheetSync(["./cartocss/gbif-monocolor/variables_light.mss", "./cartocss/gbif-monocolor/style.mss", "./cartocss/gbif-monocolor/roads.mss", './cartocss/osm-bright/labels-local.mss', "./cartocss/gbif-monocolor/labels.mss"]);
-namedStyles["gbif-dark"] = compileStylesheetSync(["./cartocss/gbif-monocolor/variables_dark.mss", "./cartocss/gbif-monocolor/style.mss", "./cartocss/gbif-monocolor/roads.mss", './cartocss/osm-bright/labels-local.mss', "./cartocss/gbif-monocolor/labels.mss"]);
-namedStyles["gbif-classic"] = compileStylesheetSync(["./cartocss/gbif-monocolor/variables_magenta.mss", "./cartocss/gbif-monocolor/style.mss", "./cartocss/gbif-monocolor/roads.mss", './cartocss/osm-bright/labels-local.mss', "./cartocss/gbif-monocolor/labels.mss"]);
+//attempts of a combination between the flat "mono color" versions and OSM
+//names based on a rough average color and name that color website http://chir.ag/projects/name-that-color
+namedStyles["gbif-geyser"] = compileStylesheetSync(["./cartocss/gbif-monocolor/variables_light.mss", "./cartocss/gbif-monocolor/style.mss", "./cartocss/gbif-monocolor/roads.mss", './cartocss/osm-bright/labels-en.mss', "./cartocss/gbif-monocolor/labels.mss"]);
+namedStyles["gbif-tuatara"] = compileStylesheetSync(["./cartocss/gbif-monocolor/variables_dark.mss", "./cartocss/gbif-monocolor/style.mss", "./cartocss/gbif-monocolor/roads.mss", './cartocss/osm-bright/labels-en.mss', "./cartocss/gbif-monocolor/labels.mss"]);
+//namedStyles["gbif-classic"] = compileStylesheetSync(["./cartocss/gbif-monocolor/variables_magenta.mss", "./cartocss/gbif-monocolor/style.mss", "./cartocss/gbif-monocolor/roads.mss", './cartocss/osm-bright/labels-en.mss', "./cartocss/gbif-monocolor/labels.mss"]);
 
 var defaultStyle = "osm-bright";
 
@@ -39,6 +40,7 @@ mapnik.register_default_input_plugins();
 // Register default fonts.
 mapnik.register_fonts('./node_modules/mapbox-studio-default-fonts/', { recurse: true });
 mapnik.register_fonts('/usr/local/gbif/klokantech-gl-fonts/', { recurse: true });
+mapnik.register_fonts('./ttf/', { recurse: true });
 //mapnik.register_default_fonts();
 //mapnik.register_system_fonts();
 console.log("Fonts", mapnik.fonts());
