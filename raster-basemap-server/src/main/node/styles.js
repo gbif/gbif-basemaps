@@ -28,7 +28,7 @@ namedStyles["gbif-light"] = compileStylesheetSync(["./cartocss/gbif-light.mss"])
 //names based on a rough average color and name that color website http://chir.ag/projects/name-that-color
 namedStyles["gbif-geyser"] = compileStylesheetSync(["./cartocss/gbif-monocolor/variables_light.mss", "./cartocss/gbif-monocolor/style.mss", "./cartocss/gbif-monocolor/roads.mss", './cartocss/osm-bright/labels-en.mss', "./cartocss/gbif-monocolor/labels.mss"]);
 namedStyles["gbif-tuatara"] = compileStylesheetSync(["./cartocss/gbif-monocolor/variables_dark.mss", "./cartocss/gbif-monocolor/style.mss", "./cartocss/gbif-monocolor/roads.mss", './cartocss/osm-bright/labels-en.mss', "./cartocss/gbif-monocolor/labels.mss"]);
-//namedStyles["gbif-classic"] = compileStylesheetSync(["./cartocss/gbif-monocolor/variables_magenta.mss", "./cartocss/gbif-monocolor/style.mss", "./cartocss/gbif-monocolor/roads.mss", './cartocss/osm-bright/labels-en.mss', "./cartocss/gbif-monocolor/labels.mss"]);
+namedStyles["gbif-violet"] = compileStylesheetSync(["./cartocss/gbif-monocolor/variables_magenta.mss", "./cartocss/gbif-monocolor/style.mss", "./cartocss/gbif-monocolor/roads.mss", './cartocss/osm-bright/labels-en.mss', "./cartocss/gbif-monocolor/labels.mss"]);
 
 var defaultStyle = "osm-bright";
 
