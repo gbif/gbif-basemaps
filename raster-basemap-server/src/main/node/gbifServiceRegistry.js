@@ -53,7 +53,7 @@ gbifServiceRegistry.register = function(config) {
         "sslPort": null,
         "payload": {
           "@class": "org.gbif.ws.discovery.conf.ServiceDetails",
-          "groupId": "org.gbif.maps",
+          "groupId": "org.gbif.basemaps",
           "artifactId": serviceName,
           "version": config.service.version,
           "serviceConfiguration": {
