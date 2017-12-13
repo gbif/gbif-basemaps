@@ -96,7 +96,7 @@
 
 // State labels //
 #place[class='state'][zoom>=4][zoom<=10] {
-  text-name: [name_en];
+  text-name: @name;
   text-face-name: @sans;
   text-placement: point;
   text-fill: @state_text;

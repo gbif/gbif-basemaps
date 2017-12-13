@@ -1,6 +1,3 @@
-// Languages: name (local), name_en, name_fr, name_es, name_de
-@name: '[name]';
-
 // ---------------------------------------------------------------------
 // Fonts
 
@@ -41,7 +38,7 @@ Map { background-color: @land; }
 
 #landuse[class='hospital'],
 #landuse[class='industrial'],
-#landuse[class='school'] { 
+#landuse[class='school'] {
   polygon-fill: mix(@land,@fill1,95);
 }
 #landcover {
@@ -61,17 +58,17 @@ Map { background-color: @land; }
   }
 }
 
-#building { 
+#building {
   polygon-fill: @buildingColor_faded;
   [zoom>=16]{ polygon-fill: @buildingColor;}
 }
 
 #aeroway {
-  ['mapnik::geometry_type'=3][class!='apron'] { 
+  ['mapnik::geometry_type'=3][class!='apron'] {
     polygon-fill: mix(@fill2,@land,25);
     [zoom>=16]{ polygon-fill: mix(@fill2,@land,50);}
   }
-  ['mapnik::geometry_type'=2] { 
+  ['mapnik::geometry_type'=2] {
     line-color: mix(@fill2,@land,25);
     line-width: 1;
     [zoom>=13][class='runway'] { line-width: 4; }
