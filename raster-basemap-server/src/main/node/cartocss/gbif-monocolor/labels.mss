@@ -40,7 +40,6 @@
   [name_en='Falkland Islands'] { text-name: @name_falklands_malvinas }
   [name_en='Nagorno-Karabakh Republic'] { text-name: "''" }
   [name_en='South Ossetia'] { text-name: "''" }
-  [name_en='Taiwan'] { text-name: @name_chinese_taipei }
   [name_en='Transnistria'] { text-name: "''" }
   [name_en='Turkish Republic Of Northern Cyprus'] { text-name: "''" }
   text-face-name: @sans_bd;
