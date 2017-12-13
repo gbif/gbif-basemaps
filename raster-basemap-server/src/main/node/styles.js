@@ -7,18 +7,13 @@ const fs = require('fs')
 /**
  * Compile the CartoCSS into Mapnik stylesheets into a lookup dictionary
  */
+var languages = ["ar", "zh", "en", "fr", "ru", "es", "ja", "de", "da", "pt"];
 var namedStyles = {};
+
 namedStyles["osm-bright"] = compileStylesheetSync(['./cartocss/osm-bright/style.mss', './cartocss/osm-bright/road.mss', './cartocss/osm-bright/labels-local.mss', './cartocss/osm-bright/labels.mss']);
-namedStyles["osm-bright-ar"] = compileStylesheetSync(['./cartocss/osm-bright/style.mss', './cartocss/osm-bright/road.mss', './cartocss/osm-bright/labels-ar.mss', './cartocss/osm-bright/labels.mss']);
-namedStyles["osm-bright-zh"] = compileStylesheetSync(['./cartocss/osm-bright/style.mss', './cartocss/osm-bright/road.mss', './cartocss/osm-bright/labels-zh.mss', './cartocss/osm-bright/labels.mss']);
-namedStyles["osm-bright-en"] = compileStylesheetSync(['./cartocss/osm-bright/style.mss', './cartocss/osm-bright/road.mss', './cartocss/osm-bright/labels-en.mss', './cartocss/osm-bright/labels.mss']);
-namedStyles["osm-bright-fr"] = compileStylesheetSync(['./cartocss/osm-bright/style.mss', './cartocss/osm-bright/road.mss', './cartocss/osm-bright/labels-fr.mss', './cartocss/osm-bright/labels.mss']);
-namedStyles["osm-bright-ru"] = compileStylesheetSync(['./cartocss/osm-bright/style.mss', './cartocss/osm-bright/road.mss', './cartocss/osm-bright/labels-ru.mss', './cartocss/osm-bright/labels.mss']);
-namedStyles["osm-bright-es"] = compileStylesheetSync(['./cartocss/osm-bright/style.mss', './cartocss/osm-bright/road.mss', './cartocss/osm-bright/labels-es.mss', './cartocss/osm-bright/labels.mss']);
-namedStyles["osm-bright-ja"] = compileStylesheetSync(['./cartocss/osm-bright/style.mss', './cartocss/osm-bright/road.mss', './cartocss/osm-bright/labels-ja.mss', './cartocss/osm-bright/labels.mss']);
-namedStyles["osm-bright-de"] = compileStylesheetSync(['./cartocss/osm-bright/style.mss', './cartocss/osm-bright/road.mss', './cartocss/osm-bright/labels-de.mss', './cartocss/osm-bright/labels.mss']);
-namedStyles["osm-bright-da"] = compileStylesheetSync(['./cartocss/osm-bright/style.mss', './cartocss/osm-bright/road.mss', './cartocss/osm-bright/labels-da.mss', './cartocss/osm-bright/labels.mss']);
-namedStyles["osm-bright-pt"] = compileStylesheetSync(['./cartocss/osm-bright/style.mss', './cartocss/osm-bright/road.mss', './cartocss/osm-bright/labels-pt.mss', './cartocss/osm-bright/labels.mss']);
+for (var lang of languages) {
+  namedStyles["osm-bright-"+lang] = compileStylesheetSync(['./cartocss/osm-bright/style.mss', './cartocss/osm-bright/road.mss', './cartocss/osm-bright/labels-'+lang+'.mss', './cartocss/osm-bright/labels.mss']);
+}
 namedStyles["gbif-classic"] = compileStylesheetSync(["./cartocss/gbif-classic.mss"]);
 namedStyles["gbif-dark"] = compileStylesheetSync(["./cartocss/gbif-dark.mss"]);
 namedStyles["gbif-middle"] = compileStylesheetSync(["./cartocss/gbif-middle.mss"]);
@@ -26,9 +21,14 @@ namedStyles["gbif-light"] = compileStylesheetSync(["./cartocss/gbif-light.mss"])
 
 //attempts of a combination between the flat "mono color" versions and OSM
 //names based on a rough average color and name that color website http://chir.ag/projects/name-that-color
-namedStyles["gbif-geyser"] = compileStylesheetSync(["./cartocss/gbif-monocolor/variables_light.mss", "./cartocss/gbif-monocolor/style.mss", "./cartocss/gbif-monocolor/roads.mss", './cartocss/osm-bright/labels-en.mss', "./cartocss/gbif-monocolor/labels.mss"]);
-namedStyles["gbif-tuatara"] = compileStylesheetSync(["./cartocss/gbif-monocolor/variables_dark.mss", "./cartocss/gbif-monocolor/style.mss", "./cartocss/gbif-monocolor/roads.mss", './cartocss/osm-bright/labels-en.mss', "./cartocss/gbif-monocolor/labels.mss"]);
-namedStyles["gbif-violet"] = compileStylesheetSync(["./cartocss/gbif-monocolor/variables_magenta.mss", "./cartocss/gbif-monocolor/style.mss", "./cartocss/gbif-monocolor/roads.mss", './cartocss/osm-bright/labels-en.mss', "./cartocss/gbif-monocolor/labels.mss"]);
+namedStyles["gbif-geyser"] = compileStylesheetSync(["./cartocss/gbif-monocolor/variables_light.mss", "./cartocss/gbif-monocolor/style.mss", "./cartocss/gbif-monocolor/roads.mss", './cartocss/osm-bright/labels-local.mss', "./cartocss/gbif-monocolor/labels.mss"]);
+namedStyles["gbif-tuatara"] = compileStylesheetSync(["./cartocss/gbif-monocolor/variables_dark.mss", "./cartocss/gbif-monocolor/style.mss", "./cartocss/gbif-monocolor/roads.mss", './cartocss/osm-bright/labels-local.mss', "./cartocss/gbif-monocolor/labels.mss"]);
+namedStyles["gbif-violet"] = compileStylesheetSync(["./cartocss/gbif-monocolor/variables_magenta.mss", "./cartocss/gbif-monocolor/style.mss", "./cartocss/gbif-monocolor/roads.mss", './cartocss/osm-bright/labels-local.mss', "./cartocss/gbif-monocolor/labels.mss"]);
+for (var lang of languages) {
+  namedStyles["gbif-geyser-"+lang] = compileStylesheetSync(["./cartocss/gbif-monocolor/variables_light.mss", "./cartocss/gbif-monocolor/style.mss", "./cartocss/gbif-monocolor/roads.mss", './cartocss/osm-bright/labels-'+lang+'.mss', "./cartocss/gbif-monocolor/labels.mss"]);
+  namedStyles["gbif-tuatara-"+lang] = compileStylesheetSync(["./cartocss/gbif-monocolor/variables_dark.mss", "./cartocss/gbif-monocolor/style.mss", "./cartocss/gbif-monocolor/roads.mss", './cartocss/osm-bright/labels-'+lang+'.mss', "./cartocss/gbif-monocolor/labels.mss"]);
+  namedStyles["gbif-violet-"+lang] = compileStylesheetSync(["./cartocss/gbif-monocolor/variables_magenta.mss", "./cartocss/gbif-monocolor/style.mss", "./cartocss/gbif-monocolor/roads.mss", './cartocss/osm-bright/labels-'+lang+'.mss', "./cartocss/gbif-monocolor/labels.mss"]);
+}
 
 var defaultStyle = "osm-bright";
 
