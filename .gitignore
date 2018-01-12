@@ -6,3 +6,4 @@ raster-basemap-server/src/main/node/node_modules/
 **/dependency-reduced-pom.xml
 target
 basemap-ui/build/
+polar-water-tiles/data/*

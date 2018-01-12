@@ -1,0 +1,32 @@
+version: "2"
+#volumes:
+#  pgdata:
+#    external: true
+services:
+  postgres:
+    image: "mb.gbif.org:5000/postgis:latest"
+    volumes:
+    - /water-tiles:/var/lib/postgresql/data
+    networks:
+    - postgres_conn
+    ports:
+     - "15433:5432"
+    env_file: .env
+  import:
+    image: "mb.gbif.org:5000/import-polar-water:latest"
+    env_file: .env
+    networks:
+    - postgres_conn
+    volumes:
+     - ./data:/import
+  preview:
+    image: "mb.gbif.org:5000/polar-water-preview:latest"
+    env_file: .env
+    networks:
+     - postgres_conn
+    ports:
+    - "8080:8080"
+
+networks:
+  postgres_conn:
+    driver: bridge
