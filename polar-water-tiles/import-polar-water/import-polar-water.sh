@@ -14,7 +14,7 @@ function log() {
   tput bold;
   tput setaf 3;
   echo $*
-  tput reset
+  tput sgr0;
 }
 
 function import_shp() {
@@ -50,11 +50,10 @@ function generate_water_tiles() {
   #So make 0, 8, 50, 500, 4000
 
   log Setup tables
-  psql_cmd -f 3573/setup_tables.sql
+  psql_cmd -f $PROJECTION/setup_tables.sql
 
-  log Setup BBox tiles
   for i in 0 3 6; do
-    log $i
+    log Setup BBox tiles $i
     psql_cmd -v zoom=$i -f $PROJECTION/setup_bbox_tiles.sql
   done
 
@@ -67,12 +66,11 @@ function generate_water_tiles() {
   # For zoom 0
   psql_cmd -v tolerance=4000 -v min_area=16000000 -f $PROJECTION/simplify_land_polygons.sql
 
-  log Split land polygons
-  # Zoom 0
+  log Split land polygons zoom 0
   time psql_cmd -v tolerance=4000 -v min_area=16000000 -v zoom=0 -f $PROJECTION/split_land_polygons.sql
-  # Zoom 3
+  log Split land polygons zoom 3
   time psql_cmd -v tolerance=500 -v min_area=250000 -v zoom=3 -f $PROJECTION/split_land_polygons.sql
-  # Zoom 6
+  log Split land polygons zoom 6
   for xb in `seq 0 10 63`; do
     for y in `seq 0 63`; do
       for x in `seq $xb $(( $xb + 9 ))`; do

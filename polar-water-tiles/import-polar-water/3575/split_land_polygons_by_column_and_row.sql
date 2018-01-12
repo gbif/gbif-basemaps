@@ -19,27 +19,27 @@
 -- last condition (:tolerance (!)=0).
 
 -- case 1: split non-simplified polygons
-INSERT INTO split_land_polygons_3575 (fid, tolerance, min_area, zoom, x, y, geom)
-    SELECT p.fid, 0, 0, b.zoom, b.x, b.y, ST_Multi(ST_Intersection(p.geom, b.geom))
-        FROM land_polygons_3575 p, bbox_tiles_3575 b
-        WHERE p.geom && b.geom
-          AND ST_Intersects(p.geom, b.geom)
+INSERT INTO split_land_polygons_3575 (fid, tolerance, min_area, zoom, x, y, geometry)
+    SELECT p.fid, 0, 0, b.zoom, b.x, b.y, ST_Multi(ST_Intersection(p.geometry, b.geometry))
+        FROM osm_land_polygons_3575 p, bbox_tiles_3575 b
+        WHERE p.geometry && b.geometry
+          AND ST_Intersects(p.geometry, b.geometry)
           AND b.zoom=:zoom
-          AND ST_GeometryType(ST_Multi(ST_Intersection(p.geom, b.geom))) = 'ST_MultiPolygon'
+          AND ST_GeometryType(ST_Multi(ST_Intersection(p.geometry, b.geometry))) = 'ST_MultiPolygon'
           AND :tolerance=0
           AND b.x=:x
           AND b.y=:y;
 
 -- case 2: split simplified polygons
-INSERT INTO split_land_polygons_3575 (fid, tolerance, min_area, zoom, x, y, geom)
-    SELECT p.fid, p.tolerance, p.min_area, b.zoom, b.x, b.y, ST_Multi(ST_Intersection(p.geom, b.geom))
+INSERT INTO split_land_polygons_3575 (fid, tolerance, min_area, zoom, x, y, geometry)
+    SELECT p.fid, p.tolerance, p.min_area, b.zoom, b.x, b.y, ST_Multi(ST_Intersection(p.geometry, b.geometry))
         FROM simplified_land_polygons_3575 p, bbox_tiles_3575 b
-        WHERE p.geom && b.geom
-          AND ST_Intersects(p.geom, b.geom)
+        WHERE p.geometry && b.geometry
+          AND ST_Intersects(p.geometry, b.geometry)
           AND p.tolerance=:tolerance
           AND p.min_area=:min_area
           AND b.zoom=:zoom
-          AND ST_GeometryType(ST_Multi(ST_Intersection(p.geom, b.geom))) = 'ST_MultiPolygon'
+          AND ST_GeometryType(ST_Multi(ST_Intersection(p.geometry, b.geometry))) = 'ST_MultiPolygon'
           AND :tolerance!=0
           AND b.x=:x
           AND b.y=:y;

@@ -16,12 +16,12 @@
 --
 -- ======================================================================
 
-INSERT INTO simplified_land_polygons_3575 (fid, tolerance, min_area, geom)
-    SELECT fid, :tolerance, :min_area, ST_SimplifyPreserveTopology(geom, :tolerance)
-        FROM land_polygons_3575
-        WHERE ST_Area(geom) > :min_area;
+INSERT INTO simplified_land_polygons_3575 (fid, tolerance, min_area, geometry)
+    SELECT fid, :tolerance, :min_area, ST_SimplifyPreserveTopology(geometry, :tolerance)
+        FROM osm_land_polygons_3575
+        WHERE ST_Area(geometry) > :min_area;
 
 CREATE INDEX
     ON simplified_land_polygons_3575
-    USING GIST (geom)
+    USING GIST (geometry)
     WHERE tolerance=:tolerance AND min_area=:min_area;
