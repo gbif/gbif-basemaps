@@ -51,6 +51,7 @@ layers['AlaskaMapped'] = new ol.layer.Tile({
 			return 'http://download.gbif.org/MapDataMirror/AlaskaMapped/ac-3575/' + z + '/' + x + '/' + y + '@2x.png';
 		},
 		tilePixelRatio: 1,
+		attributions: '<a href="http://www.gina.alaska.edu">Geographic Information Network of Alaska</a>',
 	}),
 	visible: false,
 });
@@ -72,6 +73,10 @@ layers['EPSG:3575'] = new ol.layer.VectorTile({
 		tileGrid: tile_grid_16,
 		url: 'https://tile.gbif.org/3575/omt/{z}/{x}/{y}.pbf',
 		tilePixelRatio: 8,
+		attributions: [
+			'© <a href="https://www.openmaptiles.org/copyright">OpenMapTiles</a>.',
+			ol.source.OSM.ATTRIBUTION,
+		],
 	}),
 	style: createStyle(),
 	visible: false,
@@ -85,6 +90,10 @@ layers['EPSG:3575-R'] = new ol.layer.Tile({
 		tileGrid: tile_grid_14,
 		url: 'https://tile.gbif.org/3575/omt/{z}/{x}/{y}@'+pixel_ratio+'x.png?style='+raster_style,
 		tilePixelRatio: pixel_ratio,
+		attributions: [
+			'© <a href="https://www.openmaptiles.org/copyright">OpenMapTiles</a>.',
+			ol.source.OSM.ATTRIBUTION,
+		],
 	}),
 	visible: true,
 });
@@ -97,6 +106,7 @@ layers['OccurrenceDensity:3575'] = new ol.layer.VectorTile({
 		url: 'https://api.gbif.org/v2/map/occurrence/density/{z}/{x}/{y}.mvt?srs=EPSG:3575&bin=hex&taxonKey=2481433',
 		tileGrid: tile_grid_14,
 		tilePixelRatio: 8,
+		attributions: '<a href="https://www.gbif.org/citation-guidelines">GBIF</a>.',
 	}),
 	style: createDensityStyle(),
 	visible: true,
@@ -109,6 +119,7 @@ layers['OccurrenceDensityRaster:3575'] = new ol.layer.Tile({
 		tileGrid: tile_grid_16,
 		tilePixelRatio: pixel_ratio,
 		url: 'https://api.gbif.org/v2/map/occurrence/density/{z}/{x}/{y}@'+pixel_ratio+'x.png?srs=EPSG:3575',
+		attributions: '<a href="https://www.gbif.org/citation-guidelines">GBIF</a>.',
 	}),
 	visible: false,
 });
@@ -123,6 +134,11 @@ var map = new ol.Map({
 		layers['Grid']
 	],
 	target: 'map',
+	controls: ol.control.defaults({
+		attributionOptions: {
+			collapsible: false
+		}
+	}),
 	view: new ol.View({
 		center: ol.proj.fromLonLat([-1.049565, 51.441297], 'EPSG:3575'),
 		projection: ol.proj.get('EPSG:3575'),

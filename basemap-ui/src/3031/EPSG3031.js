@@ -63,7 +63,9 @@ layers['NASA'] = new ol.layer.Tile({
 			],
 			matrixIds: [0, 1, 2, 3, 4, 5],
 			tileSize: 512
-		})
+		}),
+
+		attributions: '<a href="https://wiki.earthdata.nasa.gov/display/GIBS">NASA EOSDIS GIBS</a>'
 	}),
 	visible: false,
 });
@@ -84,6 +86,10 @@ layers['EPSG:3031'] = new ol.layer.VectorTile({
 		tileGrid: tile_grid_14,
 		url: 'https://tile.gbif.org/3031/omt/{z}/{x}/{y}.pbf',
 		tilePixelRatio: 8,
+		attributions: [
+			'© <a href="https://www.openmaptiles.org/copyright">OpenMapTiles</a>.',
+			ol.source.OSM.ATTRIBUTION,
+		],
 	}),
 	style: createStyle(),
 	visible: false,
@@ -97,6 +103,10 @@ layers['EPSG:3031-R'] = new ol.layer.Tile({
 		tileGrid: tile_grid_16,
 		url: 'https://tile.gbif.org/3031/omt/{z}/{x}/{y}@'+pixel_ratio+'x.png?style='+raster_style,
 		tilePixelRatio: pixel_ratio,
+		attributions: [
+			'© <a href="https://www.openmaptiles.org/copyright">OpenMapTiles</a>.',
+			ol.source.OSM.ATTRIBUTION,
+		],
 	}),
 	visible: true,
 });
@@ -109,6 +119,7 @@ layers['OccurrenceDensity:3031'] = new ol.layer.VectorTile({
 		url: 'https://api.gbif.org/v2/map/occurrence/density/{z}/{x}/{y}.mvt?srs=EPSG:3031&bin=hex&taxonKey=459',
 		tileGrid: tile_grid_14,
 		tilePixelRatio: 8,
+		attributions: '<a href="https://www.gbif.org/citation-guidelines">GBIF</a>.',
 	}),
 	style: createDensityStyle(),
 	visible: true,
@@ -121,6 +132,7 @@ layers['OccurrenceDensityRaster:3031'] = new ol.layer.Tile({
 		tileGrid: tile_grid_16,
 		url: 'https://api.gbif.org/v2/map/occurrence/density/{z}/{x}/{y}@'+pixel_ratio+'x.png?srs=EPSG:3031',
 		tilePixelRatio: pixel_ratio,
+		attributions: '<a href="https://www.gbif.org/citation-guidelines">GBIF</a>.',
 	}),
 	visible: false
 });
@@ -136,6 +148,11 @@ var map = new ol.Map({
 		layers['Grid'],
 	],
 	target: 'map',
+	controls: ol.control.defaults({
+		attributionOptions: {
+			collapsible: false
+		}
+	}),
 	view: new ol.View({
 		center: [0, 0],
 		projection: ol.proj.get("EPSG:3031"),

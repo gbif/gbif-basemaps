@@ -18,6 +18,7 @@ var layers = [];
 
 layers['OSM'] = new ol.layer.Tile({
 	source: new ol.source.OSM({
+		attributions: ol.source.OSM.ATTRIBUTION,
 		wrapX: false
 	}),
 	visible: false,
@@ -41,6 +42,10 @@ layers['EPSG:3857'] = new ol.layer.VectorTile({
 		tileGrid: tile_grid_14,
 		tilePixelRatio: 8,
 		url: 'https://tile.gbif.org/3857/omt/{z}/{x}/{y}.pbf',
+		attributions: [
+			'© <a href="https://www.openmaptiles.org/copyright">OpenMapTiles</a>.',
+			ol.source.OSM.ATTRIBUTION,
+		],
 		wrapX: false
 	}),
 	style: createStyle(),
@@ -54,6 +59,10 @@ layers['EPSG:3857-R'] = new ol.layer.Tile({
 		tileGrid: tile_grid_16,
 		tilePixelRatio: pixel_ratio,
 		url: 'https://tile.gbif.org/3857/omt/{z}/{x}/{y}@'+pixel_ratio+'x.png?style='+raster_style,
+		attributions: [
+			'© <a href="https://www.openmaptiles.org/copyright">OpenMapTiles</a>.',
+			ol.source.OSM.ATTRIBUTION,
+		],
 		wrapX: true
 	}),
 	visible: true,
@@ -68,6 +77,7 @@ layers['OccurrenceDensity:3857'] = new ol.layer.VectorTile({
 		tileGrid: tile_grid_16,
 		url: 'https://api.gbif.org/v2/map/occurrence/density/{z}/{x}/{y}.mvt?srs=EPSG:3857&bin=hex&taxonKey=2481433',
 		tilePixelRatio: 8,
+		attributions: '<a href="https://www.gbif.org/citation-guidelines">GBIF</a>.',
 	}),
 	style: createDensityStyle(),
 	visible: true,
@@ -78,7 +88,8 @@ layers['OccurrenceDensityRaster:3857'] = new ol.layer.Tile({
 		projection: 'EPSG:3857',
 		tileGrid: tile_grid_16,
 		tilePixelRatio: pixel_ratio,
-		url: 'https://api.gbif.org/v2/map/occurrence/density/{z}/{x}/{y}@'+pixel_ratio+'x.png?srs=EPSG:3857'
+		url: 'https://api.gbif.org/v2/map/occurrence/density/{z}/{x}/{y}@'+pixel_ratio+'x.png?srs=EPSG:3857',
+		attributions: '<a href="https://www.gbif.org/citation-guidelines">GBIF</a>.',
 	}),
 	visible: false
 });
@@ -93,6 +104,11 @@ var map = new ol.Map({
 		layers['Grid']
 	],
 	target: 'map',
+	controls: ol.control.defaults({
+		attributionOptions: {
+			collapsible: false
+		}
+	}),
 	view: new ol.View({
 		center: [0, 0],
 		zoom: 1

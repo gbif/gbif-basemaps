@@ -39,6 +39,7 @@ layers['ESRI'] = new ol.layer.Tile({
 			resolutions: resolutions,
 			tileSize: tile_size,
 		}),
+		attributions: '© 2013 ESRI, i-cubed, GeoEye',
 	}),
 	visible: false,
 });
@@ -61,6 +62,10 @@ layers['EPSG:4326'] = new ol.layer.VectorTile({
 		url: 'https://tile.gbif.org/4326/omt/{z}/{x}/{y}.pbf',
 		tileGrid: tile_grid_14,
 		tilePixelRatio: 8,
+		attributions: [
+			'© <a href="https://www.openmaptiles.org/copyright">OpenMapTiles</a>.',
+			ol.source.OSM.ATTRIBUTION,
+		],
 		wrapX: false
 	}),
 	style: createStyle(),
@@ -69,8 +74,8 @@ layers['EPSG:4326'] = new ol.layer.VectorTile({
 
 var raster_style = 'gbif-classic';
 if (window.location.hash) {
-  console.log(window.location.hash);
-  raster_style = window.location.hash.replace('#', '');
+	console.log(window.location.hash);
+	raster_style = window.location.hash.replace('#', '');
 }
 layers['EPSG:4326-R'] = new ol.layer.Tile({
 	source: new ol.source.TileImage({
@@ -78,6 +83,10 @@ layers['EPSG:4326-R'] = new ol.layer.Tile({
 		url: 'https://tile.gbif.org/4326/omt/{z}/{x}/{y}@'+pixel_ratio+'x.png?style='+raster_style,
 		tileGrid: tile_grid_16,
 		tilePixelRatio: pixel_ratio,
+		attributions: [
+			'© <a href="https://www.openmaptiles.org/copyright">OpenMapTiles</a>.',
+			ol.source.OSM.ATTRIBUTION,
+		],
 		wrapX: true
 	}),
 	visible: true,
@@ -91,6 +100,7 @@ layers['OccurrenceDensity:4326'] = new ol.layer.VectorTile({
 		url: 'https://api.gbif.org/v2/map/occurrence/density/{z}/{x}/{y}.mvt?srs=EPSG:4326&bin=hex&taxonKey=2481433',
 		tileGrid: tile_grid_14,
 		tilePixelRatio: 8,
+		attributions: '<a href="https://www.gbif.org/citation-guidelines">GBIF</a>.',
 	}),
 	style: createDensityStyle(),
 	visible: true,
@@ -103,6 +113,7 @@ layers['OccurrenceDensityRaster:4326'] = new ol.layer.Tile({
 		url: 'https://api.gbif.org/v2/map/occurrence/density/{z}/{x}/{y}@'+pixel_ratio+'x.png?srs=EPSG:4326',
 		tileGrid: tile_grid_16,
 		tilePixelRatio: pixel_ratio,
+		attributions: '<a href="https://www.gbif.org/citation-guidelines">GBIF</a>.',
 	}),
 	visible: false
 });
@@ -117,6 +128,11 @@ var map = new ol.Map({
 		layers['Grid']
 	],
 	target: 'map',
+	controls: ol.control.defaults({
+		attributionOptions: {
+			collapsible: false
+		}
+	}),
 	view: new ol.View({
 		center: [0, 0],
 		projection: 'EPSG:4326',
