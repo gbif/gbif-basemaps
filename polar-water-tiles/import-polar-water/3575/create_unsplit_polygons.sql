@@ -7,7 +7,7 @@ CREATE TABLE north_osm_land_polygons_4326 AS
 -- Reproject it to 3575
 DROP TABLE IF EXISTS north_osm_land_polygons_3575;
 CREATE TABLE north_osm_land_polygons_3575 AS
-    SELECT fid, ST_Area(geometry), ST_MakeValid(geometry) FROM (SELECT fid, (ST_Dump(ST_Transform(geometry, 3575))).geom AS geometry
+    SELECT fid, ST_Area(geometry) area, ST_MakeValid(geometry) geometry FROM (SELECT fid, (ST_Dump(ST_Transform(geometry, 3575))).geom AS geometry
         FROM north_osm_land_polygons_4326) AS x;
 
 -- Create simplified tables
@@ -16,10 +16,10 @@ DROP TABLE IF EXISTS north_osm_land_polygons_gen2;
 DROP TABLE IF EXISTS north_osm_land_polygons_gen3;
 DROP TABLE IF EXISTS north_osm_land_polygons_gen4;
 
-CREATE TABLE north_osm_land_polygons_gen4 AS SELECT ST_MakeValid(ST_Simplify(geometry, 160)) AS geometry FROM osm_north_land_polygons_3575;
-CREATE TABLE north_osm_land_polygons_gen3 AS SELECT ST_MakeValid(ST_Simplify(geometry,  80)) AS geometry FROM osm_north_land_polygons_3575;
-CREATE TABLE north_osm_land_polygons_gen2 AS SELECT ST_MakeValid(ST_Simplify(geometry,  40)) AS geometry FROM osm_north_land_polygons_3575;
-CREATE TABLE north_osm_land_polygons_gen1 AS SELECT ST_MakeValid(ST_Simplify(geometry,  20)) AS geometry FROM osm_north_land_polygons_3575;
+CREATE TABLE north_osm_land_polygons_gen4 AS SELECT ST_MakeValid(ST_Simplify(geometry, 160)) AS geometry FROM north_osm_land_polygons_3575;
+CREATE TABLE north_osm_land_polygons_gen3 AS SELECT ST_MakeValid(ST_Simplify(geometry,  80)) AS geometry FROM north_osm_land_polygons_3575;
+CREATE TABLE north_osm_land_polygons_gen2 AS SELECT ST_MakeValid(ST_Simplify(geometry,  40)) AS geometry FROM north_osm_land_polygons_3575;
+CREATE TABLE north_osm_land_polygons_gen1 AS SELECT ST_MakeValid(ST_Simplify(geometry,  20)) AS geometry FROM north_osm_land_polygons_3575;
 
 CREATE INDEX ON north_osm_land_polygons_gen4 USING gist (geometry);
 CREATE INDEX ON north_osm_land_polygons_gen3 USING gist (geometry);
