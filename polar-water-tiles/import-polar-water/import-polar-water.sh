@@ -13,7 +13,7 @@ alias exec_psql=psql_cmd
 function log() {
   tput bold;
   tput setaf 3;
-  echo $*
+  echo $(date +%Y-%m-%dT%H:%M:%S) $*
   tput sgr0;
 }
 
@@ -70,15 +70,23 @@ function generate_water_tiles() {
   time psql_cmd -v tolerance=4000 -v min_area=16000000 -v zoom=0 -f $PROJECTION/split_land_polygons.sql
   log Split land polygons zoom 3
   time psql_cmd -v tolerance=500 -v min_area=250000 -v zoom=3 -f $PROJECTION/split_land_polygons.sql
-  log Split land polygons zoom 6
-  for xb in `seq 0 10 63`; do
+  # This could run more, e.g. CPUs-2.
+  cpuCount=$(grep --count $'^processor\t' /proc/cpuinfo)
+  cpus=$((cpuCount - 2))
+  cpusminusone=$((cpuCount - 3))
+  log Split land polygons zoom 6 using $cpus parallel processes
+  for xb in `seq 0 $cpus 63`; do
     for y in `seq 0 63`; do
-      for x in `seq $xb $(( $xb + 9 ))`; do
-        log Zoom 6 column $x row $y;
+      xmax=$(( $xb + $cpusminusone ))
+      if [[ $xmax -gt 63 ]]; then
+        xmax=63
+      fi
+      for x in `seq $xb $xmax`; do
+        log Zoom 6 column $x row $y
         psql_cmd -v tolerance=50 -v min_area=2500 -v zoom=6 -v x=$x -v y=$y -f $PROJECTION/split_land_polygons_by_column_and_row.sql -q &
-      done;
-      wait;
-    done;
+      done
+      wait
+    done
   done
 
   psql_cmd -f $PROJECTION/create_water_polygons.sql
