@@ -14,11 +14,7 @@ It creates a reprojected, simplified and split output for use at zooms 0-3 and 4
 Steps
 #####
 
-- Download and unzip the 4326 land polygons.
-
-```
-wget -P data wget http://data.openstreetmapdata.com/land-polygons-complete-4326.zip
-```
+(For running independently, this is normally integrated into an OpenMapTiles project.)
 
 - Start the Postgres database
 
@@ -40,4 +36,4 @@ docker-compose run preview
 
 Look at http://localhost:8080/index_3575.html and http://localhost:8080/index_3031.html.
 
-Use these Docker modules within an OpenMapTiles project.
+**Use these Docker modules within an OpenMapTiles project.** (Nothing has been written to export the data.)

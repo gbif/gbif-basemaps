@@ -17,6 +17,17 @@ function log() {
   tput sgr0;
 }
 
+function download() {
+  if [[ ! -f $LAND_POLYGONS_FILE ]]; then
+    log Downloading OSM Data land polygons
+    wget -c $IMPORT_DATA_DIR/land-polygons-complete-4326.zip --progress=dot:giga http://data.openstreetmapdata.com/land-polygons-complete-4326.zip
+    cd $IMPORT_DATA_DIR
+    log Extracting land polygons
+    unzip land-polygons-complete-4326.zip
+    cd -
+  fi
+}
+
 function import_shp() {
   local shp_file=$1
   local table_name=$2
@@ -28,6 +39,7 @@ function hide_inserts() {
 }
 
 function generate_water_tiles() {
+  log Importing shapefile
   local table_name="osm_land_polygons_4326"
   import_shp "$LAND_POLYGONS_FILE" "$table_name"
 
@@ -94,5 +106,7 @@ function generate_water_tiles() {
   # Further zooms (9+) are fast enough from the unsplit data.
   psql_cmd -f $PROJECTION/create_unsplit_polygons.sql
 }
+
+download
 
 generate_water_tiles
