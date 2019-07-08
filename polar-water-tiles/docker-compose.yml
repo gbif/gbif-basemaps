@@ -6,7 +6,7 @@ services:
   postgres:
     image: "mb.gbif.org:5000/postgis:latest"
     volumes:
-    - /water-tiles:/var/lib/postgresql/data
+    - .../water-tiles:/var/lib/postgresql/data
     networks:
     - postgres_conn
     ports:

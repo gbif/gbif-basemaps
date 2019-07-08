@@ -26,7 +26,37 @@ def GetTM2Source(file):
 
 def GeneratePrepared():
 
-  base_query = "SELECT ST_ASMVT('water', 4096, 'mvtgeometry', tile) FROM (SELECT ST_AsMVTGeom(    ST_Difference(!bbox_nobuffer!, geometry)  ,!bbox_nobuffer!,4096,8,true) AS mvtgeometry FROM (SELECT ST_Union(ST_MakeValid(ST_Intersection(geometry, !bbox_nobuffer!))) AS geometry FROM north_osm_ocean_polygon_gen4 WHERE geometry && !bbox_nobuffer! AND ST_AsMVTGeom(    ST_Difference(!bbox_nobuffer!, geometry)  ,!bbox_nobuffer!,4096,8,true) IS NOT NULL)  AS x) AS tile"
+  # We have land polygons, but want water (ocean/sea) polygons.
+
+  # Creating a diff against the northern hemisphere segfaults Postgres, perhaps because of awkward mathematics around the north pole?
+
+  # Instead, diff against a tile crop.
+
+  # 1. ST_Intersection(geometry, !bbox_nobuffer!) — the multiple bits of land in this tile (null if we're in the ocean)
+  # 2. ST_Union(...)                              — all joined together into a multipolygon (null in the ocean)
+  # 3. ST_Difference(...)                         — the negative (*null* in the ocean)
+  # 4. COALESCE(..., !bbox_nobuffer!)             — if null from the ocean, return the original bounding box
+
+  # This test is hardcoded to north_osm_land_polygons_gen7 for speed.
+
+  tile_geom_query = "SELECT ST_AsMVTGeom(geometry,!bbox_nobuffer!,4096,0,true) AS mvtgeometry FROM (" + \
+                    "    SELECT COALESCE(ST_Difference(!bbox_nobuffer!, ST_Union(ST_Intersection(geometry, !bbox_nobuffer!))), !bbox_nobuffer!) AS geometry FROM north_osm_land_polygons_gen7 WHERE geometry && !bbox_nobuffer! " + \
+                    ") AS x WHERE geometry IS NOT NULL AND NOT ST_IsEmpty(geometry) AND ST_AsMVTGeom(geometry,!bbox_nobuffer!,4096,0,true) IS NOT NULL"
+
+  base_query = "SELECT ST_ASMVT('water', 4096, 'mvtgeometry', tile) FROM ("+tile_geom_query+") AS tile WHERE tile.mvtgeometry IS NOT NULL"
+
+  # Ocean:
+  # 5.0 7.0 26.0 EXECUTE gettile(  ST_SetSRID(ST_MakeBox2D(ST_Point(-5068105.193371859, -6194350.79189894), ST_Point(-4504982.39410832, -5631227.992635399)), 3575)  , 3928032.9189700056, 512, 512);
+  # → Null.
+
+  # Coast:
+  # 5.0 9.0 28.0 EXECUTE gettile(  ST_SetSRID(ST_MakeBox2D(ST_Point(-3941859.59484478, -7320596.390426019), ST_Point(-3378736.7955812397, -6757473.5911624795)), 3575)  , 3928032.9189700056, 512, 512);
+  # → Data
+
+  # Land:
+  # 5.0 12.0 29.0 EXECUTE gettile( ST_SetSRID(ST_MakeBox2D(ST_Point(-2252491.19705416, -7883719.18968956), ST_Point(-1689368.3977906199, -7320596.390426019)), 3575)  , 3928032.9189700056, 512, 512);
+  # → SRID=3575;GEOMETRYCOLLECTION EMPTY
+
   query = base_query.replace("!bbox_nobuffer!","$1").replace("!scale_denominator!","$2").replace("!pixel_width!","$3").replace("!pixel_height!","$4")
   print (base_query)
 

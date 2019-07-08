@@ -11,6 +11,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
       emacs-nox
 
-CMD ["python", "-u","/usr/src/app/server.py"]
+#CMD ["python", "-u","/usr/src/app/server.py"]
+CMD ["sh","/usr/src/app/start.sh"]
 
 COPY . /usr/src/app/
