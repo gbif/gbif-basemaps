@@ -108,3 +108,38 @@ Map { background-color: @land; }
     [zoom>=18] { line-width: 3; }
   }
 }
+
+
+#contour {
+  line-color: #ff0000;
+  line-cap: round;
+  line-width: 0.5;
+  [class='river'] {
+    [zoom>=12] { line-width: 1; }
+    [zoom>=14] { line-width: 2; }
+    [zoom>=16] { line-width: 3; }
+  }
+}
+
+#bathymetry {
+  line-color: #000080;
+  line-cap: round;
+  // polygon-fill: #000080;
+  line-width: 0.5;
+  // [depth=25]   { polygon-fill: #DEEDCF; opacity: 0.5; }
+  // [depth=50]   { polygon-fill: #C7E4B8; opacity: 0.5; }
+  // [depth=100]  { polygon-fill: #ADDAA1; opacity: 0.5; }
+  // [depth=250]  { polygon-fill: #8FD08A; opacity: 0.5; }
+  // [depth=500]  { polygon-fill: #74C67A; opacity: 0.5; }
+  // [depth=1000] { polygon-fill: #5EBC72; opacity: 0.5; }
+  // [depth=1250] { polygon-fill: #48B16D; opacity: 0.5; }
+  // [depth=1500] { polygon-fill: #32A66B; opacity: 0.5; }
+  // [depth=1750] { polygon-fill: #1D9A6C; opacity: 0.5; }
+  // [depth=2000] { polygon-fill: #1A9073; opacity: 0.5; }
+  // [depth=2500] { polygon-fill: #178678; opacity: 0.5; }
+  // [depth=3000] { polygon-fill: #147C7C; opacity: 0.5; }
+  // [depth=3500] { polygon-fill: #116672; opacity: 0.5; }
+  // [depth=4000] { polygon-fill: #0F5267; opacity: 0.5; }
+  // [depth=4500] { polygon-fill: #0C3F5C; opacity: 0.5; }
+  // [depth=5000] { polygon-fill: #0A2F51; opacity: 0.5; }
+}

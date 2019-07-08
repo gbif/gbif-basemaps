@@ -231,3 +231,19 @@
   text-avoid-edges: true;  // prevents clipped labels at tile edges
   [zoom>=15] { text-size: 13; }
 }
+
+#contour {
+  text-name: '[elevation]';
+  text-placement: line;
+  text-face-name: @sans;
+  text-fill: #800000;
+  text-size: 10;
+}
+
+#bathymetry {
+  text-name: '[depth]';
+  text-placement: line;
+  text-face-name: @sans;
+  text-fill: #000080;
+  text-size: 10;
+}

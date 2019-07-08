@@ -93,7 +93,11 @@ function createStyle() {
 					text.getText().setFont('8px sans-serif');
 					styles[length++] = text;
 				}
+			} else if (layer == 'housenumber') {
+				text.getText().setText(feature.get('housenumber'));
+				styles[length++] = text;
 			} else {
+				console.log("Unknown point layer", layer);
 				text.getText().setFont('13px sans-serif');
 				styles[length++] = text;
 			}

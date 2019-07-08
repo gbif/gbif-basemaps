@@ -53,6 +53,7 @@ function compileStylesheetSync(filename) {
         {"id": "landuse" },
         {"id": "waterway" },
         {"id": "park" },
+        {"id": "bathymetry" },
         {"id": "contour" },
         {"id": "boundary" },
         {"id": "transportation" },
