@@ -1,7 +1,13 @@
 #!/bin/bash
 
-queue_length=$(curl -Ss -u guest:guest "http://mq.gbif.org:15672/api/queues/%2Fusers%2Fmblissett" | jq 'reduce (.[] | .messages) as $count (0; . + $count)')
+vhost=$(echo $MQ_VHOST | sed 's/\//%2F/g')
 
-echo "Queue lengths are" $queue_length "for /users/mblissett"
+queue_length=$(curl -Ss -u $MQ_USERNAME:$MQ_PASSWORD "http://$MQ_HOST:15672/api/queues/$vhost" | jq 'reduce (.[] | .messages) as $count (0; . + $count)')
+
+echo "Queue lengths are" $queue_length "for MQ vhost $MQ_VHOST"
 
 [ $(echo -n $queue_length) -lt 400000 ]
+
+#queue_length=$(curl -Ss -u guest:guest "http://mq.gbif.org:15672/api/queues/%2Fusers%2Fmblissett" | jq 'reduce (.[] | .messages) as $count (0; . + $count)')
+
+#[ $(echo -n $queue_length) -lt 400000 ]

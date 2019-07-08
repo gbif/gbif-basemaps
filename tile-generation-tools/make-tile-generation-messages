@@ -1,23 +1,20 @@
-#!/usr/bin/python2
+#!/usr/bin/python3
 """make-tile-generation-messages sends tile generation request messages to RabbitMQ.
 
 This script is intended to be run directly.
 
-    make-tile-generation-messages --mq-host mq.gbif.org --mq-user xx --mq-pass xx --mq-vhost /users/mblissett --queue pending-4326 0 1 2 3 4
+    make-tile-generation-messages --mq-host mq.gbif.org --mq-username xx --mq-password xx --mq-vhost /users/mblissett --mq-pending pending-4326 --projection 4326 0 1 2 3 4
 """
 
+import os
 from sys import stderr, path
 from os.path import realpath, dirname, exists
 from optparse import OptionParser
 
-try:
-    from json import dump as json_dump
-    from json import load as json_load
-    from json import dumps as json_dumps
-    from json import loads as json_loads
-except ImportError:
-    from simplejson import dump as json_dump
-    from simplejson import load as json_load
+from json import dump as json_dump
+from json import load as json_load
+from json import dumps as json_dumps
+from json import loads as json_loads
 
 import pika
 import subprocess
@@ -29,25 +26,33 @@ Makes tile generation messages and sends them to RabbitMQ.
 
 Example:
 
-    make-tile-generation-messages --mq-host mq.gbif.org --mq-user xx --mq-pass xx --mq-vhost /users/mblissett --queue pending-4326 0 1 2 3 4""")
+    make-tile-generation-messages --mq-host mq.gbif.org --mq-username xx --mq-password xx --mq-vhost /users/mblissett --mq-pending pending-4326 --projection 4326 0 1 2 3 4""")
 
-defaults = dict(verbose=False)
+defaults = dict(projection=os.environ.get('PROJECTION'),
+                mq_host=os.environ.get('MQ_HOST'),
+                mq_username=os.environ.get('MQ_USERNAME'),
+                mq_password=os.environ.get('MQ_PASSWORD'),
+                mq_vhost=os.environ.get('MQ_VHOST'),
+                mq_pending=os.environ.get('MQ_PENDING'))
 
 parser.set_defaults(**defaults)
+
+parser.add_option('--projection', dest='projection',
+                  help='Projection, e.g. 4326.')
 
 parser.add_option('--tile-list', dest='tile_list',
                   help='Optional file of tile coordinates, a simple text list of Z/X/Y coordinates.')
 
-parser.add_option('--queue', dest='queue_name',
+parser.add_option('--mq-pending', dest='mq_pending',
                   help='RabbitMQ queue name.')
 
 parser.add_option('--mq-host', dest='mq_host',
                   help='RabbitMQ server.')
 
-parser.add_option('--mq-user', dest='mq_user',
-                  help='RabbitMQ user name.')
+parser.add_option('--mq-username', dest='mq_username',
+                  help='RabbitMQ username.')
 
-parser.add_option('--mq-pass', dest='mq_pass',
+parser.add_option('--mq-password', dest='mq_password',
                   help='RabbitMQ password.')
 
 parser.add_option('--mq-vhost', dest='mq_vhost',
@@ -107,10 +112,10 @@ def generatePyramid(projection, top_tile, zooms):
 
     print('Projection', projection)
 
-    if (projection == 'WGS84'):
+    if (projection == '4326'):
         print('Skip')
-    else:
-        raise Exception('y')
+    elif (projection == '3575'):
+        print('Only including northern hemisphere tiles.')
         #bounds_ul = projection.coordinateProj(top_tile)
         #bounds_lr = projection.coordinateProj(top_tile.down().right())
         #print('Pyramid top tile bounds in projection units', bounds_ul, bounds_lr)
@@ -121,15 +126,20 @@ def generatePyramid(projection, top_tile, zooms):
         #pyramid_end   = projection.projCoordinate(bounds_lr, zooms[-1])
         #print('Tile grid extent of bottom of pyramid', pyramid_start, pyramid_end)
 
+    else:
+        print('Skip')
+
     # start with a simple total of all the coordinates we will need.
     count = 0
 
     for zoom in zooms:
-        if (projection == 'WGS84'):
+        if (projection == '4326'):
             pyramid_start = Coordinate(        0,           0, zoom)
             pyramid_end   = Coordinate(2**zoom-1, 2*2**zoom-1, zoom)
         else:
-            raise Exception('x')
+            pyramid_start = Coordinate(        0,           0, zoom)
+            pyramid_end   = Coordinate(2**zoom-1,   2**zoom-1, zoom)
+            #raise Exception('x')
             #pyramid_start = projection.projCoordinate(bounds_ul, zoom)
             #pyramid_end   = projection.projCoordinate(bounds_lr, zoom)
             #pyramid_end.row = pyramid_end.row - 1
@@ -144,25 +154,70 @@ def generatePyramid(projection, top_tile, zooms):
     # offset starts at zero
     offset = 0
 
+    # 3575 bounds for 45° line:
+    # Z0: 0
+    # Z1: 0
+    # Z2: 0
+    # Z3: 1
+    # Z4: 3
+    # Z5: 7
+    # Z6: 14
+    # Z7: 29
+    # Z8: 58
+    # Z9: ...etc
+
     for zoom in zooms:
         print(projection)
-        if (projection == 'WGS84'):
+        if (projection == '4326'):
             pyramid_start = Coordinate(        0,           0, zoom)
             pyramid_end   = Coordinate(2**zoom-1, 2*2**zoom-1, zoom)
         else:
-            pyramid_start = projection.projCoordinate(bounds_ul, zoom)
-            pyramid_end   = projection.projCoordinate(bounds_lr, zoom)
-            pyramid_end.row = pyramid_end.row - 1
-            pyramid_end.column = pyramid_end.column - 1
+            pyramid_start = Coordinate(        0,           0, zoom)
+            pyramid_end   = Coordinate(2**zoom-1,   2**zoom-1, zoom)
+            #pyramid_start = projection.projCoordinate(bounds_ul, zoom)
+            #pyramid_end   = projection.projCoordinate(bounds_lr, zoom)
+            #pyramid_end.row = pyramid_end.row - 1
+            #pyramid_end.column = pyramid_end.column - 1
 
         print('Tile grid extent at zoom '+str(zoom), pyramid_start, pyramid_end)
+
+        # Decimal radius in map tiles of the 45° parallel, squared.
+        pp = ((4889334.80/9009964.76)*(2**(zoom-1)))**2
+        # Decimal radius in map tiles of the Equator, squared.
+        pp = ((9009964.76/9009964.76)*(2**(zoom-1)))**2
+        print('Max radius² at zoom', zoom, 'is', pp)
+
+        # Width of map in tiles
+        w = 2 ** zoom
+        print('Width of map in tiles', w)
 
         for column in range(pyramid_start.column, pyramid_end.column+1):
             for row in range(pyramid_start.row, pyramid_end.row+1):
                 coord = Coordinate(row, column, zoom)
 
-                yield (offset, count, coord)
+                #print('CR', column, row)
 
+                if (projection == '3575'):
+                  # Convert to coordinate of corner of tile closest to North Pole
+                  x = column - (w/2)
+                  if (column < w/2):
+                    x = x+1
+                  y =    row - (w/2)
+                  if (row < w/2):
+                    y = y+1
+                  #print('XY', x, y, 'x²+y²', (x*x + y*y))
+
+                  if ((x*x + y*y) <= pp):
+                    #print(coord.zoom, coord.column, coord.row, "within 45°")
+                    yield (offset, count, coord)
+                  #else:
+                  #  print(coord.zoom, coord.column, coord.row, "NOT within 45°")
+
+
+                else:
+                    yield (offset, count, coord)
+
+                    #print('')
                 offset += 1
 
 def listCoordinates(filename):
@@ -183,13 +238,10 @@ if __name__ == '__main__':
     options, zooms = parser.parse_args()
 
     try:
-        # determine if we have enough information to prep a config and layer
-
-        if options.queue_name is None:
-            raise Exception('Missing required queue name (--queue) parameter.')
+        if options.mq_pending is None:
+            raise Exception('Missing required queue name (--mq-queue) parameter.')
 
         # do the actual work
-
         for (i, zoom) in enumerate(zooms):
             if not zoom.isdigit():
                 raise Exception('"%s" is not a valid numeric zoom level.' % zoom)
@@ -198,39 +250,36 @@ if __name__ == '__main__':
 
         tile_list = options.tile_list
 
-        queue_name = options.queue_name
+        mq_pending = options.mq_pending
 
     except Exception as e:
         parser.error(str(e))
+
+    print("Will send tile messages to", options.mq_pending, "for zooms", zooms, "in projection", options.projection)
 
     if tile_list:
         coordinates = listCoordinates(tile_list)
     else:
         top_tile = Coordinate(0, 0, 0)
-        #coordinates = generatePyramid(layer.projection, top_tile, zooms)
-        coordinates = generatePyramid('WGS84', top_tile, zooms)
+        coordinates = generatePyramid(options.projection, top_tile, zooms)
 
-    credentials = pika.PlainCredentials(options.mq_user, options.mq_pass)
+    credentials = pika.PlainCredentials(options.mq_username, options.mq_password)
     connection = pika.BlockingConnection(pika.ConnectionParameters(options.mq_host, 5672, options.mq_vhost, credentials))
     channel = connection.channel()
 
-    channel.queue_declare(queue=queue_name)
+    channel.queue_declare(queue=mq_pending)
 
     # Queue stuff
     queued = 0
     waiting = False
     for coordinate in coordinates:
-        if (queued % 100000) == 0:
-            print (queued, "th", coordinate)
-
         (offset, count, coord) = coordinate
-        if (coord.column > 2): break
 
         if (queued % 100000) == 0 or waiting:
-            print (queued, "th", coordinate)
+            print (str(queued)+"th", "ZXY:", coord.zoom, coord.column, coord.row)
 
             # This only knows the number of messages in a single queue
-            #res = channel.queue_declare(queue=queue_name, passive=True)
+            #res = channel.queue_declare(queue=mq_pending, passive=True)
             #print 'Messages in queue %d' % res.method.message_count
 
             #queues = json_load(urlopen("http://xx:xx@mq.gbif.org:15672/api/queues/%2Fusers%2Fmblissett"))
@@ -239,7 +288,7 @@ if __name__ == '__main__':
                 waiting = True
                 time.sleep(5)
             else:
-                print("Queue is not too long")
+                #print("Queue is not too long")
                 waiting = False
 
         data = json_dumps({
@@ -252,19 +301,21 @@ if __name__ == '__main__':
             }
         })
 
-        if (coord.zoom == 7 and (coord.row == 63 or coord.row == 64)):
-          print("Skip 7/x/63-64", coord.zoom, coord.column, coord.row)
-        elif (coord.zoom == 11 and (coord.row == 1023 or coord.row == 1024)):
-          print("Skip 11/x/1023-1024", coord.zoom, coord.column, coord.row)
-        elif (coord.zoom == 12 and (coord.row == 2047 or coord.row == 2048)):
-          print("Skip 12/x/2047-2048", coord.zoom, coord.column, coord.row)
-        elif (coord.zoom == 13 and (coord.row == 4095 or coord.row == 4096)):
-          print("Skip 13/x/4095-4096", coord.zoom, coord.column, coord.row)
-        elif (coord.zoom == 14 and (coord.row == 8191 or coord.row == 8192)):
-          print("Skip 14/x/8191-8192", coord.zoom, coord.column, coord.row)
+        if (False):
+          print('False')
+        # if (coord.zoom == 7 and (coord.row == 63 or coord.row == 64)):
+        #   print("Skip 7/x/63-64", coord.zoom, coord.column, coord.row)
+        # elif (coord.zoom == 11 and (coord.row == 1023 or coord.row == 1024)):
+        #   print("Skip 11/x/1023-1024", coord.zoom, coord.column, coord.row)
+        # elif (coord.zoom == 12 and (coord.row == 2047 or coord.row == 2048)):
+        #   print("Skip 12/x/2047-2048", coord.zoom, coord.column, coord.row)
+        # elif (coord.zoom == 13 and (coord.row == 4095 or coord.row == 4096)):
+        #   print("Skip 13/x/4095-4096", coord.zoom, coord.column, coord.row)
+        # elif (coord.zoom == 14 and (coord.row == 8191 or coord.row == 8192)):
+        #   print("Skip 14/x/8191-8192", coord.zoom, coord.column, coord.row)
         else:
           channel.basic_publish(exchange='',
-                                routing_key=queue_name,
+                                routing_key=mq_pending,
                                 body=data)
           queued = queued + 1
 
