@@ -17,6 +17,12 @@ Map {
   background-color:@land;
 }
 
+#graticules {
+  line-color: #aaa;
+  line-width: 1;
+  line-dasharray: 5,3;
+}
+
 // ---------------------------------------------------------------------
 // Political boundaries
 

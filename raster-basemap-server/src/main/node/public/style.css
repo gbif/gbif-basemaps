@@ -42,7 +42,6 @@ padding: 64px 0;
   padding: 0;
   height: 256px;
   width: 256px;
-  background-color: black;
   background-size: contain;
 }
 
@@ -52,7 +51,6 @@ padding: 64px 0;
   padding: 0;
   height: 512px;
   width: 512px;
-  background-color: black;
   background-size: contain;
 }
 

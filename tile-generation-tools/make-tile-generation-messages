@@ -112,23 +112,6 @@ def generatePyramid(projection, top_tile, zooms):
 
     print('Projection', projection)
 
-    if (projection == '4326'):
-        print('Skip')
-    elif (projection == '3575'):
-        print('Only including northern hemisphere tiles.')
-        #bounds_ul = projection.coordinateProj(top_tile)
-        #bounds_lr = projection.coordinateProj(top_tile.down().right())
-        #print('Pyramid top tile bounds in projection units', bounds_ul, bounds_lr)
-
-        #print(bounds_ul.__class__)
-
-        #pyramid_start = projection.projCoordinate(bounds_ul, zooms[-1])
-        #pyramid_end   = projection.projCoordinate(bounds_lr, zooms[-1])
-        #print('Tile grid extent of bottom of pyramid', pyramid_start, pyramid_end)
-
-    else:
-        print('Skip')
-
     # start with a simple total of all the coordinates we will need.
     count = 0
 
@@ -139,11 +122,6 @@ def generatePyramid(projection, top_tile, zooms):
         else:
             pyramid_start = Coordinate(        0,           0, zoom)
             pyramid_end   = Coordinate(2**zoom-1,   2**zoom-1, zoom)
-            #raise Exception('x')
-            #pyramid_start = projection.projCoordinate(bounds_ul, zoom)
-            #pyramid_end   = projection.projCoordinate(bounds_lr, zoom)
-            #pyramid_end.row = pyramid_end.row - 1
-            #pyramid_end.column = pyramid_end.column - 1
 
         columns = pyramid_end.column - pyramid_start.column
         rows = pyramid_end.row - pyramid_start.row
@@ -174,18 +152,17 @@ def generatePyramid(projection, top_tile, zooms):
         else:
             pyramid_start = Coordinate(        0,           0, zoom)
             pyramid_end   = Coordinate(2**zoom-1,   2**zoom-1, zoom)
-            #pyramid_start = projection.projCoordinate(bounds_ul, zoom)
-            #pyramid_end   = projection.projCoordinate(bounds_lr, zoom)
-            #pyramid_end.row = pyramid_end.row - 1
-            #pyramid_end.column = pyramid_end.column - 1
 
         print('Tile grid extent at zoom '+str(zoom), pyramid_start, pyramid_end)
 
-        # Decimal radius in map tiles of the 45° parallel, squared.
-        pp = ((4889334.80/9009964.76)*(2**(zoom-1)))**2
-        # Decimal radius in map tiles of the Equator, squared.
-        pp = ((9009964.76/9009964.76)*(2**(zoom-1)))**2
-        print('Max radius² at zoom', zoom, 'is', pp)
+        if zoom < 10:
+          # Decimal radius in map tiles of the Equator, squared.
+          pp = ((9009964.76/9009964.76)*(2**(zoom-1)))**2
+          print('Max radius² at zoom for Equator', zoom, 'is', pp)
+        else:
+          # Decimal radius in map tiles of the 45° parallel, squared.
+          pp = ((4889334.80/9009964.76)*(2**(zoom-1)))**2
+          print('Max radius² at zoom for 45°', zoom, 'is', pp)
 
         # Width of map in tiles
         w = 2 ** zoom
@@ -197,7 +174,7 @@ def generatePyramid(projection, top_tile, zooms):
 
                 #print('CR', column, row)
 
-                if (projection == '3575'):
+                if (projection == '3575') and zoom > 0:
                   # Convert to coordinate of corner of tile closest to North Pole
                   x = column - (w/2)
                   if (column < w/2):
@@ -208,16 +185,16 @@ def generatePyramid(projection, top_tile, zooms):
                   #print('XY', x, y, 'x²+y²', (x*x + y*y))
 
                   if ((x*x + y*y) <= pp):
-                    #print(coord.zoom, coord.column, coord.row, "within 45°")
+                    if (offset % 5000 == 0):
+                      print(coord.zoom, coord.column, coord.row, "within 45°")
                     yield (offset, count, coord)
-                  #else:
-                  #  print(coord.zoom, coord.column, coord.row, "NOT within 45°")
-
+                  else:
+                    if (offset % 5000 == 0):
+                      print(coord.zoom, coord.column, coord.row, "NOT within 45°")
 
                 else:
                     yield (offset, count, coord)
 
-                    #print('')
                 offset += 1
 
 def listCoordinates(filename):
@@ -264,7 +241,7 @@ if __name__ == '__main__':
         coordinates = generatePyramid(options.projection, top_tile, zooms)
 
     credentials = pika.PlainCredentials(options.mq_username, options.mq_password)
-    connection = pika.BlockingConnection(pika.ConnectionParameters(options.mq_host, 5672, options.mq_vhost, credentials))
+    connection = pika.BlockingConnection(pika.ConnectionParameters(options.mq_host, 5672, options.mq_vhost, credentials, socket_timeout=300))
     channel = connection.channel()
 
     channel.queue_declare(queue=mq_pending)

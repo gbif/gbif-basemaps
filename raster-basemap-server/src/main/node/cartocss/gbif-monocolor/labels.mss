@@ -232,6 +232,19 @@
   [zoom>=15] { text-size: 13; }
 }
 
+#graticules {
+  text-name: @name;
+  [@name=~'^$'] { text-name: @name_fallback }
+  text-placement: line;  // text follows line path
+  text-face-name: @sans;
+  text-fill: @text;
+  text-halo-fill: @text_halo_fill;
+  text-halo-radius: 1;
+  text-halo-rasterizer: fast;
+  text-size: 10;
+  text-avoid-edges: true;  // prevents clipped labels at tile edges
+}
+
 #contour {
   text-name: '[elevation]';
   text-placement: line;

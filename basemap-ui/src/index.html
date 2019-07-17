@@ -153,7 +153,7 @@
 		<p>For information on occurrence map tiles, see the <a href="https://www.gbif.org/developer/maps">GBIF Maps API</a>.</p>
 
 		<h2>Data schema and sources</h2>
-		<p>The Web Mercator tiles are simply those from <a href="https://openmaptiles.org/">OpenMapTiles.org</a>, see <a href="https://openmaptiles.org/schema/">the OpenMapTiles schema</a> for details.  The other projections have been generated to fit the same layer schema, but with fewer layers — see below.</p>
+		<p>The Web Mercator tiles are simply those from <a href="https://openmaptiles.org/">OpenMapTiles.org</a>, see <a href="https://openmaptiles.org/schema/">the OpenMapTiles schema</a> (v3.6) for details.  The other projections have been generated to fit the same layer schema, but with fewer layers — see below.</p>
 
 		<p>Web Mercator tiles are from 2017-07-03.</p>
 
@@ -161,20 +161,23 @@
 
 		<p>WGS84 tiles are from OpenStreetMap as of 2017-08-28, and Natural Earth version 2.0.0.</p>
 
-		<p>Polar tiles are from OpenStreetMap as of 2017-02-27, and Natural Earth version 2.0.0.  (They will soon be processed to add extra layers.)</p>
+		<p>Arctic (3575) tiles are from OpenStreetMap as of 2019-01, and Natural Earth version 2.0.0.</p>
+
+		<p>Antarctic (3031) tiles are from OpenStreetMap as of 2017-08-28, and Natural Earth version 2.0.0.</p>
 
 		<h2>Vector Tiles</h2>
-		<p>The schema for the vector tile layers follows <a href="https://openmaptiles.org/schema/">the OpenMapTiles schema</a>, but with fewer layers included for the non-Mercator projections.  In addition, the Arctic LAEA projection includes a <code>graticule</code> layer, containing a polygon for the Northern Hemisphere and lines for 60°N and the Arctic Circle.</p>
+		<p>The schema for the vector tile layers follows <a href="https://openmaptiles.org/schema/">the OpenMapTiles schema</a>, but with fewer layers included for the non-Mercator projections.  In addition, the Arctic LAEA projection includes a <code>world_extent</code> layer, with a polygon for the Northern Hemisphere, and a <code>graticules</code> layer, containing a lines for 45°N and the Arctic Circle.</p>
 
 		<p>Vector tiles can be styled in the browser.  For a general overview of vector tiles, see the <a href="https://openmaptiles.org/docs/">OpenMapTiles documentation</a>.</p>
 
 		<table style="text-align: center">
 			<tr>
 				<th rowspan="2">Projection</th>
-				<th colspan="16">Layers in vector tiles</th>
+				<th colspan="17">Layers in “<code>omt</code>” vector tiles</th>
 			</tr>
 			<tr>
-				<th><code>graticule</code></th>
+				<th><code>world_extent</code></th>
+				<th><code>graticules</code></th>
 				<th><code>water</code></th>
 				<th><code>waterway</code></th>
 				<th><code>landcover</code></th>
@@ -194,6 +197,7 @@
 			<tr>
 				<td>EPSG:3857<br/><img src="/3857/omt/0/0/0@1x.png?style=gbif-classic"/></td>
 				<td class="no"></td>
+				<td class="no"></td>
 				<td>✓</td>
 				<td>✓</td>
 				<td>✓</td>
@@ -212,6 +216,7 @@
 			</tr>
 			<tr>
 				<td>EPSG:4326<br/><img src="/4326/omt/0/0/0@1x.png?style=gbif-classic" style="width: 64px"/><img src="/4326/omt/0/1/0@1x.png?style=gbif-classic" style="width: 64px"/></td>
+				<td class="no"></td>
 				<td class="no"></td>
 				<td>✓</td>
 				<td>✓</td>
@@ -235,21 +240,23 @@
 				<td>✓</td>
 				<td>✓</td>
 				<td>✓</td>
-				<td class="no"></td>
-				<td class="no"></td>
-				<td class="no"></td>
 				<td>✓</td>
-				<td class="no"></td>
-				<td class="no"></td>
-				<td class="no"></td>
 				<td>✓</td>
-				<td class="no"></td>
 				<td>✓</td>
-				<td class="no"></td>
-				<td class="no"></td>
+				<td>✓</td>
+				<td>✓</td>
+				<td>✓</td>
+				<td>✓</td>
+				<td>✓</td>
+				<td>✓</td>
+				<td>✓</td>
+				<td>✓</td>
+				<td>✓</td>
+				<td>✓</td>
 			</tr>
 			<tr>
 				<td>EPSG:3031<br/><img src="/3031/omt/0/0/0@1x.png?style=gbif-classic"/></td>
+				<td class="no"></td>
 				<td class="no"></td>
 				<td>✓</td>
 				<td>✓</td>
@@ -270,7 +277,7 @@
 		</table>
 
 		<h2>Raster Styles</h2>
-		<p>Eight raster styles are available, they can be used with any of the projections.</p>
+		<p>Eight raster styles are available, they can be used with any of the projections, but will only have the layers that exist in that projection.</p>
 		<ul class="preview">
 			<li>
 				<h2>GBIF Classic</h2>
@@ -333,7 +340,7 @@
 		</ul>
 
 		<p>
-			The "GBIF Geyser", "GBIF Tuatara", "GBIF Violet" and "OSM Bright" styles are available with labels in several languages, the default is for labels to be in the local language(s) of the country.  Use the style names like <tt>gbif-geyser-XX</tt>, where XX should be replaced with <tt>ar</tt>, <tt>da</tt>, <tt>de</tt>, <tt>en</tt>, <tt>es</tt>, <tt>fr</tt>, <tt>ja</tt>, <tt>pt</tt>, <tt>ru</tt> or <tt>zh</tt> to have the labels translated, where possible.
+			The “GBIF Geyser”, “GBIF Tuatara”, “GBIF Violet” and “OSM Bright” styles are available with labels in several languages.  The default is for labels to be in the local language(s) of the country.  Use the style names like <tt>gbif-geyser-XX</tt>, where XX should be replaced with <tt>ar</tt>, <tt>da</tt>, <tt>de</tt>, <tt>en</tt>, <tt>es</tt>, <tt>fr</tt>, <tt>ja</tt>, <tt>pt</tt>, <tt>ru</tt> or <tt>zh</tt> to have the labels translated, where possible.
 		</p>
 
 		<h2>Usage</h2>
@@ -451,18 +458,22 @@
 
 		<h2>Credits and copyright</h2>
 
-		<p>Map data and cartography is:</p>
+		<p>Map data and cartography:</p>
 		<ul>
-			<li>© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors</li>
-			<li>© <a href="https://www.openmaptiles.org/copyright">OpenMapTiles</a></li>
-			<li>From <a href="https://www.gbif.org/citation-guidelines">GBIF.org</a> for the occurrence data</li>
+			<li>The “omt” tileset is:
+				<ul>
+					<li>© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors</li>
+					<li>© <a href="https://www.openmaptiles.org/copyright">OpenMapTiles</a></li>
+				</ul>
+			</li>
+			<li>See <a href="https://www.gbif.org/citation-guidelines">GBIF.org</a> for the appropriate citation for GBIF occurrence data</li>
 		</ul>
 
 		<p>Thanks also to:</p>
 		<ul>
 			<li><a href="http://www.naturalearthdata.com/"><strong>Natural Earth</strong></a> for public domain map data, used at low zoom levels,</li>
 			<li><strong>OpenMapTiles</strong>, <a href="http://postgis.net/"><strong>PostGIS</strong></a> and many others for the software used to produce vector tiles,</li>
-			<li><a href="http://openlayers.org/"><strong>OpenLayers</strong></a> for good support of non-Mercator projections.</li>
+			<li><a href="https://openlayers.org/"><strong>OpenLayers</strong></a> for good support of non-Mercator projections.</li>
 		</ul>
 	</body>
 </html>

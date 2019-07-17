@@ -41,9 +41,11 @@ function layerColour(name, transparency) {
 	case 'water':
 		return "rgba(32,32,255,"+transparency+")";
 	case 'water_name':
-		return "rgba(0,0,64,0,"+transparency+")";
+		return "rgba(0,0,128,"+transparency+")";
 	case 'waterway':
 		return "rgba(0,0,255,"+transparency+")";
+	case 'world_extent':
+		return "rgba(200,200,200,"+transparency+")";
 	default:
 		console.log("Unknown layer", name);
 		return "rgba(0,0,0,"+transparency+")";
@@ -96,8 +98,20 @@ function createStyle() {
 			} else if (layer == 'housenumber') {
 				text.getText().setText(feature.get('housenumber'));
 				styles[length++] = text;
+			} else if (layer == 'place') {
+				text.getText().setFont('13px sans-serif');
+				styles[length++] = text;
+			} else if (layer == 'poi') {
+				text.getText().setFont('8px sans-serif');
+				if (!feature.get('name')) {
+					text.getText().setText(feature.get('class'));
+				}
+				styles[length++] = text;
+			} else if (layer == 'water_name') {
+				text.getText().setFont('13px sans-serif');
+				styles[length++] = text;
 			} else {
-				console.log("Unknown point layer", layer);
+				console.log("Unknown point layer", layer, feature);
 				text.getText().setFont('13px sans-serif');
 				styles[length++] = text;
 			}

@@ -16,6 +16,12 @@
 
 Map { background-color: @land; }
 
+#graticules {
+  line-color: @politicalBoundaries;
+  line-width: 1;
+  line-dasharray: 5,3;
+}
+
 // Political boundaries //
 #boundary[admin_level=2] {
   line-join: round;
