@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<title>Globe map preview</title>
+		<link rel="icon" href="https://api.gbif.org/v2/map/occurrence/density/0/0/0@1x.png?srs=EPSG%3A3575&amp;style=purpleYellow.point"/>
+		<script src="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/build/ol.js"></script>
+		<script src="https://openlayers.org/ol-cesium/olcesium.js"></script>
+		<script src="https://openlayers.org/ol-cesium/node_modules/@camptocamp/cesium/Build/Cesium/Cesium.js"></script>
+		<style>
+			html {
+				font-family: sans-serif;
+			}
+			.map {
+				width: 100%;
+				height: 100%;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="map" class="map"></div>
+		<p>This is a demonstration using the <a href="https://openlayers.org/ol-cesium/">OpenLayers – Cesium integration library</a>.  EPSG:4326 tiles are used, so the map is complete at the poles.</p>
+		<script>
+var view = new ol.View({
+	center: [0, 0],
+	projection: 'EPSG:4326',
+	zoom: 2
+})
+
+var tile_size = 512;
+var resolutions = Array(17).fill().map((_, i) => ( 180.0 / tile_size / Math.pow(2, i) ));
+
+var tileGrid = new ol.tilegrid.TileGrid({
+	extent: [-180, -90, 180, 90],
+	minZoom: 0,
+	maxZoom: 16,
+	resolutions: resolutions,
+	tileSize: 512,
+});
+
+var layers = [];
+var raster_style = 'gbif-classic';
+layers['EPSG:4326-R'] = new ol.layer.Tile({
+	source: new ol.source.TileImage({
+		projection: 'EPSG:4326',
+		tileGrid: tileGrid,
+		tileUrlFunction: function(tileCoord) {
+			return ('https://tile.gbif.org/4326/omt/{z}/{x}/{y}@2x.png?style='+raster_style)
+				.replace('{z}', (tileCoord[0] - 1).toString())
+				.replace('{x}', tileCoord[1].toString())
+				.replace('{y}', (-tileCoord[2] - 1).toString());
+		},
+	}),
+});
+
+layers['OccurrenceDensityRaster:4326'] = new ol.layer.Tile({
+	source: new ol.source.TileImage({
+		projection: 'EPSG:4326',
+		tileGrid: tileGrid,
+		tileUrlFunction: function(tileCoord) {
+			return 'https://api.gbif.org/v2/map/occurrence/density/{z}/{x}/{y}@2x.png?srs=EPSG:4326'
+				.replace('{z}', (tileCoord[0] - 1).toString())
+				.replace('{x}', tileCoord[1].toString())
+				.replace('{y}', (-tileCoord[2] - 1).toString());
+		},
+	}),
+});
+
+var ol2d = new ol.Map({
+	layers: [
+		layers['EPSG:4326-R'],
+		layers['OccurrenceDensityRaster:4326']
+	],
+	target: 'map',
+	view: view
+});
+
+var ol3d = new olcs.OLCesium({
+	map: ol2d,
+});
+
+ol3d.setEnabled(true);
+</script>
+	</body>
+</html>
