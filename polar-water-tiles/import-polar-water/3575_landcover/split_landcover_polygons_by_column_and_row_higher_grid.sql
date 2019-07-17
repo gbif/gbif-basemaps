@@ -44,4 +44,4 @@ INSERT INTO split_landcover_polygons_3575 (id, osm_id, landuse, leisure, "natura
           AND b.x=:x
           AND b.y=:y
           AND NOT EXISTS (SELECT * FROM split_landcover_polygons_3575 s WHERE s.zoom = :zoom AND s.x = :x AND s.y = :y)
-          AND EXISTS (SELECT * FROM split_land_polygons_3575 t WHERE t.zoom = :grid AND t.x = :x AND t.y = :y);
+          AND EXISTS (SELECT * FROM split_land_polygons_3575 t WHERE t.zoom = 1008 AND t.x = :x AND t.y = :y);

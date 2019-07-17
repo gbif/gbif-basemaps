@@ -1,0 +1,1 @@
+INSERT INTO split_land_polygons_3575 (fid, tolerance, min_area, zoom, x, y, geometry) SELECT fid, :tolerance, :min_area, 1000+:zoom, x, y, ST_Multi(ST_SimplifyPreserveTopology(geometry, :tolerance)) FROM split_land_polygons_3575 WHERE zoom = 14 AND x=:x and y=:y AND ST_Area(geometry) > :min_area;

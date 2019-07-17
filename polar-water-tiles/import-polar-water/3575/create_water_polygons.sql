@@ -33,6 +33,6 @@ INSERT INTO split_water_polygons_3575 (tolerance, min_area, zoom, x, y, geometry
 
 DROP VIEW merged_land_polygons_3575;
 
-CREATE INDEX
+CREATE INDEX split_water_polygons_3575_idx
     ON split_water_polygons_3575
     USING GIST (geometry);

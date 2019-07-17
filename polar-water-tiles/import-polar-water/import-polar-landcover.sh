@@ -22,7 +22,7 @@ function hide_inserts() {
 function generate_landcover_tiles() {
 
   log Reprojecting landcover polygons to $PROJECTION
-  psql_cmd -f $PROJECTION/reproject_landcover_polygons.sql
+  psql_cmd -f ${PROJECTION}_landcover/reproject_landcover_polygons.sql
 
   log Setup tables
   psql_cmd -f $PROJECTION/setup_tables.sql
@@ -36,29 +36,33 @@ function generate_landcover_tiles() {
   # This took > 3 hours.
   # Many polygons lower than the min_area are present.
   # For zoom 13
-  psql_cmd -v tolerance=2     -v min_area=6         -f $PROJECTION/simplify_landcover_polygons.sql
+  psql_cmd -v tolerance=2     -v min_area=6         -f ${PROJECTION}_landcover/simplify_landcover_polygons.sql
   # For zoom 12
-  psql_cmd -v tolerance=4     -v min_area=12        -f $PROJECTION/simplify_landcover_polygons.sql
+  psql_cmd -v tolerance=4     -v min_area=12        -f ${PROJECTION}_landcover/simplify_landcover_polygons.sql
   # For zoom 11
-  psql_cmd -v tolerance=8     -v min_area=25        -f $PROJECTION/simplify_landcover_polygons.sql
+  psql_cmd -v tolerance=8     -v min_area=25        -f ${PROJECTION}_landcover/simplify_landcover_polygons.sql
   # For zoom 10
-  psql_cmd -v tolerance=15    -v min_area=100       -f $PROJECTION/simplify_landcover_polygons.sql
+  psql_cmd -v tolerance=15    -v min_area=100       -f ${PROJECTION}_landcover/simplify_landcover_polygons.sql
   # For zoom 9
-  psql_cmd -v tolerance=25    -v min_area=400       -f $PROJECTION/simplify_landcover_polygons.sql
+  psql_cmd -v tolerance=25    -v min_area=400       -f ${PROJECTION}_landcover/simplify_landcover_polygons.sql
   # For zoom 8
-  psql_cmd -v tolerance=50    -v min_area=2500      -f $PROJECTION/simplify_landcover_polygons.sql
+  psql_cmd -v tolerance=50    -v min_area=2500      -f ${PROJECTION}_landcover/simplify_landcover_polygons.sql
   # For zoom 7
-  psql_cmd -v tolerance=100   -v min_area=10000     -f $PROJECTION/simplify_landcover_polygons.sql
+  psql_cmd -v tolerance=100   -v min_area=10000     -f ${PROJECTION}_landcover/simplify_landcover_polygons.sql
   # Lower zooms use Natural Earth data.
 
-  log Split landcover polygons
-  split_in_parallel 8 50 2500
-  split_in_parallel 7 100 10000
 
-  split_in_parallel_grid8 10 15 100
-  split_in_parallel_grid8 11 8 25
-  split_in_parallel_grid8 12 4 12
-  split_in_parallel_grid8 13 2 6
+  psql_cmd -v tolerance=100   -v min_area=10000     -f ${PROJECTION}_landcover/simplify_landcover_polygons.sql &
+  psql_cmd -v tolerance=50    -v min_area=2500      -f ${PROJECTION}_landcover/simplify_landcover_polygons.sql &
+  psql_cmd -v tolerance=25    -v min_area=400       -f ${PROJECTION}_landcover/simplify_landcover_polygons.sql &
+
+  split_in_parallel_grid8  7 100 10000
+  split_in_parallel_grid8  8  50  2500
+  split_in_parallel_grid8  9  25   400
+  split_in_parallel_grid8 10  15   100
+  split_in_parallel_grid8 11   8    25
+  split_in_parallel_grid8 12   4    12
+  split_in_parallel_grid8 13   2     6
 }
 
 function split_in_parallel() {

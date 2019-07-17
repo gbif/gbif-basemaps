@@ -25,6 +25,7 @@ CREATE TABLE split_land_polygons_3575 (
 -- splitting can make multipolygons out of polygons, so geometry type is different
 SELECT AddGeometryColumn('split_land_polygons_3575', 'geometry', 3575, 'MULTIPOLYGON', 2);
 
+CREATE INDEX split_land_polygons_3575_idx ON split_land_polygons_3575 (zoom, x, y);
 
 CREATE TABLE split_water_polygons_3575 (
     id        SERIAL,
@@ -37,6 +38,7 @@ CREATE TABLE split_water_polygons_3575 (
 
 SELECT AddGeometryColumn('split_water_polygons_3575', 'geometry', 3575, 'MULTIPOLYGON', 2);
 
+CREATE INDEX split_water_polygons_3575_idx ON split_water_polygons_3575 (zoom, x, y);
 
 CREATE TABLE bbox_tiles_3575 (
     id        SERIAL,
@@ -48,3 +50,5 @@ CREATE TABLE bbox_tiles_3575 (
 SELECT AddGeometryColumn('bbox_tiles_3575', 'geometry', 3575, 'POLYGON', 2);
 
 CREATE INDEX idx_bbox_files_geom_3575 ON bbox_tiles_3575 USING GIST (geometry);
+
+CREATE INDEX bbox_tiles_3575_idx ON bbox_tiles_3575 (zoom, x, y);
