@@ -7,7 +7,7 @@ const fs = require('fs')
 /**
  * Compile the CartoCSS into Mapnik stylesheets into a lookup dictionary
  */
-var languages = ["ar", "zh", "en", "fr", "ru", "es", "ja", "de", "da", "pt"];
+var languages = ["ar", "da", "de", "en", "es", "fr", "ja", "pt", "ru", "uk", "zh"];
 var namedStyles = {};
 
 namedStyles["osm-bright"] = compileStylesheetSync(['./cartocss/osm-bright/style.mss', './cartocss/osm-bright/road.mss', './cartocss/osm-bright/labels-local.mss', './cartocss/osm-bright/labels.mss']);

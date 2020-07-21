@@ -38,6 +38,7 @@
   [@name=~'^$'] { text-name: @name_fallback }
   [name_en='Abkhazia'] { text-name: "''" }
   [name_en='Falkland Islands'] { text-name: @name_falklands_malvinas }
+  [name_en='Macedonia'] { text-name: @name_north_macedonia }
   [name_en='Nagorno-Karabakh Republic'] { text-name: "''" }
   [name_en='South Ossetia'] { text-name: "''" }
   [name_en='Transnistria'] { text-name: "''" }
