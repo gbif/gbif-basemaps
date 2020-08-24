@@ -105,7 +105,7 @@ var updatePermalink = function() {
   }
 
   var center3857 = view3857.getCenter();
-  var hash3857 = 'map3857=' +
+  var hash3857 = '#map3857=' +
       view3857.getZoom() + '/' +
       Math.round(center3857[0] * 100) / 100 + '/' +
       Math.round(center3857[1] * 100) / 100 + '/' +
