@@ -311,3 +311,19 @@
   [zoom=19] { text-size: 10; }
   [zoom>=20] { text-size: 12; }
 }
+
+// ---------------------------------------------------------------------
+// Graticules
+
+#graticules[zoom>=4] {
+  text-name: @name;
+  [@name=~'^$'] { text-name: @name_fallback }
+  text-placement: line;  // text follows line path
+  text-face-name: @sans;
+  text-fill: @country_text;
+  text-halo-fill: @country_halo;
+  text-halo-radius: 1;
+  text-halo-rasterizer: fast;
+  text-size: 10;
+  text-avoid-edges: true;  // prevents clipped labels at tile edges
+}

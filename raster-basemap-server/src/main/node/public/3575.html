@@ -1,75 +1,55 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>GBIF EPSG:3575 Basemap</title>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-  <link rel="icon" href="/3575/omt/0/0/0@1x.png?style=gbif-dark"/>
-  <link rel="stylesheet" href="https://tile.gbif.org/ui/ol.css" type="text/css">
-  <script src="https://tile.gbif.org/ui/ol.js"></script>
-  <script src="https://tile.gbif.org/ui/proj4.js"></script>
-  <style>
-    html, body, #map {
-      height: 100%;
-      padding: 0;
-      margin: 0;
-      background-color: black;
-    }
-  </style>
-</head>
-<body>
-<div id="map"></div>
-<script>
-  proj4.defs("EPSG:3575", "+proj=laea +lat_0=90 +lon_0=10 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_defs");
-
-  var pixel_ratio = parseInt(window.devicePixelRatio) || 1;
-
-  var halfWidth = Math.sqrt(2) * 6371007.2;
-  var extent = [-halfWidth, -halfWidth, halfWidth, halfWidth];
-  ol.proj.get("EPSG:3575").setExtent(extent);
-  var tile_size = 512;
-  var max_zoom = 20;
-  var resolutions = Array.from(new Array(max_zoom+1), (x,i) => (halfWidth/(tile_size*Math.pow(2,i-1))));
-
-  var tile_grid_16 = new ol.tilegrid.TileGrid({
-    extent: extent,
-    origin: [-halfWidth,halfWidth],
-    minZoom: 0,
-    maxZoom: max_zoom,
-    resolutions: resolutions,
-    tileSize: tile_size,
-  });
-
-  var layers = [];
-
-  var base_raster_style = 'osm-bright';
-  layers.push(new ol.layer.Tile({
-    source: new ol.source.TileImage({
-      projection: 'EPSG:3575',
-      tileGrid: tile_grid_16,
-      tilePixelRatio: pixel_ratio,
-      url: '/3575/omt/{z}/{x}/{y}@'+pixel_ratio+'x.png?style='+base_raster_style
-    })
-  }));
-
-  layers.push(new ol.layer.Tile({
-    source: new ol.source.TileImage({
-      projection: 'EPSG:3575',
-      tileGrid: tile_grid_16,
-      tilePixelRatio: pixel_ratio,
-      url: 'https://api.gbif.org/v2/map/occurrence/density/{z}/{x}/{y}@'+pixel_ratio+'x.png?srs=EPSG:3575&style=blueHeat.point&publishingOrg=1cd669d0-80ea-11de-a9d0-f1765f95f18b',
-    })
-  }));
-
-  var map = new ol.Map({
-    layers: layers,
-    target: 'map',
-    view: new ol.View({
-      center: [0, 0],
-      projection: 'EPSG:3575',
-      zoom: 3
-    }),
-  });
-</script>
-</body>
+  <head>
+    <title>GBIF EPSG:3575 Basemap</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <link rel="icon" href="/3575/omt/0/0/0@1x.png?style=gbif-dark"/>
+    <link rel="stylesheet" href="https://tile.gbif.org/ui/ol.css" type="text/css">
+    <script src="https://tile.gbif.org/ui/ol.js"></script>
+    <script src="https://tile.gbif.org/ui/proj4.js"></script>
+    <script src="https://tile.gbif.org/ui/common.js"></script>
+    <style>
+      html, body {
+        height: 100%;
+        padding: 0;
+        margin: 0;
+        background-color: black;
+      }
+      .map {
+        width: 100%;
+        height: calc(50vh - 5px);
+        background: gray;
+      }
+      .wrapper {
+        display: grid;
+        grid-template-columns: 25% 25% 25% 25%;
+        grid-template-rows: 50% 50%;
+        height: 100%;
+      }
+      @media (max-width: 800px) {
+        .wrapper {
+          grid-template-columns: 100%;
+        }
+      }
+      .half {
+        padding: 0 5px 0 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="half"><div id="map1" class="map"></div></div>
+      <div class="half"><div id="map2" class="map"></div></div>
+      <div class="half"><div id="map3" class="map"></div></div>
+      <div class="half"><div id="map4" class="map"></div></div>
+      <div class="half"><div id="map5" class="map"></div></div>
+      <div class="half"><div id="map6" class="map"></div></div>
+      <div class="half"><div id="map7" class="map"></div></div>
+      <div class="half"><div id="map8" class="map"></div></div>
+      <div class="half"><div id="map9" class="map"></div></div>
+      <div class="half"><div id="mapV" class="map"></div></div>
+    </div>
+    <script src="3575.js"></script>
+  </body>
 </html>

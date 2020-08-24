@@ -14,6 +14,7 @@ const fs = require('fs')
 var assetsHTML = [
   '/3031.html',
   '/3575.html',
+  '/3575.js',
   '/3857.html',
   '/3857.js',
   '/4326.html',

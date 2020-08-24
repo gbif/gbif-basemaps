@@ -50,6 +50,7 @@ function compileStylesheetSync(filename) {
     data: {
       "vector_layers": [
         // This defines the order of the layers, so road labels appear over roads, for example.
+        {"id": "world_extent" },
         {"id": "water" },
         {"id": "landcover" },
         {"id": "landuse" },
@@ -62,6 +63,7 @@ function compileStylesheetSync(filename) {
         {"id": "transportation" },
         {"id": "aeroway" },
         {"id": "building" },
+        {"id": "graticules" },
         {"id": "water_name" },
         {"id": "place" },
         {"id": "mountain_peak" },
