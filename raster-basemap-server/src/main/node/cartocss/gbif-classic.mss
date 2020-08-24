@@ -14,8 +14,20 @@
 @sans_lt: 'Open Sans Regular', @fallback;
 
 Map {
-  background-color: @land;
+  background-color: transparent;
 }
+
+#world_extent {
+  line-width: 1.5;
+  line-color: @land;
+  polygon-fill: @land;
+}
+
+// #graticules {
+//   line-color: #aaa;
+//   line-width: 1;
+//   line-dasharray: 2,2;
+// }
 
 // ---------------------------------------------------------------------
 // Political boundaries

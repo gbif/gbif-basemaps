@@ -22,7 +22,13 @@
 @state_halo:        @place_halo;
 
 Map {
-  background-color:#e5e9cd;
+  background-color: transparent;
+}
+
+#world_extent {
+  line-width: 1.5;
+  line-color:#e5e9cd;
+  polygon-fill:#e5e9cd;
 }
 
 #graticules {

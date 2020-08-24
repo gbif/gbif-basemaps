@@ -14,13 +14,21 @@
 @sans_lt: 'Roboto Light', @fallback, @fallback_cjk;
 
 
-Map { background-color: @land; }
-
-#graticules {
-  line-color: @politicalBoundaries;
-  line-width: 1;
-  line-dasharray: 5,3;
+Map {
+  background-color: transparent;
 }
+
+#world_extent {
+  line-width: 1.5;
+  line-color: #aaa;
+  polygon-fill: @land;
+}
+
+// #graticules {
+//   line-color: @politicalBoundaries;
+//   line-width: 1;
+//   line-dasharray: 5,3;
+// }
 
 // Political boundaries //
 #boundary[admin_level=2] {
