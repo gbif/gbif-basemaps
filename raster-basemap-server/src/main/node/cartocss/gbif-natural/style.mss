@@ -8,21 +8,21 @@
 // also in the #water_label and #waterway_label layers inside a color
 // manipulation function to get a darker shade of the same hue.
 @land: #f8f4f0;
-@water: hsl(210, 67%, 85%);
+@water: #a0c8f0;
 
 @wetland: #57945C;
-@trees: hsla(105, 66%, 30%, 0.25);
-@grass: #d8e8c8;
-@farm: #d8e8c8;
-@park: #d8e8c8;
-@sand: rgba(245, 238, 188, 1);
-@ice: #fff;
+@trees: #8DB580;
+@grass: #B7D0A0;
+@farm: #D9E5BD;
+@park: #F0F2D5;
+@sand: #f7f1d3;
+@ice: white;
 
 @state_text:        #765;
 @state_halo:        @place_halo;
 
 Map {
-  background-color: @land;
+  background-color:#e5e9cd;
 }
 
 #graticules {
@@ -124,22 +124,26 @@ Map {
 // Landuse areas
 
 #landcover {
+  opacity: 0.5;
   [class='farmland'] { polygon-fill: @farm; }
   [class='wetland'] {
-    opacity: 0.5;
     polygon-fill: @wetland;
+    polygon-pattern-file: url(cartocss/gbif-natural/pattern/wetland.png);
   }
   [class='ice'] { polygon-fill: white; }
   [class='grass'] {
     polygon-fill: @grass;
+    polygon-pattern-file: url(cartocss/gbif-natural/pattern/grass.png);
   }
   [class='wood'] {
     polygon-fill: @trees;
     polygon-gamma: 0.5;
+    polygon-pattern-file: url(cartocss/gbif-natural/pattern/forest.png);
   }
   [class='sand'] {
     polygon-fill: @sand;
     polygon-gamma: 0.5;
+    polygon-pattern-file: url(cartocss/gbif-natural/pattern/sand.png);
   }
   [class='village_green'],
   [class='recreation_ground'],
@@ -148,28 +152,27 @@ Map {
 
 #landuse {
   [class='bus_station'],
-  [class='railway'] { polygon-fill: hsla(30, 19%, 90%, 0.4); }
+  [class='railway'] { polygon-fill: #bbb; }
 
   [class='military'] {
     opacity: 0.666;
     polygon-fill: #dfbbdf;
-    line-color: #ffbbe2;
-    line-width: 3.0;
+    line-color: #dfbbdf;
+    line-width: 2.0;
   }
 
   [class='dam'],
   [class='construction'],
-  [class='industrial'] { polygon-fill: hsla(49, 100%, 88%, 0.34); }
-
+  [class='industrial'],
   [class='retail'],
   [class='restaurant'],
-  [class='commercial'] { polygon-fill: hsla(0, 60%, 87%, 0.23); }
+  [class='commercial'] { polygon-fill: #c7c7c7; }
 
   [class='suburb'],
   [class='neighbourhood'],
-  [class='residential'] { polygon-fill: hsla(30, 19%, 90%, 0.4); }
+  [class='residential'] { polygon-fill: #e9e9e9; }
 
-  [class='cemetery'] { polygon-fill: #e0e4dd; }
+  [class='cemetery'] { polygon-fill: mix(#d8e8c8, #ddd, 25%); }
 
   [class='hospital'] { polygon-fill: #fde; }
 
@@ -190,8 +193,8 @@ Map {
   ::overlay {
     opacity: 0.25;
     polygon-fill: orange;
-    [class='nature_reserve'] { polygon-fill: #d8e8c8; }
-    [class='national_park'] { polygon-fill: #d8e8c8; }
+    [class='nature_reserve'] { polygon-fill: #9ab78b; }
+    [class='national_park'] { polygon-fill: #8cb78b; }
   }
 }
 
@@ -207,9 +210,9 @@ Map {
 // Seperate attachments are used to draw buildings with depth
 // to make them more prominent at high zoom levels
 #building [zoom>=18]{
-::wall { polygon-fill:mix(@land, #000, 85); }
+::wall { polygon-fill:darken(@land, 20%); }
 ::roof {
-  polygon-fill: #f2eae2;
+  polygon-fill: darken(@land, 5%);
   polygon-geometry-transform:translate(-1,-1.5);
   polygon-clip:false;
   line-width: 0.5;
@@ -224,7 +227,7 @@ Map {
 
 #aeroway [zoom<13] {
   ['mapnik::geometry_type'=2] {
-    line-color: rgba(153, 153, 153, 1);
+    line-color: #aeaeae;
     [class='runway'] { line-width: 5; }
     [class='taxiway'] {
       line-width: 1;
@@ -235,7 +238,7 @@ Map {
 
 #aeroway [zoom>=13] {
   ['mapnik::geometry_type'=2] {
-    line-color: rgba(153, 153, 153, 1);
+    line-color: #484848;
     [class='runway'] { line-width: 5; }
     [class='taxiway'] {
       line-width: 1;
@@ -245,7 +248,7 @@ Map {
   ['mapnik::geometry_type'=3] {
     ::overlay {
       opacity: 0.75;
-      polygon-fill: rgba(255, 255, 255, 1);
+      polygon-fill: #d1d1d1;
       // [class='apron'] {
       //   polygon-fill: #dadada;
       // }

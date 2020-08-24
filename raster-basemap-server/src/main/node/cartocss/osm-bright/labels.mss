@@ -183,6 +183,7 @@
 // ---------------------------------------------------------------------
 // Points of interest
 
+#poi[subclass='station'],
 #poi[zoom=14][rank<=1],
 #poi[zoom=15][rank<=2],
 #poi[zoom=16][rank<=3],
@@ -198,6 +199,8 @@
     // to those that do. See also <https://www.mapbox.com/maki/>
     marker-fill:#666;
     marker-file:url('cartocss/osm-bright/icon/[class]-12.svg');
+    marker-width: 10;
+    marker-height: 10;
   }
   ::label {
     text-name: @name;
@@ -266,20 +269,34 @@
 // Water
 
 #water_name {
-  [zoom<=13],  // automatic area filtering @ low zooms
-  [zoom>=14][area>500000],
-  [zoom>=16][area>10000],
-  [zoom>=17] {
-    text-name: @name;
-    [@name=~'^$'] { text-name: @name_fallback }
-    text-face-name: @sans_it;
-    text-fill: darken(@water, 15);
-    text-size: 12;
-    text-wrap-width: 100;
-    text-wrap-before: true;
-    text-halo-fill: fadeout(#fff, 75%);
-    text-halo-radius: 1.5;
-  }
+  text-name: @name;
+  [@name=~'^$'] { text-name: @name_fallback }
+  text-face-name: @sans_it;
+  text-fill: darken(@water, 15);
+  text-size: 12;
+  text-wrap-width: 100;
+  text-wrap-before: true;
+  text-halo-fill: fadeout(#fff, 75%);
+  text-halo-radius: 1.5;
+}
+
+
+// ---------------------------------------------------------------------
+// Mountain peaks
+
+#mountain_peak[zoom>=12] {
+  text-horizontal-alignment: right;
+  text-name: "'▲'";
+  [zoom>=14][ele>1500] { text-name: "'▲ '+" + @name; }
+  [zoom>=16] { text-name: "'▲ '+" + @name; }
+  [zoom>=16][ele>0] { text-name: "'▲ '+" + @name + "+' ('+[ele]+' m)'"; }
+  text-face-name: @sans_md;
+  text-fill: #262;
+  text-size: 10;
+  text-halo-fill: fadeout(#fff, 50%);
+  text-halo-radius: 1;
+  text-halo-rasterizer: fast;
+  [ele>1500] { text-size: 12; }
 }
 
 

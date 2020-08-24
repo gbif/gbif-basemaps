@@ -11,8 +11,10 @@ var languages = ["ar", "da", "de", "en", "es", "fr", "ja", "pt", "ru", "uk", "zh
 var namedStyles = {};
 
 namedStyles["osm-bright"] = compileStylesheetSync(['./cartocss/osm-bright/style.mss', './cartocss/osm-bright/road.mss', './cartocss/osm-bright/labels-local.mss', './cartocss/osm-bright/labels.mss']);
+namedStyles["gbif-natural"] = compileStylesheetSync(['./cartocss/gbif-natural/style.mss', './cartocss/osm-bright/road.mss', './cartocss/osm-bright/labels-local.mss', './cartocss/osm-bright/labels.mss']);
 for (var lang of languages) {
   namedStyles["osm-bright-"+lang] = compileStylesheetSync(['./cartocss/osm-bright/style.mss', './cartocss/osm-bright/road.mss', './cartocss/osm-bright/labels-'+lang+'.mss', './cartocss/osm-bright/labels.mss']);
+  namedStyles["gbif-natural-"+lang] = compileStylesheetSync(['./cartocss/gbif-natural/style.mss', './cartocss/osm-bright/road.mss', './cartocss/osm-bright/labels-'+lang+'.mss', './cartocss/osm-bright/labels.mss']);
 }
 namedStyles["gbif-classic"] = compileStylesheetSync(["./cartocss/gbif-classic.mss"]);
 namedStyles["gbif-dark"] = compileStylesheetSync(["./cartocss/gbif-dark.mss"]);
@@ -51,8 +53,9 @@ function compileStylesheetSync(filename) {
         {"id": "water" },
         {"id": "landcover" },
         {"id": "landuse" },
-        {"id": "waterway" },
+        {"id": "water" },
         {"id": "park" },
+        {"id": "waterway" },
         {"id": "bathymetry" },
         {"id": "contour" },
         {"id": "boundary" },
@@ -61,6 +64,7 @@ function compileStylesheetSync(filename) {
         {"id": "building" },
         {"id": "water_name" },
         {"id": "place" },
+        {"id": "mountain_peak" },
         {"id": "poi" },
         {"id": "transportation_name" },
         {"id": "housenumber" }
