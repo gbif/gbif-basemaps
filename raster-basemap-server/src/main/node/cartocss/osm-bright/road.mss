@@ -13,11 +13,11 @@
 // rendering of multi-level overpasses.
 
 // The main road style is for all 3 road layers and divided into 2 main
-// attachments. The 'case' attachment is 
+// attachments. The 'case' attachment is
 
 #transportation {
   // casing/outlines & single lines
-  ::case[zoom>=6]['mapnik::geometry_type'=2] {
+  ::case[zoom>=4]['mapnik::geometry_type'=2] {
     [class='motorway'] {
       line-join:round;
       line-color: mix(@motorway, #800, 75);
@@ -66,24 +66,38 @@
       [zoom>=15] { line-width:4; }
       [zoom>=16] { line-width:6.5; }
     }
-    [class='service'][zoom>=15] {
+    [class='service'][zoom>=13] {
       line-join:round;
       line-cap: round;
       [brunnel='tunnel'] { line-dasharray:3,2; }
       line-color: @land * 0.9;
+      [zoom>=13] { line-width:0.2; }
+      [zoom>=14] { line-width:0.4; }
       [zoom>=15] { line-width:1; }
       [zoom>=16] { line-width:4; }
     }
-    [class='path'][zoom>=15] {
+    [class='path'][zoom>=14],
+    [class='track'][zoom>=14] {
       line-color: #cba;
       line-dasharray: 2,1;
+      [zoom>=14] { line-width: 1.0; }
       [zoom>=16] { line-width: 1.2; }
       [zoom>=17] { line-width: 1.5; }
     }
+    [class='rail'] {
+      line-join:round;
+      line-cap: round;
+      line-color: #666;
+      [brunnel='tunnel'] { line-dasharray:3,2; }
+      [zoom>=13] { line-width:1.25; }
+      [zoom>=14] { line-width:2; h/line-width: 1; h/line-color: #ddd; h/line-dasharray: 8,8; }
+      [zoom>=15] { line-width:2.5; h/line-width: 1.5; h/line-color: #ddd; h/line-dasharray: 8,8; }
+      [zoom>=16] { line-width:4; h/line-width: 3; h/line-color: #ddd; h/line-dasharray: 8,8; }
+    }
   }
-  
+
   // fill/inlines
-  ::fill[zoom>=6]['mapnik::geometry_type'=2] {
+  ::fill[zoom>=4]['mapnik::geometry_type'=2] {
     [class='motorway'][zoom>=8] {
       line-join:round;
       line-cap:round;

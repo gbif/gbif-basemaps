@@ -38,6 +38,7 @@
   [@name=~'^$'] { text-name: @name_fallback }
   [name_en='Abkhazia'] { text-name: "''" }
   [name_en='Falkland Islands'] { text-name: @name_falklands_malvinas }
+  [name_en='Macedonia'] { text-name: @name_north_macedonia }
   [name_en='Nagorno-Karabakh Republic'] { text-name: "''" }
   [name_en='South Ossetia'] { text-name: "''" }
   [name_en='Transnistria'] { text-name: "''" }
@@ -232,18 +233,31 @@
   [zoom>=15] { text-size: 13; }
 }
 
-#graticules {
+#water_name[zoom>=3] {
+  text-face-name: @sans_bold;
+  text-allow-overlap: false;
   text-name: @name;
-  [@name=~'^$'] { text-name: @name_fallback }
-  text-placement: line;  // text follows line path
-  text-face-name: @sans;
-  text-fill: @text;
-  text-halo-fill: @text_halo_fill;
+  text-size: 13;
+  text-line-spacing: -2;
+  text-min-distance: 50;
+  text-wrap-width: 60;
+  text-halo-fill: @land;
   text-halo-radius: 1;
-  text-halo-rasterizer: fast;
-  text-size: 10;
-  text-avoid-edges: true;  // prevents clipped labels at tile edges
+  text-fill: @text;
 }
+
+// #graticules {
+//   text-name: @name;
+//   [@name=~'^$'] { text-name: @name_fallback }
+//   text-placement: line;  // text follows line path
+//   text-face-name: @sans;
+//   text-fill: @text;
+//   text-halo-fill: @text_halo_fill;
+//   text-halo-radius: 1;
+//   text-halo-rasterizer: fast;
+//   text-size: 10;
+//   text-avoid-edges: true;  // prevents clipped labels at tile edges
+// }
 
 #contour {
   text-name: '[elevation]';
