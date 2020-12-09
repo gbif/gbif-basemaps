@@ -41,6 +41,7 @@
   [name_en='Macedonia'] { text-name: @name_north_macedonia }
   [name_en='Nagorno-Karabakh Republic'] { text-name: "''" }
   [name_en='South Ossetia'] { text-name: "''" }
+  [name_en='Swaziland'] { text-name: @name_eswatini }
   [name_en='Transnistria'] { text-name: "''" }
   [name_en='Turkish Republic Of Northern Cyprus'] { text-name: "''" }
   text-face-name: @sans_bd;

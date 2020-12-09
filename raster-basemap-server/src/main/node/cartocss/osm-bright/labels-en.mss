@@ -6,3 +6,4 @@
 
 @name_falklands_malvinas: "'Falkland Islands (Malvinas)'";
 @name_north_macedonia: "'North Macedonia'";
+@name_eswatini: "'Eswatini'";

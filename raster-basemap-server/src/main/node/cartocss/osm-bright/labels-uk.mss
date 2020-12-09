@@ -6,3 +6,4 @@
 
 @name_falklands_malvinas: "'Фолклендські Острови (Мальві́нські)'";
 @name_north_macedonia: "'Північна Македонія'";
+@name_eswatini: "'Есватіні'";
