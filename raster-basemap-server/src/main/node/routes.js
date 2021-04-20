@@ -28,66 +28,80 @@ var assetsHTML = [
   '/style.css'
 ]
 
+let pathMatcher = new RegExp(/^\/\w+\/\w+\/(\d+)\/(\d+)\/(\d+)@([H0-9]+)([px])\.png$/, 'i')
+let resolutionStripper = new RegExp(/@([H0-9]+)([px])\.png$/, 'i')
+
 function parseUrl(parsedRequest) {
-  if (parsedRequest.pathname.endsWith(".png")) {
+  // extract the x,y,z from the URL which could be /4326/omt/{z}/{x}/{y}@{n}x.png
+  // or                                            /4326/omt/{z}/{x}/{y}@{p}p.png
+  var dirs = parsedRequest.pathname.match(pathMatcher);
+  var z = parseInt(dirs[1]);
+  var x = parseInt(dirs[2]);
+  var y = parseInt(dirs[3]);
 
-    // extract the x,y,z from the URL which could be /4326/omt/{z}/{x}/{y}@{n}x.png
-    var dirs = parsedRequest.pathname.substring(0, parsedRequest.pathname.length - 7).split("/");
-    var z = parseInt(dirs[dirs.length - 3]);
-    var x = parseInt(dirs[dirs.length - 2]);
-    var y = parseInt(dirs[dirs.length - 1]);
+  var highestVectorTile = 14;
+  if (parsedRequest.pathname.startsWith("/4326/omt")) {
+    highestVectorTile = 13;
+  }
 
-    var highestVectorTile = 14;
-    if (parsedRequest.pathname.startsWith("/4326/omt")) {
-      highestVectorTile = 13;
-    }
+  var xOut = x;
+  var yOut = y;
+  var zOut = z;
+  var xOffset = 0;
+  var yOffset = 0;
+  if (z > highestVectorTile) {
+    zOut = highestVectorTile;
+    var ratio = Math.pow(2, z - highestVectorTile);
+    xOut = parseInt(x/ratio);
+    yOut = parseInt(y/ratio);
+    xOffset = x%ratio;
+    yOffset = y%ratio;
+    parsedRequest.pathname = parsedRequest.pathname.replace(z+'/'+x+'/'+y, zOut+'/'+xOut+'/'+yOut);
+    console.log("High zoom", z, x, y, '->', zOut, xOut+'+'+xOffset, yOut+'+'+yOffset, parsedRequest.pathname);
+  }
 
-    var xOut = x;
-    var yOut = y;
-    var zOut = z;
-    var xOffset = 0;
-    var yOffset = 0;
-    if (z > highestVectorTile) {
-      zOut = highestVectorTile;
-      var ratio = Math.pow(2, z - highestVectorTile);
-      xOut = parseInt(x/ratio);
-      yOut = parseInt(y/ratio);
-      xOffset = x%ratio;
-      yOffset = y%ratio;
-      parsedRequest.pathname = parsedRequest.pathname.replace(z+'/'+x+'/'+y, zOut+'/'+xOut+'/'+yOut);
-      console.log("High zoom", z, x, y, '->', zOut, xOut+'+'+xOffset, yOut+'+'+yOffset, parsedRequest.pathname);
-    }
+  // find the compiled stylesheet from the given style parameter, defaulting if omitted or bogus
+  var style = styles.getStyleName(parsedRequest.query.style);
 
-    // find the compiled stylesheet from the given style parameter, defaulting if omitted or bogus
-    var style = styles.getStyleName(parsedRequest.query.style);
-
-    var sDensity = parsedRequest.pathname.substring(parsedRequest.pathname.length - 6, parsedRequest.pathname.length - 5);
-    var density = (sDensity == 'H') ? 0.5 : parseInt(sDensity);
+  // density requests (@1x, @2x etc)
+  var density;
+  if (dirs[5] == 'x') {
+    var density = (dirs[4] == 'H') ? 0.5 : parseInt(dirs[4]);
 
     if (density > 4) density = 4;
-    if (density < 1) density = 1;
+    if (density < 0.5) density = 0.5;
+  }
+  // size requests (@1800p etc)
+  else if (dirs[5] == 'p') {
+    var density = parseInt(dirs[4])/512.0;
 
-    if (!(isNaN(z) || isNaN(x) || isNaN(y) || isNaN(density))) {
-      return {
-        "z": z,
-        "zOut": zOut,
-        "x": x,
-        "xOffset": xOffset,
-        "y": y,
-        "yOffset": yOffset,
-        "density": density,
-        "style": style
-      }
+    if (density > 15) density = 7200/512.0;
+    if (density < 0.08) density = 36/512.0;
+  }
+  else {
+    density = 1;
+  }
+
+  if (!(isNaN(z) || isNaN(x) || isNaN(y) || isNaN(density))) {
+    return {
+      "z": z,
+      "zOut": zOut,
+      "x": x,
+      "xOffset": xOffset,
+      "y": y,
+      "yOffset": yOffset,
+      "density": density,
+      "style": style
     }
   }
-  throw Error("URL structure is invalid, expected /SRS/tileset/{z}/{x}/{y}@{n}x.png");
+  throw Error("URL structure is invalid, expected /SRS/tileset/{z}/{x}/{y}@{n}{xp}.png");
 }
 
 function vectorRequest(parsedRequest) {
   // reformat the request to the type expected by the VectorTile Server
   delete parsedRequest.search;
   delete parsedRequest.query;
-  parsedRequest.pathname = parsedRequest.pathname.replace(/@.x\.png/, ".pbf");
+  parsedRequest.pathname = parsedRequest.pathname.replace(resolutionStripper, ".pbf");
   parsedRequest.hostname = config.tileServer.host;
   parsedRequest.port = config.tileServer.port;
   parsedRequest.protocol = "http:";
