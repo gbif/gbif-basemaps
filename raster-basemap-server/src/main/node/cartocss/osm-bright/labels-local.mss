@@ -8,3 +8,4 @@
 @name_falklands_malvinas: "'Falkland Islands (Malvinas)'";
 @name_north_macedonia: "'Северна Македонија'";
 @name_eswatini: "'eSwatini'";
+@name_liancourt_rocks: "'독도리'";

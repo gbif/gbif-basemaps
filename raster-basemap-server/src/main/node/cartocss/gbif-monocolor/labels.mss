@@ -44,6 +44,10 @@
   [name_en='Swaziland'] { text-name: @name_eswatini }
   [name_en='Transnistria'] { text-name: "''" }
   [name_en='Turkish Republic Of Northern Cyprus'] { text-name: "''" }
+
+  // Liancourt Rocks
+  [name_en='Dokdo-ri'] { text-name: @name_liancourt_rocks }
+  [name_en='Cheotseom Island'] { text-name: "''" }
   text-face-name: @sans_bd;
   text-placement: point;
   text-size: 10;

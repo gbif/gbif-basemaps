@@ -7,3 +7,4 @@
 @name_falklands_malvinas: "'Falklandsøerne (Malvinas)'";
 @name_north_macedonia: "'Nordmakedonien'";
 @name_eswatini: "'Eswatini'";
+@name_liancourt_rocks: "'Dokdo-ri'";
