@@ -242,7 +242,7 @@ var updatePermalink = function() {
     center3857: view3857.getCenter(),
     rotation3857: view3857.getRotation()
   };
-  window.history.pushState(state, 'map', '#'+hash4326+'&'+hash3857);
+  window.history.replaceState(state, 'map', '#'+hash4326+'&'+hash3857);
 };
 
 mapW1.on('moveend', updatePermalink);

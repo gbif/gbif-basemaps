@@ -47,10 +47,12 @@
   [name_en='Swaziland'] { text-name: @name_eswatini }
   [name_en='Transnistria'] { text-name: "''" }
   [name_en='Turkish Republic Of Northern Cyprus'] { text-name: "''" }
+  // If adding entries here, remember the "place" style below (towns, high zooms etc).
 
   // Liancourt Rocks
   [name_en='Dokdo-ri'] { text-name: @name_liancourt_rocks }
   [name_en='Cheotseom Island'] { text-name: "''" }
+
   text-face-name: @sans_bd;
   [zoom=2] { text-face-name: @sans; }
   text-placement: point;
@@ -132,10 +134,17 @@
   [@name=~'^$'] { text-name: @name_fallback }
   [name_en='Abkhazia'] { text-name: "''" }
   [name_en='Falkland Islands'] { text-name: @name_falklands_malvinas }
+  [name_en='Macedonia'] { text-name: @name_north_macedonia }
   [name_en='Nagorno-Karabakh Republic'] { text-name: "''" }
   [name_en='South Ossetia'] { text-name: "''" }
+  [name_en='Swaziland'] { text-name: @name_eswatini }
   [name_en='Transnistria'] { text-name: "''" }
   [name_en='Turkish Republic Of Northern Cyprus'] { text-name: "''" }
+
+  // Liancourt Rocks
+  [name_en='Dokdo-ri'] { text-name: @name_liancourt_rocks }
+  [name_int='cheos-seom'] { text-name: "''" }
+
   text-face-name: @sans;
   text-wrap-width: 120;
   text-wrap-before: true;

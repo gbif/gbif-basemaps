@@ -25,13 +25,13 @@ var m_vectors = new ol.layer.VectorTile({
 var layers = [
   'osm-bright',
   'gbif-classic',
-  'gbif-dark',
   'gbif-light',
+  'gbif-dark',
 
   'gbif-natural',
   'gbif-violet',
-  'gbif-tuatara',
   'gbif-geyser',
+  'gbif-tuatara',
 
   'gbif-middle',
 ].map((style) => (
@@ -80,7 +80,7 @@ var rotation3857 = 0;
 if (window.location.hash !== '') {
   // try to restore center, zoom-level and rotation from the URL
   var hash = window.location.hash;
-  var hash3857 = hash.replace('map3857=', '');
+  var hash3857 = hash.replace('#map3857=', '');
   var parts3857 = hash3857.split('/');
   if (parts3857.length === 4) {
     zoom3857 = parseInt(parts3857[0], 10);
@@ -105,7 +105,7 @@ var updatePermalink = function() {
   }
 
   var center3857 = view3857.getCenter();
-  var hash3857 = '#map3857=' +
+  var hash3857 = 'map3857=' +
       view3857.getZoom() + '/' +
       Math.round(center3857[0] * 100) / 100 + '/' +
       Math.round(center3857[1] * 100) / 100 + '/' +
@@ -115,7 +115,7 @@ var updatePermalink = function() {
     center3857: view3857.getCenter(),
     rotation3857: view3857.getRotation()
   };
-  window.history.pushState(state, 'map', '#'+hash3857);
+  window.history.replaceState(state, 'map', '#'+hash3857);
 };
 
 mapV.on('moveend', updatePermalink);

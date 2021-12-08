@@ -35,13 +35,13 @@ var m_vectors = new ol.layer.VectorTile({
 var layers = [
   'osm-bright',
   'gbif-classic',
-  'gbif-dark',
   'gbif-light',
+  'gbif-dark',
 
   'gbif-natural',
   'gbif-violet',
-  'gbif-tuatara',
   'gbif-geyser',
+  'gbif-tuatara',
 
   'gbif-middle',
 ].map((style) => (
@@ -128,7 +128,7 @@ var updatePermalink = function() {
     center3575: view3575.getCenter(),
     rotation3575: view3575.getRotation()
   };
-  window.history.pushState(state, 'map', '#'+hash3575);
+  window.history.replaceState(state, 'map', '#'+hash3575);
 };
 
 mapV.on('moveend', updatePermalink);
