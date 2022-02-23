@@ -74,7 +74,7 @@ var map = new ol.Map({
 	}),
 });
 
-fetch('https://openmaptiles.github.io/klokantech-basic-gl-style/style-cdn.json').then(function(response) {
+fetch('https://labs.gbif.org/klokantech-basic-gl-style/style-cdn.json').then(function(response) {
 	response.json().then(function(glStyle) {
 		olms.applyStyle(epsg_3575_vector, glStyle, 'openmaptiles');
 	});

@@ -144,7 +144,7 @@ styleSelect.onchange = (function(e) {
 		break;
 
 	case 'mapboxgl':
-		fetch('https://openmaptiles.github.io/klokantech-basic-gl-style/style-cdn.json').then(function(response) {
+		fetch('https://labs.gbif.org/klokantech-basic-gl-style/style-cdn.json').then(function(response) {
 			response.json().then(function(glStyle) {
 				olms.applyStyle(layers['EPSG:3857'], glStyle, 'openmaptiles');
 			});
