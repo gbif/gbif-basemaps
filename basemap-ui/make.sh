@@ -13,4 +13,4 @@ perl -pi -e "s/tile.gbif.org/tile.gbif-uat.org/g" build/uat/**/*.js build/uat/**
 
 rsync -avO --checksum --delete build/dev/ devtile-vh.gbif.org:/var/www/html/ui/ && curl -i -X BAN 'http://tile.gbif-dev.org/' -H 'X-Ban-URL: ui'
 rsync -avO --checksum --delete build/uat/ uattile-vh.gbif.org:/var/www/html/ui/ && curl -i -X BAN 'http://tile.gbif-uat.org/' -H 'X-Ban-URL: ui'
-#rsync -avO --checksum --delete build/prod/ tile-vh.gbif.org:/var/www/html/ui/ && curl -i -X BAN 'http://tile.gbif.org/' -H 'X-Ban-URL: ui'
+#rsync -avO --checksum --delete build/prod/ prodtile-vh.gbif.org:/var/www/html/ui/ && curl -i -X BAN 'http://tile.gbif.org/' -H 'X-Ban-URL: ui'

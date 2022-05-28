@@ -4,16 +4,23 @@
 		<meta charset="utf-8"/>
 		<title>Globe map preview</title>
 		<link rel="icon" href="https://api.gbif.org/v2/map/occurrence/density/0/0/0@1x.png?srs=EPSG%3A3575&amp;style=purpleYellow.point"/>
-		<script src="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/build/ol.js"></script>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/css/ol.css" crossorigin="anonymous" type="text/css">
+		<script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/build/ol.js" crossorigin="anonymous"></script>
 		<script src="https://openlayers.org/ol-cesium/olcesium.js"></script>
-		<script src="https://openlayers.org/ol-cesium/node_modules/@camptocamp/cesium/Build/Cesium/Cesium.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/cesium@1.81.0/Build/Cesium/Cesium.js" crossorigin="anonymous"></script>
 		<style>
 			html {
 				font-family: sans-serif;
 			}
+			body {
+				display: grid;
+				grid-template-columns: 100%;
+				grid-template-rows: 1fr 4em;
+				height: 100vh;
+				margin: 0;
+			}
 			.map {
-				width: 100%;
-				height: 100%;
+				background: lavender;
 			}
 		</style>
 	</head>
@@ -44,12 +51,7 @@ layers['EPSG:4326-R'] = new ol.layer.Tile({
 	source: new ol.source.TileImage({
 		projection: 'EPSG:4326',
 		tileGrid: tileGrid,
-		tileUrlFunction: function(tileCoord) {
-			return ('https://tile.gbif.org/4326/omt/{z}/{x}/{y}@2x.png?style='+raster_style)
-				.replace('{z}', (tileCoord[0] - 1).toString())
-				.replace('{x}', tileCoord[1].toString())
-				.replace('{y}', (-tileCoord[2] - 1).toString());
-		},
+		url: 'https://tile.gbif.org/4326/omt/{z}/{x}/{y}@2x.png?style='+raster_style
 	}),
 });
 
@@ -57,12 +59,7 @@ layers['OccurrenceDensityRaster:4326'] = new ol.layer.Tile({
 	source: new ol.source.TileImage({
 		projection: 'EPSG:4326',
 		tileGrid: tileGrid,
-		tileUrlFunction: function(tileCoord) {
-			return 'https://api.gbif.org/v2/map/occurrence/density/{z}/{x}/{y}@2x.png?srs=EPSG:4326'
-				.replace('{z}', (tileCoord[0] - 1).toString())
-				.replace('{x}', tileCoord[1].toString())
-				.replace('{y}', (-tileCoord[2] - 1).toString());
-		},
+		url: 'https://api.gbif.org/v2/map/occurrence/density/{z}/{x}/{y}@2x.png?srs=EPSG:4326'
 	}),
 });
 
