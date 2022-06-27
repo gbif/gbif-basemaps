@@ -7,7 +7,7 @@
     "async": "^2.5.0",
     "carto": "^0.18.2",
     "mapnik": "^3.6.2",
-    "mapbox-studio-default-fonts": "git://github.com/mapbox/mapbox-studio-default-fonts#v0.1.0",
+    "mapbox-studio-default-fonts": "git+https://github.com/mapbox/mapbox-studio-default-fonts.git#v0.1.0",
     "node-yaml": "^3.1.1",
     "pbf": "^3.0.5",
     "quick-local-ip": "^1.0.7",
