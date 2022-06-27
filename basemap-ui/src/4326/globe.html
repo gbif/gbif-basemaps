@@ -46,7 +46,7 @@ var tileGrid = new ol.tilegrid.TileGrid({
 });
 
 var layers = [];
-var raster_style = 'gbif-classic';
+var raster_style = 'gbif-tuatara';
 layers['EPSG:4326-R'] = new ol.layer.Tile({
 	source: new ol.source.TileImage({
 		projection: 'EPSG:4326',
@@ -55,11 +55,12 @@ layers['EPSG:4326-R'] = new ol.layer.Tile({
 	}),
 });
 
+var density_style = 'green.point';
 layers['OccurrenceDensityRaster:4326'] = new ol.layer.Tile({
 	source: new ol.source.TileImage({
 		projection: 'EPSG:4326',
 		tileGrid: tileGrid,
-		url: 'https://api.gbif.org/v2/map/occurrence/density/{z}/{x}/{y}@2x.png?srs=EPSG:4326'
+		url: 'https://api.gbif.org/v2/map/occurrence/density/{z}/{x}/{y}@2x.png?srs=EPSG:4326&style='+density_style
 	}),
 });
 

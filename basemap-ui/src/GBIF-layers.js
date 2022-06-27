@@ -5,11 +5,9 @@
 var GBIF_Layers = [];
 
 var gbifBaselayerBase = "https://tile.gbif.org";
-var gbifOccurrenceLayerBase = "https://api.gbif-dev.org/v2";
+var gbifOccurrenceLayerBase = "https://api.gbif.org/v2";
 var gbifOccurrenceVectorLayerBase = gbifOccurrenceLayerBase;
 var gbifOccurrenceRasterLayerBase = gbifOccurrenceLayerBase;
-//var gbifOccurrenceVectorLayerBase = "http://mblissett-linux.gbif.org:7001";
-//var gbifOccurrenceRasterLayerBase = "http://mblissett-linux.gbif.org:3000";
 
 var densityColours = ["#FFFF00", "#FFCC00", "#FF9900", "#FF6600", "#FF3300", "#FF0000"];
 
