@@ -4,7 +4,7 @@
   "description": "A node based server rendering PNGs using Mapnik, from a MVT backend",
   "main": "index.js",
   "dependencies": {
-    "async": "^2.5.0",
+    "async": "^2.6.4",
     "carto": "^0.18.2",
     "mapnik": "^3.6.2",
     "mapbox-studio-default-fonts": "git+https://github.com/mapbox/mapbox-studio-default-fonts.git#v0.1.0",
