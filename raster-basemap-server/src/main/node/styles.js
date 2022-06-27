@@ -38,11 +38,16 @@ mapnik.register_default_input_plugins();
 
 // Fonts
 // Register default fonts.
+mapnik.register_fonts('/usr/share/fonts/truetype/noto/NotoSansCanadianAboriginal-Regular.ttf', { recurse: true });
+mapnik.register_fonts('/usr/share/fonts/truetype/noto/NotoSansTifinagh-Regular.ttf', { recurse: true });
 mapnik.register_fonts('./node_modules/mapbox-studio-default-fonts/', { recurse: true });
 mapnik.register_fonts('/usr/local/gbif/klokantech-gl-fonts/', { recurse: true });
 //mapnik.register_default_fonts();
 //mapnik.register_system_fonts();
-console.log("Fonts", mapnik.fonts());
+console.log("Fonts");
+for (var f of mapnik.fonts()) {
+  console.log(f);
+}
 
 function compileStylesheetSync(filename) {
   // snippet simulating a TileJSON response from Tilelive, required only to give the layers for the CartoParser

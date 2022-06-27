@@ -18,12 +18,14 @@
 // as possible.
 @fallback: 'KlokanTech Noto Sans Regular';
 @fallback_cjk: 'KlokanTech Noto Sans CJK Regular';
-@sans: 'Open Sans Regular', @fallback, @fallback_cjk;
-@sans_md: 'Open Sans Semibold', @fallback, @fallback_cjk;
-@sans_bd: 'Open Sans Bold', 'KlokanTech Noto Sans Bold', 'KlokanTech Noto Sans CJK Bold', @fallback;
-@sans_it: 'Open Sans Italic', @fallback, @fallback_cjk;
-@sans_lt_italic: 'Open Sans Light Italic', @fallback, @fallback_cjk;
-@sans_lt: 'Open Sans Light', @fallback, @fallback_cjk;
+@fallback_iku: 'Noto Sans Canadian Aboriginal Regular';
+@fallback_zgh: 'Noto Sans Tifinagh Regular';
+@sans: 'Open Sans Regular', @fallback, @fallback_cjk, @fallback_iku, @fallback_zgh;
+@sans_md: 'Open Sans SemiBold', @fallback, @fallback_cjk, @fallback_iku, @fallback_zgh;
+@sans_bd: 'Open Sans Bold', 'KlokanTech Noto Sans Bold', 'KlokanTech Noto Sans CJK Bold', @fallback, @fallback_cjk, @fallback_iku, @fallback_zgh;
+@sans_it: 'Open Sans Italic', @fallback, @fallback_cjk, @fallback_iku, @fallback_zgh;
+@sans_lt_italic: 'Open Sans Light Italic', @fallback, @fallback_cjk, @fallback_iku, @fallback_zgh;
+@sans_lt: 'Open Sans Light', @fallback, @fallback_cjk, @fallback_iku, @fallback_zgh;
 
 @place_halo:        #fff;
 @country_text:      @land * 0.2;
