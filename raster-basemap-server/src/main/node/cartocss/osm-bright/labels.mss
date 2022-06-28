@@ -40,6 +40,7 @@
 // labeled areas.
 #place[class='country'][zoom>=2][zoom<=10] {
   text-name: @name;
+  // Also remember the gbif-monocolor style!
   [@name=~'^$'] { text-name: @name_fallback }
   [name_en='Abkhazia'] { text-name: "''" }
   [name_en='Falkland Islands'] { text-name: @name_falklands_malvinas }
@@ -108,6 +109,31 @@
   }
 }
 
+// States / Provices / Subregions
+#place[class='state'][zoom>=4][zoom<=10] {
+  text-name: @name;
+  text-face-name: @sans_lt;
+  text-placement: point;
+  text-fill: @state_text;
+  text-halo-fill: fadeout(lighten(@land,5%),50%);
+  text-halo-radius: 1;
+  text-halo-rasterizer: fast;
+  text-size: 9;
+  [zoom>=5][zoom<=6] {
+    text-size: 12;
+    text-wrap-width: 40;
+  }
+  [zoom>=7][zoom<=8] {
+    text-size: 14;
+    text-wrap-width: 60;
+  }
+  [zoom>=9][zoom<=10] {
+    text-halo-radius: 2;
+    text-size: 16;
+    text-character-spacing: 2;
+    text-wrap-width: 100;
+  }
+}
 
 // ---------------------------------------------------------------------
 // Cities, towns, villages, etc

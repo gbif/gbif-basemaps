@@ -18,13 +18,14 @@
 // as possible.
 @fallback: 'KlokanTech Noto Sans Regular';
 @fallback_cjk: 'KlokanTech Noto Sans CJK Regular';
-@sans: 'Open Sans Regular', @fallback, @fallback_cjk, 'Roboto', 'Hiragino';
-@sans_md: 'Open Sans Semibold', @fallback, @fallback_cjk, 'Roboto', 'Hiragino';
-@sans_bd: 'Open Sans Bold', 'KlokanTech Noto Sans Bold', 'KlokanTech Noto Sans CJK Bold', @fallback, 'Roboto', 'Hiragino';
-@sans_it: 'Open Sans Italic', @fallback, @fallback_cjk, 'Roboto', 'Hiragino';
-@sans_lt_italic: 'Open Sans Light Italic', @fallback, @fallback_cjk, 'Roboto', 'Hiragino';
-@sans_lt: 'Open Sans Light', @fallback, @fallback_cjk, 'Roboto', 'Hiragino';
-
+@fallback_iku: 'Noto Sans Canadian Aboriginal Regular';
+@fallback_zgh: 'Noto Sans Tifinagh Regular';
+@sans: 'Open Sans Regular', @fallback, @fallback_cjk, @fallback_iku, @fallback_zgh;
+@sans_md: 'Open Sans SemiBold', @fallback, @fallback_cjk, @fallback_iku, @fallback_zgh;
+@sans_bd: 'Open Sans Bold', 'KlokanTech Noto Sans Bold', 'KlokanTech Noto Sans CJK Bold', @fallback, @fallback_cjk, @fallback_iku, @fallback_zgh;
+@sans_it: 'Open Sans Italic', @fallback, @fallback_cjk, @fallback_iku, @fallback_zgh;
+@sans_lt_italic: 'Open Sans Light Italic', @fallback, @fallback_cjk, @fallback_iku, @fallback_zgh;
+@sans_lt: 'Open Sans Light', @fallback, @fallback_cjk, @fallback_iku, @fallback_zgh;
 
 // ---------------------------------------------------------------------
 // Countries
@@ -35,6 +36,7 @@
 // Country labels //
 #place[class='country'][zoom>=3][zoom<=10] {
   text-name: @name;
+  // Also remember the osm-bright style!
   [@name=~'^$'] { text-name: @name_fallback }
   [name_en='Abkhazia'] { text-name: "''" }
   [name_en='Falkland Islands'] { text-name: @name_falklands_malvinas }
@@ -45,6 +47,10 @@
   [name_en='Transnistria'] { text-name: "''" }
   [name_en='Turkish Republic Of Northern Cyprus'] { text-name: "''" }
   // If adding entries here, remember the "place" style below (towns, high zooms etc).
+
+  // Liancourt Rocks
+  [name_en='Dokdo-ri'] { text-name: @name_liancourt_rocks }
+  [name_en='Cheotseom Island'] { text-name: "''" }
 
   text-face-name: @sans_bd;
   text-placement: point;
@@ -164,7 +170,6 @@
   [name_en='Dokdo-ri'] { text-name: @name_liancourt_rocks }
   [name_int='cheos-seom'] { text-name: "''" }
 
-  text-name: @name;
   text-face-name: @sans;
   text-wrap-width: 120;
   text-wrap-before: true;
@@ -221,7 +226,7 @@
 #poi[class='rail'][rank<=2],
 #poi[class='school'][rank<=2],
 #poi[class='hospital'][rank<=2] {
-  text-face-name: @sans_bold;
+  text-face-name: @sans_bd;
   text-allow-overlap: false;
   text-name: @name;
   text-size: 11;
@@ -252,7 +257,7 @@
 }
 
 #water_name[zoom>=3] {
-  text-face-name: @sans_bold;
+  text-face-name: @sans_bd;
   text-allow-overlap: false;
   text-name: @name;
   text-size: 13;

@@ -1,19 +1,6 @@
 // ---------------------------------------------------------------------
 // Fonts
 
-// All fontsets should have a good fallback that covers as many glyphs
-// as possible.
-@fallback: 'KlokanTech Noto Sans Regular';
-@fallback_cjk: 'KlokanTech Noto Sans CJK Regular';
-@sans: 'Roboto Regular', @fallback, @fallback_cjk;
-@sans_bold: 'Roboto Medium', @fallback, @fallback_cjk;
-@sans_md: 'Roboto Medium', @fallback, @fallback_cjk;
-@sans_bd: 'Roboto Bold', 'KlokanTech Noto Sans Bold', 'KlokanTech Noto Sans CJK Bold', @fallback;
-@sans_it: 'Roboto Italic', @fallback, @fallback_cjk;
-@sans_lt_italic: 'Roboto Light Italic', @fallback, @fallback_cjk;
-@sans_lt: 'Roboto Light', @fallback, @fallback_cjk;
-
-
 Map { background-color: @land; }
 
 #graticules {
