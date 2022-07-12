@@ -8,3 +8,4 @@
 @name_north_macedonia: "'北馬其頓'";
 @name_eswatini: "'史瓦帝尼'";
 @name_liancourt_rocks: "'독도리'";
+@name_turkiye: "'土耳其'";

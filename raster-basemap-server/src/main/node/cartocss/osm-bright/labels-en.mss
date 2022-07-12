@@ -8,3 +8,4 @@
 @name_north_macedonia: "'North Macedonia'";
 @name_eswatini: "'Eswatini'";
 @name_liancourt_rocks: "'Dokdo-ri'";
+@name_turkiye: "'Türkiye'";
