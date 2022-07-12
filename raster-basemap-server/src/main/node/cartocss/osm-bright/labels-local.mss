@@ -9,3 +9,4 @@
 @name_north_macedonia: "'Северна Македонија'";
 @name_eswatini: "'eSwatini'";
 @name_liancourt_rocks: "'독도리'";
+@name_turkiye: "'Türkiye'";
