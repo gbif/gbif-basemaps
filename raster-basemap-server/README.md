@@ -15,13 +15,12 @@ Stylesheets and layers will be for [GBIF basemaps](https://tile.gbif.org/ui/).
 For continuous integration with the Java modules, this project can be built using Maven:
 
 ```
-mvn clean install
-cd src/main/node
-export PATH="$PWD/node/":$PATH
-node server.js ../../../server.conf 3000
+mvn clean package
+docker run --rm -it --volume $PWD/conf:/usr/local/gbif/conf --publish 8080:8080 docker.gbif.org/raster-basemap-server:0.1.13-SNAPSHOT
+
+firefox http://localhost:8080/4326.html
 ```
 
-`npm`, `nvm` and `npm` tool can be used instead, if preferred.
 
 ## Flushing the cache server
 
