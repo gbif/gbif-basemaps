@@ -6,7 +6,7 @@ RUN mkdir -p /usr/local/gbif/klokantech-gl-fonts/ && cd /usr/local/gbif/klokante
 
 COPY src/main/node /usr/src/raster-basemap-server
 WORKDIR /usr/src/raster-basemap-server
-RUN npm install --registry https://repository.gbif.org/content/repositories/npmjs/
+RUN npm install --registry https://repository-mirror.gbif.org/repository/npmjs/
 
 FROM node:8
 LABEL maintainers="Matthew Blissett <mblissett@gbif.org>"
