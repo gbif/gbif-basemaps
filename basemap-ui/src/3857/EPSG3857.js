@@ -35,6 +35,21 @@ layers['Grid'] = new ol.layer.Tile({
 	visible: false,
 });
 
+layers['EPSG:3857-S'] = new ol.layer.Tile({
+	source: new ol.source.TileImage({
+		projection: 'EPSG:3857',
+		tileGrid: tile_grid_16,
+		tilePixelRatio: 2,
+		url: 'https://tile.gbif.org/3857/satellite/{z}/{x}/{y}.jpg',
+		attributions: [
+			'© <a href="https://versatiles.org/sources/">VersaTiles sources</a>.',
+			ol.source.OSM.ATTRIBUTION,
+		],
+		wrapX: true
+	}),
+	visible: false,
+});
+
 layers['EPSG:3857'] = new ol.layer.VectorTile({
 	source: new ol.source.VectorTile({
 		projection: 'EPSG:3857',
@@ -97,6 +112,7 @@ layers['OccurrenceDensityRaster:3857'] = new ol.layer.Tile({
 var map = new ol.Map({
 	layers: [
 		layers['OSM'],
+		layers['EPSG:3857-S'],
 		layers['EPSG:3857'],
 		layers['EPSG:3857-R'],
 		layers['OccurrenceDensity:3857'],
@@ -133,6 +149,7 @@ bindInputs('OSM', layers['OSM']);
 bindInputs('Grid', layers['Grid']);
 bindInputs('EPSG3857', layers['EPSG:3857']);
 bindInputs('EPSG3857-R', layers['EPSG:3857-R']);
+bindInputs('EPSG3857-S', layers['EPSG:3857-S']);
 bindInputs('OccurrenceDensity', layers['OccurrenceDensity:3857']);
 bindInputs('OccurrenceDensityRaster', layers['OccurrenceDensityRaster:3857']);
 

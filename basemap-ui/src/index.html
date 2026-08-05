@@ -345,10 +345,22 @@
 					<img src="/3857/omt/7/67/37@1x.png?style=gbif-natural" srcset="/3857/omt/7/67/37@2x.png?style=gbif-natural 2x"/>
 				</div>
 			</li>
+
+			<li>
+				<h2>Satellite</h2>
+				<p><tt>satellite</tt></p>
+				<div>
+					<img src="/3857/satellite/7/67/37.jpg"/>
+				</div>
+			</li>
 		</ul>
 
 		<p>
 			The “GBIF Geyser”, “GBIF Tuatara”, “GBIF Violet”, “OSM Bright” and “GBIF Natural” styles are available with labels in several languages.  The default is for labels to be in the local language(s) of the country.  Use the style names like <tt>gbif-geyser-XX</tt>, where XX should be replaced with <tt>ar</tt>, <tt>da</tt>, <tt>de</tt>, <tt>en</tt>, <tt>es</tt>, <tt>fr</tt>, <tt>ja</tt>, <tt>pt</tt>, <tt>ru</tt> or <tt>zh</tt> to have the labels translated, where possible.
+		</p>
+
+		<p>
+			The "Satellite" style is generated from satellite and orthophotographic data from <a href="https://versatiles.org/">VersaTiles</a>, see <a href="https://versatiles.org/sources/">VersaTiles Data Sources</a> for the data sources used.  Only Web Mercator (3875) projection is supported.
 		</p>
 
 		<h2>Usage</h2>
@@ -359,13 +371,13 @@
 			<dd>The spatial reference system; one of <tt>4326</tt>, <tt>3857</tt>, <tt>3575</tt> or <tt>3031</tt>.</dd>
 
 			<dt><tt>tileset</tt></dt>
-			<dd>The tileset, currently only <tt>omt</tt>.</dd>
+			<dd>The tileset, either <tt>omt</tt> or <tt>satellite</tt>.</dd>
 
 			<dt><tt>z</tt>, <tt>x</tt>, <tt>y</tt></dt>
 			<dd>The zoom, column and row of the tile.  The origin is the top left, so the top left tile always has <tt>x=0</tt> and <tt>y=0</tt>.</dd>
 
 			<dt><tt>format</tt></dt>
-			<dd>Either <tt>.pbf</tt> for a vector tile, or <tt>@1x.png</tt>, <tt>@2x.png</tt>, <tt>@3x.png</tt>, <tt>@4x.png</tt> for PNG tiles at various pixel densities. Use higher pixel densities for high resolution screens, otherwise the tiles will appear fuzzy.</dd>
+			<dd>Either <tt>.pbf</tt> for a vector tile, or <tt>@1x.png</tt>, <tt>@2x.png</tt>, <tt>@3x.png</tt>, <tt>@4x.png</tt> for PNG tiles at various pixel densities, except for <tt>satellite</tt> which uses <tt>.jpg</tt>. Use higher pixel densities for high resolution screens, otherwise the tiles will appear fuzzy.</dd>
 
 			<dt><tt>params</tt></dt>
 			<dd><em>Only</em> for PNG tiles, specify a style, for example <tt>?style=gbif-classic</tt>.</dd>
@@ -475,6 +487,11 @@
 					<li>© <a href="https://www.openmaptiles.org/copyright">OpenMapTiles</a></li>
 				</ul>
 			</li>
+			<li>The “satellite” tileset is:
+				<ul>
+					<li>© <a href="https://versatiles.org/sources/">VersaTiles Data Sources</a></li>
+				</ul>
+			</li>
 			<li>See <a href="https://www.gbif.org/citation-guidelines">GBIF.org</a> for the appropriate citation for GBIF occurrence data</li>
 		</ul>
 
@@ -483,6 +500,7 @@
 			<li><a href="http://www.naturalearthdata.com/"><strong>Natural Earth</strong></a> for public domain map data, used at low zoom levels,</li>
 			<li><strong>OpenMapTiles</strong>, <a href="http://postgis.net/"><strong>PostGIS</strong></a> and many others for the software used to produce vector tiles,</li>
 			<li><a href="https://openlayers.org/"><strong>OpenLayers</strong></a> for good support of non-Mercator projections.</li>
+			<li><a href="https://versatiles.org/"><strong>VersaTiles</strong></a> for satellite data.</li>
 		</ul>
 	</body>
 </html>
